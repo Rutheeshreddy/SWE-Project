@@ -1,10 +1,10 @@
-import Login from "./components/Login"
+import Homepage from "./components/Homepage"
 import ErrorPage from "./components/ErrorPage";
 
 const routes = [
   {
     path: "/",
-    element: <Login />,
+    element: <Homepage />,
     errorElement: <ErrorPage />,
   },
 
