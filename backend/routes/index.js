@@ -150,7 +150,7 @@ router.post('/login', async (req, res) => {
   
   const query = {
     name: 'fetch-user',
-    text: 'SELECT * FROM users WHERE username = $1',
+    text: 'SELECT * FROM login WHERE username = $1',
     values: [req.body.userName],
   }
 
@@ -163,7 +163,7 @@ router.post('/login', async (req, res) => {
       
       if(resl.rows.length == 0)
       {
-    res.json({ logRes: -1 });
+    res.json({ logRes: -1 }); // if there is no user with given username the return -1
       }
     else 
      {
@@ -179,13 +179,14 @@ router.post('/login', async (req, res) => {
           userid:resl.rows[0].id,
           token: token,
           logRes: 1,
+          role : resl.rows[0].role
           })
       })
     }
 
      else 
       {
-      res.json({ logRes: -2 });
+      res.json({ logRes: -2 }); // If password is incorrect -2 is returned
        }
     }
   }
