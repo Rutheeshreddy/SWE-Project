@@ -28,7 +28,7 @@ const Login = () => {
                 setLogRes(res.data.logRes);
                 if (res.data.logRes == 1) {
 
-
+                    sessionStorage.setItem('token', authToken);
 
                 setTimeout(() => {
 
@@ -36,6 +36,8 @@ const Login = () => {
 
                 }, 2000);
 
+                if () navigate(import.meta.env.VITE)
+                else if
                 
                 }
                 
