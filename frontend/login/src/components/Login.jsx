@@ -25,10 +25,10 @@ const Login = () => {
                 userName: user,
                 password: pwd,
                 }).then((res) => {
-                setLogRes(res.data.logRes);
+
                 if (res.data.logRes == 1) {
 
-                    sessionStorage.setItem('token', authToken);
+                    sessionStorage.setItem('token', res.data.token);
 
                 setTimeout(() => {
 
@@ -36,11 +36,13 @@ const Login = () => {
 
                 }, 2000);
 
-                if () navigate(import.meta.env.VITE)
-                else if
-                
+                if (res.data.role=="student") navigate(import.meta.env.VITE_STUDENT)
+                else  if (res.data.role=="instructor") navigate(import.meta.env.VITE_TEACHER)
+                else navigate(import.meta.env.VITE_ADMIN)
                 }
                 
+                if (res.data.logRes == 1)
+
                 }).catch((err) => {
                 
                 console.log(err);
