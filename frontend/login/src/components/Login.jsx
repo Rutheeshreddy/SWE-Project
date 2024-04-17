@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
-import {useNavigate} from 'react-router-dom'
-
+import axios from 'axios'
+import Success from "./Success"
 
 const Login = () => {
   
@@ -10,49 +10,60 @@ const Login = () => {
         const [user, setUser] = useState("");
         const [pwd, setPwd] = useState("");
         const [errMsg, setErrMsg] = useState("");
+        const [succ,setSucc] = useState(false)
+
   
-        const navigate = useNavigate();
 
         useEffect(() => {
             userRef.current.focus();
         }, [])
 
 
-        const handleSubmit = async (e) => {
+        const handleSubmit =  (e) => {
             e.preventDefault();
-            
-            axios.post(import.meta.env.VITE_LOGIN, { // shall use environment variable instead of this hardcode
+            setErrMsg("");
+            axios.post(import.meta.env.VITE_LOGIN, {
                 userName: user,
                 password: pwd,
                 }).then((res) => {
-
+                
                 if (res.data.logRes == 1) {
-
+              
                     sessionStorage.setItem('token', res.data.token);
-
+                 setSucc(true) 
                 setTimeout(() => {
 
-                    <Success/>
+                    // navigate  
+                    window.location.href = import.meta.env.VITE_STUDENT
+                    //setSucc(false)
+                }, 1000);
 
-                }, 2000);
 
-                if (res.data.role=="student") navigate(import.meta.env.VITE_STUDENT)
-                else  if (res.data.role=="instructor") navigate(import.meta.env.VITE_TEACHER)
-                else navigate(import.meta.env.VITE_ADMIN)
                 }
                 
-                if (res.data.logRes == 1)
+                else if (res.data.logRes == -1) // invalid userame
+                {
+                  userRef.current.focus();  setPwd(""); setErrMsg("This username doesn't exist")
+                }
+
+                else //wrong password
+                {
+                  setPwd(""); setErrMsg("The password is wrong, try again")
+                }
 
                 }).catch((err) => {
                 
                 console.log(err);
+                setErrMsg("There is some problem with the server or your internet, try again after some time")
                 })
             
         }
     
         return (
             <>
-               <div className="flex justify-center items-center h-screen">
+             {succ ?  (<Success/>)
+             
+              :(<div className="flex justify-center items-center h-screen">
                     <div className="w-full max-w-md px-4">
 
                       <h1 className="text-3xl font-bold mb-4 text-center">CRGM</h1>
@@ -88,7 +99,7 @@ const Login = () => {
                         <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md transition duration-300 hover:bg-blue-600 focus:outline-none focus:ring focus:bg-blue-600">Sign In</button>
                       </form>
                     </div>
-                  </div>
+                  </div>)}
             </>
         );
   };

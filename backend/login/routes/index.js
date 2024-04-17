@@ -166,7 +166,7 @@ router.post('/login', async (req, res) => {
     res.json({ logRes: -1 }); // if there is no user with given username the return -1
       }
     else 
-     {
+     {  
     if (resl.rows[0].password == req.body.password) {
 
       jwt.sign({
