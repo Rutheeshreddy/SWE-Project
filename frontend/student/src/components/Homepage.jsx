@@ -1,4 +1,4 @@
-import StudentInfo from "./StudentInfo"
+//import StudentInfo from "./StudentInfo"
 import { useEffect } from "react"
 const Homepage = () => 
 {   let studinfo;
