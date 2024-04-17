@@ -1,3 +1,8 @@
+create table if not exists login ( 
+	username varchar (30) primary key,
+	password varchar(30) NOT NULL,
+	role varchar(15) NOT NULL ) ; 
+
 create table if not exists student (
 	id varchar(20) primary key,
 	name varchar(20) NOT NULL,
@@ -44,7 +49,7 @@ create table if not exists student_courses(
 	name varchar(30) NOT NULL,
 	credits integer default 0,
 	student_id varchar(20),
-	grade char ,
+	grade varchar(5) ,
 	feedback varchar(200) ,
 	primary key (course_id,semester,year,student_id),
 	foreign key (student_id) references student on delete cascade,
