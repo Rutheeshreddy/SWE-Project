@@ -1,51 +1,49 @@
 import React, { useRef, useState, useEffect } from "react";
 import {useNavigate} from 'react-router-dom'
 
+
 const Login = () => {
+  
+
         const userRef = useRef();
-        const errRef = useRef();
 
         const [user, setUser] = useState("");
         const [pwd, setPwd] = useState("");
         const [errMsg, setErrMsg] = useState("");
   
         const navigate = useNavigate();
+
         useEffect(() => {
             userRef.current.focus();
         }, [])
 
-        useEffect(() => {
-            setErrMsg('');
-        }, [user, pwd])
 
         const handleSubmit = async (e) => {
             e.preventDefault();
             
-            // axios.post('http://localhost:5000/login', { // shall use environment variable instead of this hardcode
-            //     userName: user,
-            //     password: pwd,
-            //     }).then((res) => {
-            //     setLogRes(res.data.logRes);
-            //     if (res.data.logRes == 1) {
+            axios.post(import.meta.env.VITE_LOGIN, { // shall use environment variable instead of this hardcode
+                userName: user,
+                password: pwd,
+                }).then((res) => {
+                setLogRes(res.data.logRes);
+                if (res.data.logRes == 1) {
 
-            //         setCookie('token', res.data.token, { path: '/' })
-            //         sessionStorage.setItem('token_status',1);
 
-            //     setTimeout(() => {
 
-            //         <Loading/>
+                setTimeout(() => {
 
-            //     }, 2000);
+                    <Success/>
 
-            //     // dispatch({type: 'LOGIN',payload: {"userName":userName} })
+                }, 2000);
+
                 
-            //     }
+                }
                 
-            //     }).catch((err) => {
+                }).catch((err) => {
                 
-            //     console.log(err);
-            //     })
-            setErrMsg("error Raja")
+                console.log(err);
+                })
+            
         }
     
         return (
@@ -79,7 +77,7 @@ const Login = () => {
                             className="w-full border rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
                           />
                         </div>
-                        <p ref={errRef} className={`text-red-600 ${errMsg ? 'block' : 'hidden'}`} aria-live="assertive">
+                        <p  className={`text-red-600 ${errMsg ? 'block' : 'hidden'}`} aria-live="assertive">
                         {errMsg}
                         </p>
 
