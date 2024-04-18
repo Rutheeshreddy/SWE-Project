@@ -25,7 +25,7 @@ create table if not exists past_courses (
 	prerequisites varchar(50),
 	max_capacity integer,
 	primary key (course_id,semester,year),
-	foriegn key (instructor_id) references instructor on delete cascade
+	foreign key (instructor_id) references instructor on delete cascade
 );
 
 create table if not exists present_courses (
@@ -39,7 +39,7 @@ create table if not exists present_courses (
 	slot char,
 	max_capacity integer,
 	primary key (course_id,semester,year),
-	foriegn key (instructor_id) references instructor on delete cascade
+	foreign key (instructor_id) references instructor on delete cascade
 );
 
 create table if not exists student_courses(
@@ -54,7 +54,7 @@ create table if not exists student_courses(
 	primary key (course_id,semester,year,student_id),
 	foreign key (student_id) references student on delete cascade,
 	foreign key (course_id,semester,year) references past_courses on delete cascade,
-	foreign key (course_id,semester,year) references present_courses on delete cascade,
+	foreign key (course_id,semester,year) references present_courses on delete cascade
 );
 
 create table if not exists proposed_courses(
@@ -74,5 +74,5 @@ create table if not exists timeline (
 	course_selection integer default 0,
 	course_reg integer default 0,
 	course_feedback integer default 0,
-	course_gradeing integer default 0,
+	course_gradeing integer default 0
 );
