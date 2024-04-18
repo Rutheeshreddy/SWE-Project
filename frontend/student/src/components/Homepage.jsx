@@ -2,10 +2,10 @@
 import { useEffect } from "react"
 const Homepage = () => 
 {   let studinfo;
-    let regcourses;
+    let regcourses; let token
     useEffect(()=>
     {
-        let token = sessionStorage.getItem("token") 
+         token = sessionStorage.getItem("token") 
         // send the the token to backend and verify it
         console.log(token)
     },[])
@@ -13,6 +13,7 @@ const Homepage = () =>
 
     return (<>
     Andhra Bhoja!
+    <button onClick = {()=>{console.log(localStorage.getItem("token"))}}>raja</button>
     </>
 
     )
