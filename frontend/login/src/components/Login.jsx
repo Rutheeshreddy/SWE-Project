@@ -29,12 +29,14 @@ const Login = () => {
                 
                 if (res.data.logRes == 1) {
               
-                    sessionStorage.setItem('token', res.data.token);
+                    //sessionStorage.setItem('token', res.data.token);
+                    //localStorage.setItem('token', res.data.token);
+                    //console.log('token:',res.data.token)
                  setSucc(true) 
                 setTimeout(() => {
 
                     // navigate  
-                    window.location.href = import.meta.env.VITE_STUDENT
+                    window.location.href = import.meta.env.VITE_STUDENT + "redirect/"+res.data.token // temporary workaround, shall fix later
                     //setSucc(false)
                 }, 1000);
 
