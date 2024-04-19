@@ -1,3 +1,4 @@
+import SemRegisteredCourses from "./SemRegisteredCourses"
 import StudentInfo from "./StudentInfo"
 import { useEffect,useState } from "react"
 import axios from "axios"
@@ -32,12 +33,35 @@ const Homepage = () =>
     },[])
 
 
-    return (<>
-               <StudentInfo/>
+    return (
+              <div className="grid grid-cols-1 gap-6">
+                     <div className="bg-gray-100 p-6 rounded-lg shadow-md">
+                     <StudentInfo info={details} />
+                     </div>
+                     
+                     <div className="bg-white p-6 rounded-lg shadow-md">
+                     <SemRegisteredCourses courses={props_arr} />
+                     </div>
+              </div>
+       );
 
-    </>
+       // const details = {"name": "Raja", "id": "CS21BTECH11000", "department": "Computer Science and Engineering", "batch": "2021", "semester": "6"}
 
-    )
+       // const r1 = {"courseName":"Deep Learning", "courseCode":"AI1100", "electiveType":"Departmental"}
+       // const r2 = {"courseName":"Machine Learning", "courseCode":"AI1000", "electiveType":"Additional"}
+       // const props_arr = [r1, r2]
+       // return (
+       //        <div className="grid grid-cols-1 gap-6">
+       //               <div className="bg-gray-100 p-6 rounded-lg shadow-md">
+       //               <StudentInfo info={details} />
+       //               </div>
+                     
+       //               <div className="bg-white p-6 rounded-lg shadow-md">
+       //               <SemRegisteredCourses courses={props_arr} />
+       //               </div>
+       //         </div>
+       // );
+
 }
 
-export default Homepage
+export default Homepage;
