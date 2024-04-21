@@ -8,7 +8,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 dotenv.config({path: __dirname+'../.env' });
 const app = express();
 
-const router = express.Router();
+const router = express.Router(); 
 
 
 function authenticateToken(req, res, next) {
@@ -66,15 +66,14 @@ router.post('/login', async (req, res) => {
 
       jwt.sign({
         userName: resl.rows[0].username,
-        userid:resl.rows[0].id
+        role:resl.rows[0].role
       }, process.env.SECRET_KEY, (err, token) => {
         if (err) { console.log(err); }
         res.json(
           {
-          userid:resl.rows[0].id,
+          role:resl.rows[0].role,
           token: token,
-          logRes: 1,
-          role : resl.rows[0].role
+          logRes: 1
           })
       })
     }
