@@ -6,33 +6,31 @@ import SubmissionButtons from "./SubmissionButtons"
 import axios from "axios"
 
 const Homepage = () => 
-{   let studinfo;
-    let regcourses; let token;
-    useEffect(()=>
-    {    
-         token = sessionStorage.getItem("token") 
-         //verify token
-         axios.get(import.meta.env.VITE_STUDENT+"verify", {
-            headers: {
-                'Content-Type': "application/json",
-                'Authorization': `Bearer ${token}`,
-            }
-        }).then((res) => {
+{   //let studinfo;
+//     let regcourses; let token;
+//     useEffect(()=>
+//     {    
+//          token = sessionStorage.getItem("token") 
+//          //verify token
+//          axios.get(import.meta.env.VITE_STUDENT+"verify", {
+//             headers: {
+//                 'Content-Type': "application/json",
+//                 'Authorization': `Bearer ${token}`,
+//             }
+//         }).then((res) => {
             
-            if (res.data.tokenStatus != 1) {
-                window.location.href = import.meta.env.VITE_LOGIN
-            }
-            console.log("Ok, verify is working")
-            //student info, reg courses
+//             if (res.data.tokenStatus != 1) {
+//                 window.location.href = import.meta.env.VITE_LOGIN
+//             }
+//             console.log("Ok, verify is working")
+//             //student info, reg courses
             
-            }).catch((err) => {
+//             }).catch((err) => {
             
-            console.log(err);
-            console.log("There is some problem with the server or your internet, try again after some time")
-            })
-        
-    
-//     },[])
+//             console.log(err);
+//             console.log("There is some problem with the server or your internet, try again after some time")
+//             })
+//            },[])
 
        const details = {"name": "Raja", "id": "CS21BTECH11000", "department": "Computer Science and Engineering", "batch": "2021", "semester": "6"}
 
