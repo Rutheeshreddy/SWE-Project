@@ -40,7 +40,7 @@ const SemRegisteredCourses = (props) => {
                                 <p>Details about {course.courseName}</p>
                                 <p>Details about {course.courseName}</p>
                                 <p>Details about {course.courseName}</p> */}
-                                <CourseDetails courseCode={course.courseCode} />
+                                <CourseDetails course = {course} />
                             </div>
                         )}
                     </div>
