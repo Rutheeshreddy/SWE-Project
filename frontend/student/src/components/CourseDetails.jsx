@@ -1,7 +1,14 @@
-import React from "react";
+import { useEffect } from "react";
 
 const CourseDetails = () => {
-    return <></>
+useEffect(()=>
+{
+    // fetch relavant course details and display below
+},[]);
+
+    return <>
+    
+    </>
 };
 
 export default CourseDetails;
