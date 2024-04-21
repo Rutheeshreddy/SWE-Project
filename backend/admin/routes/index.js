@@ -40,7 +40,7 @@ router.get('/test',authenticateToken,(req,res)=>
    res.json({ok:1});
 })
 
-router.get('/verify',authenticateToken,(req,res) => 
+router.get('/verify',authenticateToken, async (req,res) => 
 {
   const query = {
     name: 'get-sem-details',
@@ -50,16 +50,15 @@ router.get('/verify',authenticateToken,(req,res) =>
   var current_sem = "";
   var current_year = 0;
 
-  client.query(query , (err,res1) => {
-    if (err) { 
-      console.log(err.stack)
-    } 
-    else {
-        current_sem = res1.rows[0].semester;
-        current_year = res1.rows[0].year;
-    }
-  })
-
+  try {
+    const res1 = await client.query(query);
+    current_sem = res1.rows[0].semester;
+    current_year = res1.rows[0].year;
+  }
+  catch(err) {
+    console.log(err.stack)
+  }
+  
   res.json({
     tokenStatus : 1,
     sem : current_sem,
