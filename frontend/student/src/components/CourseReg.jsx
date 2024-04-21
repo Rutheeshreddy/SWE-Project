@@ -1,7 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
-function Courseregpage(props) {
+function Courseregpage() {
+
+  const reg = [
+    { id: 1, course_id: 'CS101', coursename:'Intro to Computers', instructor: 'John Doe', credits: 3, semester: 'Spring 2024', slot: 'N', current : [150, 200], elective: 'Free'},
+    { id: 2, course_id: 'ENG201', coursename: 'English Grammar', instructor: 'Jane Smith', credits: 4, semester: 'Fall 2024', slot: 'Z', current: [31, 49], elective: 'Departmental'}
+  ]
+  
+  const aval = [
+    { id: 1, course_id: 'CS111', coursename: 'Comp Sci 4', instructor: 'John Villa', credits: 3, semester: 'Spring 2024', slot: 'J', current: [16, 100], elective: null},
+    { id: 2, course_id: 'ENG281', coursename: 'English Intro', instructor: 'Jane Smith', credits: 4, semester: 'Fall 2024', slot: 'K', current: [25, 50], elective: null}
+  ]
 
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -27,8 +37,8 @@ function Courseregpage(props) {
 
   useEffect(() => {
 
-    setRegCourses(props.regCourses);
-    setAvalCourses(props.avalCourses);
+    setRegCourses(reg);
+    setAvalCourses(aval);
   }, []);
 
   useEffect(() => {
@@ -108,12 +118,27 @@ function Courseregpage(props) {
     setShowChoice(false)  
   }
 
+  const handleprev = ()=>{
+
+
+  }
+
+  const handlepgno = ()=>{
+
+    
+  }
+
+  const handlenext = ()=>{
+
+    
+  }
+
   return (
     <div className="flex justify-center items-center h-screen">
 
       <div className="w-full max-w-7xl">
 
-        <div className="grid gap-4 mb-8">
+        <div className="grid gap-4 mb-2">
 
           <div className="col-span-3 overflow-y-auto rounded-lg shadow-xs">
 
@@ -121,7 +146,7 @@ function Courseregpage(props) {
 
             <div className="bg-blue-50 p-5">
 
-              <div className="grid grid-cols-8 justify-between font-semibold items-center mb-2">
+              <div className="grid grid-cols-8 justify-between font-semibold items-center mb-1">
 
                 <div>Course ID</div>
                 <div>Course Name</div>
@@ -149,9 +174,19 @@ function Courseregpage(props) {
                   <div><button className="bg-green-500 text-white px-2 py-1 rounded-md text-sm" onClick={() => handleAddCourse(course.course_id)}>+</button></div>
                 </div>
               ))}
+
             </div>
           </div>
 
+        </div>
+
+          <div className="flex gap-2 justify-center font-semibold mb-6">
+            <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handleprev()}>prev</button></div>
+            <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlepgno()}>1/6</button></div>
+            <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlenext()}>next</button></div>
+          </div>
+
+        <div className="grid gap-4 mb-2">
           
           <div className="col-span-3 overflow-y-auto rounded-lg shadow-xs">
 
@@ -191,6 +226,12 @@ function Courseregpage(props) {
             </div>
           </div>
         </div>
+
+        <div className="flex gap-2 justify-center font-semibold mb-2">
+            <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handleprev()}>prev</button></div>
+            <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlepgno()}>1/6</button></div>
+            <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlenext()}>next</button></div>
+          </div>
       </div>
 
 
