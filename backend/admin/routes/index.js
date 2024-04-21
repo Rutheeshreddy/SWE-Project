@@ -42,11 +42,31 @@ router.get('/test',authenticateToken,(req,res)=>
 
 router.get('/verify',authenticateToken,(req,res) => 
 {
-  // also give information like his name and present semester
-    
+  const query = {
+    name: 'get-sem-details',
+    text: 'SELECT * FROM current_sem'
+  }
+
+  var current_sem = "";
+  var current_year = 0;
+
+  client.query(query , (err,res1) => {
+    if (err) { 
+      console.log(err.stack)
+    } 
+    else {
+        current_sem = res1.rows[0].semester;
+        current_year = res1.rows[0].year;
+    }
+  })
+
   res.json({
-      tokenStatus : 1
-    })
+    tokenStatus : 1,
+    sem : current_sem,
+    year : current_year,
+    name : req.user.userName
+  })
+
 })
 
 
