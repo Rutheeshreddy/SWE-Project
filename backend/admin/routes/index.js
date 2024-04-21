@@ -8,7 +8,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 dotenv.config({path: __dirname+'../.env' });
 const app = express();
 
-const router = express.Router(); 
+const router = express.Router();
 
 
 function authenticateToken(req, res, next) {
@@ -40,52 +40,34 @@ router.get('/test',authenticateToken,(req,res)=>
    res.json({ok:1});
 })
 
-// Authentication Routes
-router.post('/login', async (req, res) => {
-  
+router.get('/verify',authenticateToken, async (req,res) => 
+{
   const query = {
-    name: 'fetch-user',
-    text: 'SELECT * FROM login WHERE username = $1',
-    values: [req.body.userName],
+    name: 'get-sem-details',
+    text: 'SELECT * FROM current_sem'
   }
 
-  client.query(query, (err, resl) => {
-    if (err) { 
-      console.log(err.stack)
-    } 
-    else 
-    {
-      
-      if(resl.rows.length == 0)
-      {
-    res.json({ logRes: -1 }); // if there is no user with given username the return -1
-      }
-    else 
-     {  
-    if (resl.rows[0].password == req.body.password) {
+  var current_sem = "";
+  var current_year = 0;
 
-      jwt.sign({
-        userName: resl.rows[0].username,
-        role:resl.rows[0].role
-      }, process.env.SECRET_KEY, (err, token) => {
-        if (err) { console.log(err); }
-        res.json(
-          {
-          role:resl.rows[0].role,
-          token: token,
-          logRes: 1
-          })
-      })
-    }
-
-     else 
-      {
-      res.json({ logRes: -2 }); // If password is incorrect -2 is returned
-       }
-    }
+  try {
+    const res1 = await client.query(query);
+    current_sem = res1.rows[0].semester;
+    current_year = res1.rows[0].year;
   }
+  catch(err) {
+    console.log(err.stack)
+  }
+  
+  res.json({
+    tokenStatus : 1,
+    sem : current_sem,
+    year : current_year,
+    name : req.user.userName
+  })
+
 })
-});
+
 
 
 export default router;
