@@ -42,7 +42,9 @@ router.get('/test',authenticateToken,(req,res)=>
 
 router.get('/verify',authenticateToken,(req,res) => 
 {
-    res.json({
+  // also give information like his name and present semester
+    
+  res.json({
       tokenStatus : 1
     })
 })

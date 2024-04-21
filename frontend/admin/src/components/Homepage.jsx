@@ -1,11 +1,11 @@
-import SemRegisteredCourses from "./SemRegisteredCourses"
-import StudentInfo from "./StudentInfo"
+import AdminInfo from "./AdminInfo"
 import { useEffect,useState } from "react"
 import axios from "axios"
-import Link from "react-router-dom"
+import {Link} from "react-router-dom"
+
 const Homepage = () => 
 {   let studinfo;
-    let regcourses; let token;
+    let regcourses; let token; let details 
     useEffect(()=>
     {    
          token = sessionStorage.getItem("token") 
@@ -21,8 +21,9 @@ const Homepage = () =>
                 window.location.href = import.meta.env.VITE_LOGIN
             }
             console.log("Ok, verify is working")
-            //student info, reg courses
-            
+            //admin info
+            details = {name:res.data.name,sem:res.data.sem,year:res.data.year}
+            console.log(res)
             }).catch((err) => {
             
             console.log(err);
@@ -36,7 +37,7 @@ const Homepage = () =>
     return (
               <div className="grid grid-cols-1 gap-6">
                      <div className="bg-gray-100 p-6 rounded-lg shadow-md">
-                     <StudentInfo info={details} />
+                     <AdminInfo info={details} />
                      </div>
                          
                     <div className="flex flex-row items-center">
@@ -46,19 +47,17 @@ const Homepage = () =>
                     <Link> <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-2">
                                 Course Registration Period
                             </button></Link> 
-
-                            <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
-                                Course Feedback Period
-                            </button>
-                            <button className="bg-pink-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
-                                 Grading Period
-                            </button>
-
                     </div>
+                    <div className="flex flex-row items-center">
+                    <Link>  <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mr-2">
+                                Course Feedback Period
+                            </button></Link>
+                    <Link> <button className="bg-pink-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mr-2">
+                                 Grading Period
+                            </button></Link>
+                   </div>
+                    
 
-                     <div className="bg-white p-6 rounded-lg shadow-md">
-                     <SemRegisteredCourses courses={props_arr} />
-                     </div>
               </div>
        );
 

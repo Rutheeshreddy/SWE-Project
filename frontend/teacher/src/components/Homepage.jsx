@@ -1,5 +1,3 @@
-import SemRegisteredCourses from "./SemRegisteredCourses"
-import StudentInfo from "./StudentInfo"
 import { useEffect,useState } from "react"
 import axios from "axios"
 

@@ -35,9 +35,11 @@ const Login = () => {
                  setSucc(true) 
                 setTimeout(() => {
 
-                    // navigate  
-                    window.location.href = import.meta.env.VITE_STUDENT + "redirect/"+res.data.token // temporary workaround, shall fix later
-                    //setSucc(false)
+                    // navigate  // temporary workaround, shall fix later
+                  if(res.data.role=="student")  window.location.href = import.meta.env.VITE_STUDENT + "redirect/"+res.data.token 
+                  else if(res.data.role=="teacher")  window.location.href = import.meta.env.VITE_TEACHER + "redirect/"+res.data.token 
+                  else  window.location.href = import.meta.env.VITE_ADMIN + "redirect/"+res.data.token 
+                  //setSucc(false)
                 }, 1000);
 
 

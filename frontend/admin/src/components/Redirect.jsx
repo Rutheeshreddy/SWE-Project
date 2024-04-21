@@ -6,7 +6,7 @@ const Redirect = () =>
     useEffect(()=> {
         
         sessionStorage.setItem("token",token);
-        window.location.href = "http://localhost:3001/"
+        window.location.href = import.meta.env.VITE_ADMIN_FRONT
         }         
             ,[])
 }
