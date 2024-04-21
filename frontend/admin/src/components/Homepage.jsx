@@ -37,7 +37,7 @@ const Homepage = () =>
     { 
        if(e.target.id=="CS") 
        { // write condition for checking period
-        e.preventDefault()
+       // e.preventDefault()
        }
     }
 
