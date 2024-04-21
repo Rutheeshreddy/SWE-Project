@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 
-const CourseDetails = () => {
-useEffect(()=>
-{
-    // fetch relavant course details and display below
-},[]);
+const CourseDetails = (props) => {
+    const { course } = props;
 
-    return <>
-    
-    </>
+    return (
+        <div>
+            <p>Details about {course.courseName}</p>
+            <p>Details about {course.courseCode}</p>
+            <p>Details about {course.electiveType}</p>
+        </div>
+    );
 };
 
 export default CourseDetails;
