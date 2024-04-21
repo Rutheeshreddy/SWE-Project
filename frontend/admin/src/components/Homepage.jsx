@@ -5,7 +5,8 @@ import {Link} from "react-router-dom"
 
 const Homepage = () => 
 {   let studinfo;
-    let regcourses; let token; let details 
+    let regcourses; let token; 
+    const [details,setDetails] = useState({}) 
     useEffect(()=>
     {    
          token = sessionStorage.getItem("token") 
@@ -22,8 +23,7 @@ const Homepage = () =>
             }
             console.log("Ok, verify is working")
             //admin info
-            details = {name:res.data.name,sem:res.data.sem,year:res.data.year}
-            console.log(res)
+            setDetails({name:res.data.name,sem:res.data.sem,year:res.data.year})
             }).catch((err) => {
             
             console.log(err);
@@ -41,18 +41,18 @@ const Homepage = () =>
                      </div>
                          
                     <div className="flex flex-row items-center">
-                    <Link> <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">
+                    <Link to=""> <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">
                             Course Selection Period
                         </button> </Link>
-                    <Link> <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-2">
+                    <Link to=""> <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-2">
                                 Course Registration Period
                             </button></Link> 
                     </div>
                     <div className="flex flex-row items-center">
-                    <Link>  <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mr-2">
+                    <Link to="">  <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mr-2">
                                 Course Feedback Period
                             </button></Link>
-                    <Link> <button className="bg-pink-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mr-2">
+                    <Link to=""> <button className="bg-pink-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mr-2">
                                  Grading Period
                             </button></Link>
                    </div>
