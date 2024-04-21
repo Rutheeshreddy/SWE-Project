@@ -33,6 +33,14 @@ const Homepage = () =>
     
     },[])
 
+    function handleClick(e)
+    { 
+       if(e.target.id=="CS") 
+       { // write condition for checking period
+        e.preventDefault()
+       }
+    }
+
 
     return (
               <div className="grid grid-cols-1 gap-6">
@@ -41,7 +49,7 @@ const Homepage = () =>
                      </div>
                          
                     <div className="flex flex-row items-center">
-                    <Link to=""> <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">
+                    <Link to="/selection" onClick={handleClick} > <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2" id="CS">
                             Course Selection Period
                         </button> </Link>
                     <Link to=""> <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-2">
