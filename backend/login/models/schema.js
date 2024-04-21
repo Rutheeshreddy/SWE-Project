@@ -1,21 +1,16 @@
 import client from '../config/database.js';
+import fs from "fs";
 
-var sql1 = " create table if not exists login (" + 
-  " username varchar (30) primary key," +
-  " password varchar(30) NOT NULL," +
-  " role varchar(15) NOT NULL ) ;  "
+const ddlQuery = fs.readFileSync('ddl.sql', 'utf8');
 
-client.query(sql1, function (err, result) {
+client.query(ddlQuery, function (err, result) {
 if (err) throw err;
 
 });
 
-var sql2 = " insert into login(username,password,role) values " +
-" ('cs21btech234@iith.ac.in','12345','student') , " +
-" ('vimal.ch@iith.ac.in','12345','instructor') , " +
-" ('admin3@iith.ac.in','admin','admin') ; "
+const ddlQuery2 = fs.readFileSync('data.sql', 'utf8');
 
-client.query(sql2 , function (err, result) {
+client.query(ddlQuery2, function (err, result) {
 if (err) throw err;
 
 });
