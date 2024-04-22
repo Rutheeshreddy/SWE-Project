@@ -2,9 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import SelCoursePopup from "./SelCoursePopup";
 import axios from "axios"
 
-
 function PropCourseList() {
-
   const [Courses, setCourses] = useState([]);
   const [totPageNum,setTotPageNum] = useState(0);
   const [pageNum,setPageNum] = useState(1);
@@ -13,6 +11,7 @@ function PropCourseList() {
   const [courseId,setCourseId] = useState("");
 
   useEffect(() => {
+    setTemp(pageNum);
     var token = sessionStorage.getItem("token");
     axios.get(import.meta.env.VITE_ADMIN+"/proposed-courses/" + pageNum ,{
         headers: {
@@ -32,16 +31,16 @@ function PropCourseList() {
     
   }, [pageNum]);
 
-
   const handleRemoveCourse = (courseId) => {
     console.log(courseId);
   };
 
   const handleprev = ()=> {
-
     if(pageNum > 1) setPageNum(pageNum-1);
-    setTemp(pageNum);
+  }
 
+  const handlenext = ()=>{
+    if(pageNum < totPageNum) setPageNum(pageNum+1);
   }
 
   const handleKeyDown = (event) => {
@@ -55,19 +54,12 @@ function PropCourseList() {
     }
   };
 
-  const handlenext = ()=>{
-
-    if(pageNum < totPageNum) setPageNum(pageNum+1);
-    setTemp(pageNum);
-    
-  }
-
   const handleCourseClick = (e)=> 
   {
     setCoursemod(true)  
     setCourseId(e.target.id);
   }
-
+  
   return (
     <div className="flex justify-center items-center h-screen">
 

@@ -55,14 +55,16 @@ router.post('/course-selection/stop',authenticateToken, async (req,res) => {
         }
         const res1 = await client.query(query);
         course_selection = res1.rows[0].course_selection ;
-        course_reg = res1.roes[0].course_reg ;
+        course_reg = res1.rows[0].course_reg ;
     }
     catch(err) {
         console.log(err.stack);
     }
-    if(course_selection == 1) {
+    if(course_selection == 1)
+    {
         var num_prop_courses = 0;
         var num_selected_courses = 0;
+
         try {
         const query = {
             name: 'get-number-of-proposed-courses',
@@ -79,18 +81,19 @@ router.post('/course-selection/stop',authenticateToken, async (req,res) => {
         const query = {
             name: 'get-number-of-selected-courses',
             text: 'select count(*) as cnt from selected_courses ' +
-            'where teacher_selected = 1 and slot_selected = 1;'
+            ' where teacher_selected = 1 and slot_selected = 1;'
         }
         const res1 = await client.query(query);
         num_selected_courses = res1.rows[0].cnt;
-    
-        if(num_prop_courses == num_selected_courses) {
+        // course-selection period is stopped
+        if(num_prop_courses == num_selected_courses) 
+        {
             try {
-                const query = {
+                const query2 = {
                 name: 'stop-course-selection',
                 text: 'update timeline set course_selection = 0 ;'
                 }
-                const res1 = await client.query(query);
+                const res2 = await client.query(query2);
             }
             catch(err) {
                 console.log(err.stack);
@@ -99,19 +102,20 @@ router.post('/course-selection/stop',authenticateToken, async (req,res) => {
             message : 1
             });
         }
-        else {
+        // course-selection period can't be stopped due to pending courses
+        else 
+        {
             try {
-            const query = {
+            const query3 = {
                 name: 'get-pending-courses',
-                text: 'select course_id  from proposed_courses as A where ' +
-                '(select count(*) from selected_courses as B where' + 
-                'A.course_id = B.course_id and B.teacher_selected = 1 and slot_selected = 1 ) == 0 ;'
+                text: ' select course_id  from proposed_courses as A where ' +
+                ' (select count(*) from selected_courses as B where ' + 
+                ' A.course_id = B.course_id and B.teacher_selected = 1 and slot_selected = 1 ) = 0 ; '
             }
-            const res1 = await client.query(query);
-    
+            const res3 = await client.query(query3);
             res.json({
                 message : -1,
-                courses : res1.rows
+                courses : res3.rows
             })
             }
             catch(err) {
@@ -123,6 +127,8 @@ router.post('/course-selection/stop',authenticateToken, async (req,res) => {
         console.log(err.stack);
         }
     }
+    // course-selection not even started
+    else res.json({message : -2});
   
   })
 
