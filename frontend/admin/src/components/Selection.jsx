@@ -32,6 +32,7 @@ const handleSubmit = (e)=>
                   {
                     alert('Failure');
                   }
+                  window.location.reload();
                   setCourseId('');
                   setCourseName('');
                   setCredits('');
@@ -45,6 +46,10 @@ const handleSubmit = (e)=>
 const handleCancel = (e)=>
 {
    setAddCourse(false)
+   setCourseId('');
+   setCourseName('');
+   setCredits('');
+   setPrereq('');
 }
 
 useEffect(()=>

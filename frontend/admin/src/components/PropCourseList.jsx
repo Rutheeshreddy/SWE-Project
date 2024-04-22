@@ -5,24 +5,15 @@ import axios from "axios"
 
 function PropCourseList() {
 
-    // const courseList = [
-    //     {  course_id: 'CS101', name:'Intro to Computers',  credits: 3, prerequisites:"CS21231,CS323423"},
-    //     {  course_id: 'ENG201', coursename: 'English Grammar',  credits: 4, prerequisites:"CS45454,CS55656"}
-    //   ]
-
-
-
   const [Courses, setCourses] = useState([]);
   const [totPageNum,setTotPageNum] = useState(0);
   const [pageNum,setPageNum] = useState(1);
   const [temp,setTemp] = useState(1);
   const [coursemod,setCoursemod] = useState("");
-  const [token,setToken] = useState("")
+  const [courseId,setCourseId] = useState("");
 
   useEffect(() => {
-    console.log(pageNum);
     var token = sessionStorage.getItem("token");
-    setToken(token);
     axios.get(import.meta.env.VITE_ADMIN+"/proposed-courses/" + pageNum ,{
         headers: {
           'Content-Type': "application/json",
@@ -30,7 +21,6 @@ function PropCourseList() {
       }
        }).then( (res) => {
 
-        console.log(res.data);
         setTotPageNum(res.data.totPages);
         setCourses(res.data.courses);
 
@@ -44,13 +34,13 @@ function PropCourseList() {
 
 
   const handleRemoveCourse = (courseId) => {
-    const updatedRegCourses = Courses.filter(course => course.course_id !== courseId);
-    setCourses(updatedRegCourses);
+    console.log(courseId);
   };
 
   const handleprev = ()=> {
 
     if(pageNum > 1) setPageNum(pageNum-1);
+    setTemp(pageNum);
 
   }
 
@@ -68,7 +58,8 @@ function PropCourseList() {
   const handlenext = ()=>{
 
     if(pageNum < totPageNum) setPageNum(pageNum+1);
-
+    setTemp(pageNum);
+    
   }
 
   const handleCourseClick = (e)=> 
