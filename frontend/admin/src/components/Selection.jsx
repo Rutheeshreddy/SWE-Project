@@ -1,27 +1,46 @@
 import PropCourseList from "./PropCourseList"
 import { useState,useEffect } from "react";
+import axios from 'axios'
 
 const Selection = () => 
 {
 const [addCourse,setAddCourse] = useState(false)
 const [courseId,setCourseId] = useState("")
 const [courseName,setCourseName] = useState("")
-const [credits,setCredits] = useState("")
+const [credits,setCredits] = useState('')
 const [prereq,setPrereq] = useState("")
-let token;
+const [token,setToken] = useState("")
 
 const handleSubmit = (e)=>
 {
-  setAddCourse(false) 
+  e.preventDefault();
+  setAddCourse(false) ;
   axios.post(import.meta.env.VITE_ADMIN+"/add-course", {
-                headers: {
-                      'Content-Type': "application/json",
-                      'Authorization': `Bearer ${token}`,
-                  }
+              course_id:courseId,  name:courseName,
+              credits:credits,  prereq: prereq
                },{
-                course_id:courseId,  name:courseName,
-                credits:credits,  prereq: prereq
-               })
+                headers: {
+                  'Content-Type': "application/json",
+                  'Authorization': `Bearer ${token}`,
+              }
+               }).then( (res) => {
+                  if(res.data.message == 1)
+                  {
+                    alert('Success');
+                  }
+                  else 
+                  {
+                    alert('Failure');
+                  }
+                  setCourseId('');
+                  setCourseName('');
+                  setCredits('');
+                  setPrereq('');
+               }).catch((err) => {
+                
+                console.log(err);
+                setErrMsg("There is some problem with the server or your internet, try again after some time")
+                })
 }
 const handleCancel = (e)=>
 {
@@ -30,7 +49,8 @@ const handleCancel = (e)=>
 
 useEffect(()=>
 {
-    token = sessionStorage.getItem("token")
+    var token = sessionStorage.getItem("token");
+    setToken(token);
 },[])
 
 return (
