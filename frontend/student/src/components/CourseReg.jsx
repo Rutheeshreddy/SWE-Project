@@ -9,18 +9,24 @@ function Courseregpage() {
 
   const reg = [
     { id: 1, course_id: 'CS101', coursename:'Intro to Computers', department: "CSE", instructor: 'John Doe', credits: 3, semester: 'Spring 2024', slot: 'N', current : [150, 200], elective: 'Free'},
-    { id: 2, course_id: 'ENG201', coursename: 'English Grammar', department: "Languages", instructor: 'Jane Smith', credits: 4, semester: 'Fall 2024', slot: 'Z', current: [31, 49], elective: 'Departmental'}
-  ]
+    { id: 2, course_id: 'ENG201', coursename: 'English Grammar', department: "Languages", instructor: 'Jane Smith', credits: 4, semester: 'Fall 2024', slot: 'L', current: [31, 49], elective: 'Departmental'},
+    { id: 3, course_id: 'ENG291', coursename: 'Grammar PROMAX', department: "Languages", instructor: 'Jolie', credits: 2, semester: 'Fall 2023', slot: 'Z', current: [13, 49], elective: null}  ]
   
   const aval = [
-    { id: 1, course_id: 'CS111', coursename: 'Comp Sci 4', department: "CSE", instructor: 'John Villa', credits: 3, semester: 'Spring 2024', slot: 'J', current: [16, 100], elective: null},
-    { id: 2, course_id: 'ENG281', coursename: 'English Intro', department: "Languages", instructor: 'Jane Smith', credits: 4, semester: 'Fall 2024', slot: 'K', current: [25, 50], elective: null}
+    { id: 1, course_id: 'CS111', coursename: 'Comp Sci 4', department: "CSE", instructor: 'John Villa', credits: 3, semester: 'Spring 2024', slot: 'Z', current: [16, 100], elective: null},
+    { id: 2, course_id: 'ENG281', coursename: 'English Intro', department: "Languages", instructor: 'Jane Smith', credits: 4, semester: 'Fall 2024', slot: 'K', current: [25, 50], elective: null},
+    { id: 3, course_id: 'ENG291', coursename: 'Grammar PROMAX', department: "Languages", instructor: 'Jolie', credits: 2, semester: 'Fall 2023', slot: 'Z', current: [13, 49], elective: null}
+
   ]
 
   const [regCourses, setRegCourses] = useState([]);
   const [avalCourses, setAvalCourses] = useState([]);
-  const [totPageNum, setTotPageNum] = useState(1)
-  const [pageNum, setPageNum] = useState(1)
+
+  const [totPageNumreg, setTotPageNumreg] = useState(1)
+  const [pageNumreg, setPageNumreg] = useState(1)
+
+  const [totPageNumaval, setTotPageNumaval] = useState(1)
+  const [pageNumaval, setPageNumaval] = useState(1)
 
   const updateReg = (updatedlist) => {
 
@@ -76,17 +82,15 @@ function Courseregpage() {
 
   const handleRemoveCourse = (courseId) => {
 
-    const removedCourse = regCourses.find(course => course.course_id === courseId);
     const updatedRegCourses = regCourses.filter(course => course.course_id !== courseId);
     setRegCourses(updatedRegCourses);
-    setAvalCourses([...avalCourses, removedCourse])
-
   };
 
   const handleAddCourse = (courseId) => {
 
     setSelectedCourseId(courseId)
     setShowChoice(true)
+    
   };
 
   const handleCourseIdClick = (courseId) => {
@@ -115,6 +119,8 @@ function Courseregpage() {
 
   const handlepgno = ()=>{
 
+    console.log("hi")
+
     
   }
 
@@ -136,7 +142,7 @@ function Courseregpage() {
 
             <div className="bg-blue-50 p-5">
 
-              <Filters filters = {filters} updatefilters = {updatefilters}/>
+              <Filters filters = {filters} updatefilters = {updatefilters} Courselist = {avalCourses} updatecourselist = {setAvalCourses}/>
 
               <div className="grid grid-cols-9 justify-between font-semibold items-center mb-1">
 
@@ -174,21 +180,27 @@ function Courseregpage() {
 
         </div>
 
-          <div className="flex gap-3 justify-center font-semibold mb-6">
+        <div className="flex gap-3 justify-center font-semibold mb-6">
+          <div> <button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handleprev()}>prev</button> </div>
 
-            <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handleprev()}>prev</button></div>
+          <div className="flex flex-row items-center">
+            
+            <input className="w-8 border-2" type="text" placeholder={pageNumaval}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+              handlepgno();
+            }
+            }}/>
 
-            <div flex items-center justify-center>
-
-              <div flex flex-row><input className = "w-8 border-2" type="text" onChange={()=>handlepgno()} placeholder={pageNum}></input></div>
-              <div flex flex-row>of</div>
-              <div>{totPageNum}</div>
-
-            </div>
-
-            <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlenext()}>next</button></div>
-
+          <div className="mx-2">of</div>
+          <div>{totPageNumaval}</div>
           </div>
+
+          <div> <button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlenext()}>next</button> </div>
+        </div>
+
+
+          
 
         <div className="grid gap-4 mb-2">
           
@@ -233,11 +245,25 @@ function Courseregpage() {
           </div>
         </div>
 
-        <div className="flex gap-2 justify-center font-semibold mb-2">
-            <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handleprev()}>prev</button></div>
-            <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlepgno()}>1/6</button></div>
-            <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlenext()}>next</button></div>
+        <div className="flex gap-3 justify-center font-semibold mb-6">
+          <div> <button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handleprev()}>prev</button> </div>
+
+          <div className="flex flex-row items-center">
+            
+            <input className="w-8 border-2" type="text" placeholder={pageNumreg}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+              handlepgno();
+            }
+            }}/>
+
+          <div className="mx-2">of</div>
+          <div>{totPageNumreg}</div>
           </div>
+
+          <div> <button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlenext()}>next</button> </div>
+        </div>
+
       </div>
 
 
@@ -247,7 +273,7 @@ function Courseregpage() {
 
       {showChoice && (
 
-        <ElectiveSelect updateshowchoice = {updateshowchoice} courseid = {selectedCourseId} regCourses = {regCourses} updateReg = {updateReg} avalCourses = {avalCourses} updatecourseid = {updatecourseid} updateAval = {updateAval}/>
+        <ElectiveSelect updateshowchoice = {updateshowchoice} courseid = {selectedCourseId} regCourses = {regCourses} updateReg = {updateReg} avalCourses = {avalCourses} updatecourseid = {updatecourseid}/>
             
       )}
     </div>
