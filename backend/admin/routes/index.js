@@ -40,8 +40,8 @@ router.get('/test',authenticateToken,(req,res)=>
 })
   
 router.get('/verify',authenticateToken, async (req,res) => 
-  {
-  
+{
+
     var current_sem = "";
     var current_year = 0;
     var current_period = "";
@@ -140,6 +140,7 @@ router.post('/update-course', authenticateToken, async (req,res) => {
 router.get('/proposed-courses/:num',authenticateToken, async (req,res) => {
 
     var num_courses = 0;
+    var per_page = 3;
     try {
         const query = {
         name: 'get-num-of-courses',
@@ -152,9 +153,9 @@ router.get('/proposed-courses/:num',authenticateToken, async (req,res) => {
         console.log(err.stack);
     }
 
-    var num_pages = Math.ceil(num_courses / 10 );
+    var num_pages = Math.ceil(num_courses / per_page );
     if(req.params.num > num_pages) res.json({ message : -1 });
-    var offset = 10 *(req.params.num-1)
+    var offset = per_page *(req.params.num-1)
     try {
         const query = {
         name: 'get-current-page-courses',
@@ -170,70 +171,124 @@ router.get('/proposed-courses/:num',authenticateToken, async (req,res) => {
 })
 
 router.post('/course-selection/start',authenticateToken, async (req,res) => {
+
+    var course_selection = 0;
+    var course_reg = 0;
     try {
         const query = {
-        name: 'start-course-selection',
-        text: 'update timeline set course_selection = 1 ;'
+        name: 'check if we can start course selection',
+        text: 'select * from timeline ;'
         }
         const res1 = await client.query(query);
+        course_selection = res1.rows[0].course_selection ;
+        course_reg = res1.roes[0].course_reg ;
     }
     catch(err) {
         console.log(err.stack);
     }
+    if(course_reg == 0) {
+        // start the course-selection period
+        if(course_selection == 0) {
+            try {
+                const query = {
+                name: 'start course selection',
+                text: 'update timeline set course_selection = 1 ;'
+                }
+                const res1 = await client.query(query);
+            }
+            catch(err) {
+                console.log(err.stack);
+            }
+            res.json({message : 1});
+        }
+        // course-selection period is already active
+        else if (course_selection == 1)
+        {
+            res.json({message : -1}); 
+        }
+    }
+    // course-registrtaion is active, so new courses can not be added
+    else res.json({message : -2}); 
 })
 
 router.post('/course-selection/stop',authenticateToken, async (req,res) => {
   
-    var num_prop_courses = 0;
-    var num_selected_courses = 0;
+    var course_selection = 0;
+    var course_reg = 0;
     try {
-      const query = {
-        name: 'get-number-of-proposed-courses',
-        text: 'select count(*) as cnt from  proposed_courses;'
-      }
-      const res1 = await client.query(query);
-      num_prop_courses = res1.rows[0].cnt;
+        const query = {
+        name: 'check if we can start course selection',
+        text: 'select * from timeline ;'
+        }
+        const res1 = await client.query(query);
+        course_selection = res1.rows[0].course_selection ;
+        course_reg = res1.roes[0].course_reg ;
     }
     catch(err) {
-      console.log(err.stack);
+        console.log(err.stack);
     }
-  
-    try {
-      const query = {
-        name: 'get-number-of-selected-courses',
-        text: 'select count(*) as cnt from selected_courses ' +
-        'where teacher_selected = 1 and slot_selected = 1;'
-      }
-      const res1 = await client.query(query);
-      num_selected_courses = res1.rows[0].cnt;
-  
-      if(num_prop_courses == num_selected_courses) {
-  
-        res.json({
-          message : 1
-        });
-      }
-      else {
+    if(course_selection == 1) {
+        var num_prop_courses = 0;
+        var num_selected_courses = 0;
         try {
-          const query = {
-            name: 'get-pending-courses',
-            text: 'select course_id  from proposed_courses as A where ' +
-            '(select count(*) from selected_courses as B where' + 
-             'A.course_id = B.course_id and B.teacher_selected = 1 and slot_selected = 1 ) == 0 ;'
-          }
-          const res1 = await client.query(query);
-  
-          res.json({
-            courses : res1.rows
-          })
+        const query = {
+            name: 'get-number-of-proposed-courses',
+            text: 'select count(*) as cnt from  proposed_courses;'
+        }
+        const res1 = await client.query(query);
+        num_prop_courses = res1.rows[0].cnt;
         }
         catch(err) {
-          console.log(err.stack);
+        console.log(err.stack);
         }
-      }
-    }
-    catch(err) {
-      console.log(err.stack);
+    
+        try {
+        const query = {
+            name: 'get-number-of-selected-courses',
+            text: 'select count(*) as cnt from selected_courses ' +
+            'where teacher_selected = 1 and slot_selected = 1;'
+        }
+        const res1 = await client.query(query);
+        num_selected_courses = res1.rows[0].cnt;
+    
+        if(num_prop_courses == num_selected_courses) {
+            try {
+                const query = {
+                name: 'stop-course-selection',
+                text: 'update timeline set course_selection = 0 ;'
+                }
+                const res1 = await client.query(query);
+            }
+            catch(err) {
+                console.log(err.stack);
+            }
+            res.json({
+            message : 1
+            });
+        }
+        else {
+            try {
+            const query = {
+                name: 'get-pending-courses',
+                text: 'select course_id  from proposed_courses as A where ' +
+                '(select count(*) from selected_courses as B where' + 
+                'A.course_id = B.course_id and B.teacher_selected = 1 and slot_selected = 1 ) == 0 ;'
+            }
+            const res1 = await client.query(query);
+    
+            res.json({
+                message : -1,
+                courses : res1.rows
+            })
+            }
+            catch(err) {
+            console.log(err.stack);
+            }
+        }
+        }
+        catch(err) {
+        console.log(err.stack);
+        }
     }
   
   })
