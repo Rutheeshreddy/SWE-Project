@@ -73,7 +73,8 @@ function PropCourseList() {
 
   const handleCourseClick = (e)=> 
   {
-      setCoursemod(e.target.id);
+    setCoursemod(true)  
+    setCourseId(e.target.id);
   }
 
   return (
@@ -114,7 +115,8 @@ function PropCourseList() {
                 {coursemod && (
                         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start pt-10">
                             <div className="bg-white p-6 rounded-lg max-w-lg w-full mx-auto my-4 overflow-auto" style={{ maxHeight: "80vh", maxWidth: "80vw" }}>
-                                <SelCoursePopup courseid={coursemod}/>
+                                <SelCoursePopup course={Courses.filter((course)=>{return course.course_id==courseId})} 
+                                setCoursemod={setCourseId} courses={Courses} setCourses={setCourses}/>
                             </div>
                         </div>
                 )}
