@@ -8,17 +8,19 @@ import Filters from "./Filters.jsx"
 function Courseregpage() {
 
   const reg = [
-    { id: 1, course_id: 'CS101', coursename:'Intro to Computers', instructor: 'John Doe', credits: 3, semester: 'Spring 2024', slot: 'N', current : [150, 200], elective: 'Free'},
-    { id: 2, course_id: 'ENG201', coursename: 'English Grammar', instructor: 'Jane Smith', credits: 4, semester: 'Fall 2024', slot: 'Z', current: [31, 49], elective: 'Departmental'}
+    { id: 1, course_id: 'CS101', coursename:'Intro to Computers', department: "CSE", instructor: 'John Doe', credits: 3, semester: 'Spring 2024', slot: 'N', current : [150, 200], elective: 'Free'},
+    { id: 2, course_id: 'ENG201', coursename: 'English Grammar', department: "Languages", instructor: 'Jane Smith', credits: 4, semester: 'Fall 2024', slot: 'Z', current: [31, 49], elective: 'Departmental'}
   ]
   
   const aval = [
-    { id: 1, course_id: 'CS111', coursename: 'Comp Sci 4', instructor: 'John Villa', credits: 3, semester: 'Spring 2024', slot: 'J', current: [16, 100], elective: null},
-    { id: 2, course_id: 'ENG281', coursename: 'English Intro', instructor: 'Jane Smith', credits: 4, semester: 'Fall 2024', slot: 'K', current: [25, 50], elective: null}
+    { id: 1, course_id: 'CS111', coursename: 'Comp Sci 4', department: "CSE", instructor: 'John Villa', credits: 3, semester: 'Spring 2024', slot: 'J', current: [16, 100], elective: null},
+    { id: 2, course_id: 'ENG281', coursename: 'English Intro', department: "Languages", instructor: 'Jane Smith', credits: 4, semester: 'Fall 2024', slot: 'K', current: [25, 50], elective: null}
   ]
 
   const [regCourses, setRegCourses] = useState([]);
   const [avalCourses, setAvalCourses] = useState([]);
+  const [totPageNum, setTotPageNum] = useState(1)
+  const [pageNum, setPageNum] = useState(1)
 
   const updateReg = (updatedlist) => {
 
@@ -92,6 +94,20 @@ function Courseregpage() {
     setShowModal(true);
   };
 
+  const [filters, setFilters] = useState({
+    courseId: "",
+    courseName: "",
+    department: "",
+    instructor: "",
+    semester: "",
+    slot: "",
+    credits: ""
+  });
+
+  const updatefilters = (filters) =>{
+    setFilters(filters)
+  }
+
   const handleprev = ()=>{
 
 
@@ -120,12 +136,13 @@ function Courseregpage() {
 
             <div className="bg-blue-50 p-5">
 
-              <Filters/>
+              <Filters filters = {filters} updatefilters = {updatefilters}/>
 
-              <div className="grid grid-cols-8 justify-between font-semibold items-center mb-1">
+              <div className="grid grid-cols-9 justify-between font-semibold items-center mb-1">
 
                 <div>Course ID</div>
                 <div>Course Name</div>
+                <div>Department</div>
                 <div>Instructor</div>
                 <div>Semester</div>
                 <div>Slot</div>
@@ -137,10 +154,11 @@ function Courseregpage() {
 
               {avalCourses.map((course) => (
 
-                <div key={course.course_id} className="grid grid-cols-8 justify-between items-center mb-2">
+                <div key={course.course_id} className="grid grid-cols-9 justify-between items-center mb-2">
                   <div onClick={() => handleCourseIdClick(course.course_id)} className="cursor-pointer">{course.course_id}</div>
 
                   <div>{course.coursename}</div>
+                  <div>{course.department}</div>
                   <div>{course.instructor}</div>
                   <div>{course.semester}</div>
                   <div>{course.slot}</div>
@@ -156,10 +174,20 @@ function Courseregpage() {
 
         </div>
 
-          <div className="flex gap-2 justify-center font-semibold mb-6">
+          <div className="flex gap-3 justify-center font-semibold mb-6">
+
             <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handleprev()}>prev</button></div>
-            <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlepgno()}>1/6</button></div>
+
+            <div flex items-center justify-center>
+
+              <div flex flex-row><input className = "w-8 border-2" type="text" onChange={()=>handlepgno()} placeholder={pageNum}></input></div>
+              <div flex flex-row>of</div>
+              <div>{totPageNum}</div>
+
+            </div>
+
             <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlenext()}>next</button></div>
+
           </div>
 
         <div className="grid gap-4 mb-2">
@@ -170,10 +198,11 @@ function Courseregpage() {
 
             <div className="bg-blue-50 p-4">
 
-              <div className="grid grid-cols-9 justify-between items-center font-semibold mb-2">
+              <div className="grid grid-cols-10 justify-between items-center font-semibold mb-2">
 
                 <div>Course ID</div>
                 <div>Course Name</div>
+                <div>Department</div>
                 <div>Instructor</div>
                 <div>Semester</div>
                 <div>Slot</div>
@@ -184,11 +213,12 @@ function Courseregpage() {
 
               </div>
               {regCourses.map((course) => (
-                <div key={course.course_id} className="grid grid-cols-9 justify-between items-center mb-2">
+                <div key={course.course_id} className="grid grid-cols-10 justify-between items-center mb-2">
 
                   <div onClick={() => handleCourseIdClick(course.course_id)} className="cursor-pointer">{course.course_id}</div>
 
                   <div>{course.coursename}</div>
+                  <div>{course.department}</div>
                   <div>{course.instructor}</div>
                   <div>{course.semester}</div>
                   <div>{course.slot}</div>
