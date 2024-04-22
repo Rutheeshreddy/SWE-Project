@@ -11,7 +11,8 @@ const [prereq,setPrereq] = useState("")
 let token;
 
 const handleSubmit = (e)=>
-{
+{ 
+
   setAddCourse(false) 
   axios.post(import.meta.env.VITE_ADMIN+"/add-course", {
                 headers: {
@@ -21,7 +22,10 @@ const handleSubmit = (e)=>
                },{
                 course_id:courseId,  name:courseName,
                 credits:credits,  prereq: prereq
-               })
+               }).then((res)=>
+               {
+
+               }).catch((err)=>{})
 }
 const handleCancel = (e)=>
 {
@@ -51,6 +55,7 @@ return (
     {addCourse && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start pt-10">
                     <div className="bg-white p-6 rounded-lg max-w-lg w-full mx-auto my-4 overflow-auto" style={{ maxHeight: "80vh", maxWidth: "80vw" }}>
+                        
                          <form onSubmit={handleSubmit} className="feedback-form p-4 bg-white rounded-lg shadow-md">
                             <div>Course Code</div> <input
                             type="text"
