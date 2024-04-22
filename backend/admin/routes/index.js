@@ -65,11 +65,11 @@ router.get('/verify',authenticateToken, async (req,res) =>
         text: 'SELECT * FROM timeline ;'
       }
       const res1 = await client.query(query);
-      if(res1.rows[0].course_selection == 1) current_period = 'course_selection';
       if(res1.rows[0].course_reg == 1) current_period = 'course_reg';
-      if(res1.rows[0].course_feedback == 1) current_period = 'course_feedback';
-      if(res1.rows[0].course_grading == 1) current_period = 'course_grading';
-  
+      else if(res1.rows[0].course_feedback == 1) current_period = 'course_feedback';
+      else if(res1.rows[0].course_grading == 1) current_period = 'course_grading';
+      else current_period = 'course_selection';
+
     }
     catch(err) {
       console.log(err.stack);
@@ -142,7 +142,7 @@ router.post('/update-course', authenticateToken, async (req,res) => {
 router.get('/proposed-courses/:num',authenticateToken, async (req,res) => {
 
     var num_courses = 0;
-    var per_page = 3;
+    var per_page = 2;
     try {
         const query = {
         name: 'get-num-of-courses',
@@ -157,20 +157,23 @@ router.get('/proposed-courses/:num',authenticateToken, async (req,res) => {
 
     var num_pages = Math.ceil(num_courses / per_page );
     if(req.params.num > num_pages) res.json({ message : -1 });
-    var offset = per_page *(req.params.num-1)
+    var offset = per_page *(req.params.num-1);
+    console.log(offset);
     try {
         const query = {
         name: 'get-current-page-courses',
-        text: 'select * from proposed_courses order by course_id limit 10 offset $1 ;',
-        values : [offset]
+        text: 'select * from proposed_courses order by course_id limit $2 offset $1 ;',
+        values : [offset,per_page]
         }
         const res1 = await client.query(query);
-        res.json({ courses : res1.rows})
+        res.json({ courses : res1.rows , totPages : num_pages});
     }
     catch(err) {
         console.log(err.stack);
     }
 })
+
+// router.get('/course-selection')
 
 router.post('/course-selection/start',authenticateToken, async (req,res) => {
 

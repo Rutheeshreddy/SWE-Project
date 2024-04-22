@@ -1,24 +1,46 @@
 import React, { useEffect, useState, useRef } from "react";
 import SelCoursePopup from "./SelCoursePopup";
+import axios from "axios"
+
 
 function PropCourseList() {
 
-    const courseList = [
-        {  course_id: 'CS101', coursename:'Intro to Computers',  credits: 3, prerequisites:"CS21231,CS323423"},
-        {  course_id: 'ENG201', coursename: 'English Grammar',  credits: 4, prerequisites:"CS45454,CS55656"}
-      ]
+    // const courseList = [
+    //     {  course_id: 'CS101', name:'Intro to Computers',  credits: 3, prerequisites:"CS21231,CS323423"},
+    //     {  course_id: 'ENG201', coursename: 'English Grammar',  credits: 4, prerequisites:"CS45454,CS55656"}
+    //   ]
 
- 
+
 
   const [Courses, setCourses] = useState([]);
   const [totPageNum,setTotPageNum] = useState(0);
   const [pageNum,setPageNum] = useState(1);
+  const [temp,setTemp] = useState(1);
   const [coursemod,setCoursemod] = useState("");
+  const [token,setToken] = useState("")
 
   useEffect(() => {
+    console.log(pageNum);
+    var token = sessionStorage.getItem("token");
+    setToken(token);
+    axios.get(import.meta.env.VITE_ADMIN+"/proposed-courses/" + pageNum ,{
+        headers: {
+          'Content-Type': "application/json",
+          'Authorization': `Bearer ${token}`,
+      }
+       }).then( (res) => {
 
-    setCourses(courseList);
-  }, []);
+        console.log(res.data);
+        setTotPageNum(res.data.totPages);
+        setCourses(res.data.courses);
+
+       }).catch((err) => {
+        
+        console.log(err);
+        setErrMsg("There is some problem with the server or your internet, try again after some time")
+        })
+    
+  }, [pageNum]);
 
 
   const handleRemoveCourse = (courseId) => {
@@ -26,19 +48,27 @@ function PropCourseList() {
     setCourses(updatedRegCourses);
   };
 
-  const handleprev = ()=>{
+  const handleprev = ()=> {
 
+    if(pageNum > 1) setPageNum(pageNum-1);
 
   }
 
-  const handlepgno = ()=>{
-
-    
-  }
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      if(temp >= 1 && temp <= totPageNum)
+        setPageNum(temp); 
+      else {
+        setPageNum(totPageNum);
+        setTemp(totPageNum);
+      }
+    }
+  };
 
   const handlenext = ()=>{
 
-    
+    if(pageNum < totPageNum) setPageNum(pageNum+1);
+
   }
 
   const handleCourseClick = (e)=> 
@@ -72,7 +102,7 @@ function PropCourseList() {
                 <div key={course.course_id} className="grid grid-cols-4 justify-between items-center mb-2" onClick={handleCourseClick}>
                   <div id={course.course_id} className="cursor-pointer">{course.course_id}</div>
 
-                  <div>{course.coursename}</div>
+                  <div>{course.name}</div>
 
                   <div>{course.credits}</div>
 
@@ -92,7 +122,14 @@ function PropCourseList() {
 
         <div className="flex gap-2 justify-center font-semibold mb-6">
             <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handleprev()}>prev</button></div>
-            <div><input type="text" onChange={()=>handlepgno()} placeholder={pageNum}></input></div>
+            <div>
+              <input
+               type="text" 
+              value={temp}
+              onChange={(e) => setTemp(e.target.value)}
+              onKeyDown={handleKeyDown}
+                />
+            </div>
              <div>of</div>
              <div>{totPageNum}</div>
             <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlenext()}>next</button></div>
