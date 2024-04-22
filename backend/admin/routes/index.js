@@ -96,9 +96,11 @@ router.post('/add-course', authenticateToken, async (req,res) => {
           values : [req.body.course_id,req.body.name,req.body.credits,req.body.prereq]
         }
         const res1 = await client.query(query);
+        res.json({message : 1});
       }
       catch(err) {
         console.log(err.stack);
+        res.json({message : -1});
       }
   
 })
