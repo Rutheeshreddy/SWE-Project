@@ -6,7 +6,6 @@ function ElectiveSelect(props){
     const regCourses = props.regCourses
     const avalCourses = props.avalCourses
     const updateReg = props.updateReg
-    const updateAval = props.updateAval
     const updatecourseid = props.updatecourseid
     const updateshowchoice = props.updateshowchoice
 
@@ -29,12 +28,31 @@ function ElectiveSelect(props){
           const addedCourse = avalCourses.find(course => course.course_id === selectedCourseId);
           const updatedAvalCourses = avalCourses.filter(course => course.course_id !== selectedCourseId);
 
-          updateReg([...regCourses, addedCourse]);
-          updateAval(updatedAvalCourses);
-          updatecourseid(null)
-          updateshowchoice(false)
+          const newslot = addedCourse.slot;
+
+          const slotclashing = (regCourses.filter(course => course.slot === newslot)).length
+          const courseclashing = (regCourses.filter(course =>course.course_id === selectedCourseId)).length
+
+          if(!slotclashing){
+
+            updateReg([...regCourses, addedCourse]);
+            updatecourseid(null)
+            updateshowchoice(false)
     
-          addedCourse.elective = selectedOption
+            addedCourse.elective = selectedOption           
+          }
+
+          else if(courseclashing){
+
+            alert('You have already registered for this course!')
+          
+          }
+
+          else if(slotclashing){
+
+            alert('There is a slot clash!')
+          }
+
         }    
     }
     
