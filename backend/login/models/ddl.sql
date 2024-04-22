@@ -88,7 +88,9 @@ create table  selected_courses (
 	course_id varchar(10),
 	teacher_id varchar(30),
 	teacher_selected integer DEFAULT 0,
-	primary key (course_id,teacher_id)
+	slot_selected integer DEFAULT 0,
+	primary key (course_id,teacher_id),
+	foreign key (course_id) references proposed_courses on delete cascade
 );
 
 create table  timeline (
