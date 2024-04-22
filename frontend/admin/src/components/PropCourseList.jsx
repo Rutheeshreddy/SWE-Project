@@ -4,8 +4,8 @@ import SelCoursePopup from "./SelCoursePopup";
 function PropCourseList() {
 
     const courseList = [
-        {  course_id: 'CS101', coursename:'Intro to Computers',  credits: 3, prerequisites:"CS21231,CS323423"},
-        {  course_id: 'ENG201', coursename: 'English Grammar',  credits: 4, prerequisites:"CS45454,CS55656"}
+        {  course_id: 'CS101', coursename:'Intro to Computers',  credits: 3, prereq:"CS21231,CS323423"},
+        {  course_id: 'ENG201', coursename: 'English Grammar',  credits: 4, prereq:"CS45454,CS55656"}
       ]
 
  
@@ -13,8 +13,8 @@ function PropCourseList() {
   const [Courses, setCourses] = useState([]);
   const [totPageNum,setTotPageNum] = useState(0);
   const [pageNum,setPageNum] = useState(1);
-  const [coursemod,setCoursemod] = useState("");
-
+  const [coursemod,setCoursemod] = useState(false);
+  const [courseId,setCourseId] = useState("")
   useEffect(() => {
 
     setCourses(courseList);
@@ -43,7 +43,8 @@ function PropCourseList() {
 
   const handleCourseClick = (e)=> 
   {
-      setCoursemod(e.target.id);
+    setCoursemod(true)  
+    setCourseId(e.target.id);
   }
 
   return (
@@ -84,7 +85,8 @@ function PropCourseList() {
                 {coursemod && (
                         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start pt-10">
                             <div className="bg-white p-6 rounded-lg max-w-lg w-full mx-auto my-4 overflow-auto" style={{ maxHeight: "80vh", maxWidth: "80vw" }}>
-                                <SelCoursePopup courseid={coursemod}/>
+                                <SelCoursePopup course={Courses.filter((course)=>{return course.course_id==courseId})} 
+                                setCoursemod={setCourseId} courses={Courses} setCourses={setCourses}/>
                             </div>
                         </div>
                 )}
