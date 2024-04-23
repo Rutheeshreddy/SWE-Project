@@ -32,6 +32,7 @@ const handleSubmit = (e)=>
                   {
                     alert('Failure');
                   }
+                  window.location.reload();
                   setCourseId('');
                   setCourseName('');
                   setCredits('');
@@ -45,22 +46,84 @@ const handleSubmit = (e)=>
 const handleCancel = (e)=>
 {
    setAddCourse(false)
+   setCourseId('');
+   setCourseName('');
+   setCredits('');
+   setPrereq('');
+}
+
+const handleStart = ()=>
+{
+  axios.post(import.meta.env.VITE_ADMIN+"/course-selection/start",{},{
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${token}`,
+    }
+     }).then( (res) => {
+      if(res.data.message == 1)
+      {
+          alert('Course-selection started');
+      }
+      else if (res.data.message == -1)
+      {
+          alert('Course-selection period is already active');
+      }
+      else if (res.data.message == -2)
+      {
+        alert('Course-selection period can not be started because course-registration is active');
+      }
+     }).catch((err) => {
+      
+      console.log(err);
+      setErrMsg("There is some problem with the server or your internet, try again after some time")
+      })
+}
+
+const handleStop = ()=>
+{
+  axios.post(import.meta.env.VITE_ADMIN+"/course-selection/stop",{},{
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${token}`,
+    }
+     }).then( (res) => {
+      if(res.data.message == 1)
+      {
+          alert('Course-selection stopped');
+      }
+      else if (res.data.message == -1)
+      {
+          alert('Some courses are pending');
+          console.log(res.data.courses);
+      }
+      else if (res.data.message == -2)
+      {
+        alert('course-selection did not start');
+      }
+     }).catch((err) => {
+      
+      console.log(err);
+      setErrMsg("There is some problem with the server or your internet, try again after some time")
+      })
 }
 
 useEffect(()=>
 {
     var token = sessionStorage.getItem("token");
     setToken(token);
+    
 },[])
 
 return (
 <div className="grid grid-cols-1">
 
   <div className="flex flex-row">
-    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
+    onClick={handleStart} >
       Start
     </button>
-    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" 
+     onClick={handleStop} >
       Stop
     </button>
   </div>

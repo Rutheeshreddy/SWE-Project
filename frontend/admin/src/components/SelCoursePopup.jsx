@@ -19,7 +19,7 @@ const SelCoursePopup = (props) => {
     
         return (
         <div>
-        <form onSubmit={handleSubmit} className="feedback-form p-4 bg-white rounded-lg shadow-md">
+        <form  className="feedback-form p-4 bg-white rounded-lg shadow-md">
                                     <div>Course Code</div> <input
                                     type="text"
                                     autoComplete="off"
