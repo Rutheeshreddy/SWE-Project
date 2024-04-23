@@ -16,7 +16,7 @@ const SelCoursePopup = (props) => {
     
         return (
         <div>
-        <form onSubmit={handleSubmit} className="feedback-form p-4 bg-white rounded-lg shadow-md">
+        <form  className="feedback-form p-4 bg-white rounded-lg shadow-md">
                                     <div>Course Code</div> <input
                                     type="text"
                                     autoComplete="off"
@@ -47,7 +47,7 @@ const SelCoursePopup = (props) => {
                                 required
                                 className="w-full border rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
                                 />
-                                    <button type="button" onClick={handleCancel}>Cancel</button>
+                                    <button type="button" >Cancel</button>
                                     <button type="submit">Modify</button>
                                 </form>
         </div>
