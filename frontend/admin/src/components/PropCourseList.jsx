@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import SelCoursePopup from "./SelCoursePopup";
 import axios from "axios"
 
-function PropCourseList() {
+function PropCourseList(props) {
   const [Courses, setCourses] = useState([]);
   const [totPageNum,setTotPageNum] = useState(0);
   const [pageNum,setPageNum] = useState(1);
@@ -21,7 +21,8 @@ function PropCourseList() {
        }).then( (res) => {
 
         setTotPageNum(res.data.totPages);
-        setCourses(res.data.courses);
+        if(res.data.message == -1) setCourses([]);
+        if(res.data.message == 1) setCourses(res.data.courses);
 
        }).catch((err) => {
         
@@ -29,11 +30,7 @@ function PropCourseList() {
         setErrMsg("There is some problem with the server or your internet, try again after some time")
         })
     
-  }, [pageNum]);
-
-  const handleRemoveCourse = (courseId) => {
-    console.log(courseId);
-  };
+  }, [pageNum,props.reload]);
 
   const handleprev = ()=> {
     if(pageNum > 1) setPageNum(pageNum-1);
@@ -59,7 +56,31 @@ function PropCourseList() {
     setCoursemod(true)  
     setCourseId(e.target.id);
   }
-  
+
+  const handleRemoveCourse = (courseId) => {
+    console.log(courseId);
+    var answer = window.confirm('Are you sure');
+    if(answer)
+    {
+      var token = sessionStorage.getItem("token");
+      axios.post(import.meta.env.VITE_ADMIN+"/remove-course", {
+        course_id:courseId
+         },{
+          headers: {
+            'Content-Type': "application/json",
+            'Authorization': `Bearer ${token}`,
+        }
+         }).then( (res) => {
+            props.setReload((props.reload + 1) % 2) ;
+         }).catch((err) => {
+          
+          console.log(err);
+          setErrMsg("There is some problem with the server or your internet, try again after some time")
+          })
+
+    }
+  };
+
   return (
     <div className="flex justify-center items-center h-screen">
 
@@ -83,8 +104,8 @@ function PropCourseList() {
 
               {Courses.map((course) => (
 
-                <div key={course.course_id} className="grid grid-cols-4 justify-between items-center mb-2" onClick={handleCourseClick}>
-                  <div id={course.course_id} className="cursor-pointer">{course.course_id}</div>
+                <div key={course.course_id} className="grid grid-cols-4 justify-between items-center mb-2" >
+                  <div id={course.course_id} className="cursor-pointer" onClick={handleCourseClick} >{course.course_id}</div>
 
                   <div>{course.name}</div>
 
