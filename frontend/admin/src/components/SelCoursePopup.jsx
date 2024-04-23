@@ -17,6 +17,9 @@ const SelCoursePopup = (props) => {
     const [teacherList,setTeacherList] = useState([])
     const [teacher,setTeacher] = useState("")
     
+    const handleCancel = () => {
+        
+    }
         return (
         <div>
         <form  className="feedback-form p-4 bg-white rounded-lg shadow-md">
