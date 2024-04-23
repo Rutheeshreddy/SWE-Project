@@ -32,6 +32,7 @@ router.post('/remove-course', authenticateToken, async (req,res) => {
           values : [req.body.course_id]
         }
         const res1 = await client.query(query);
+        res.json({message : res1.rowCount});
       }
       catch(err) {
         console.log(err.stack);
@@ -74,7 +75,7 @@ router.get('/proposed-courses/:num',authenticateToken, async (req,res) => {
     }
 
     var num_pages = Math.ceil(num_courses / per_page );
-    if(req.params.num > num_pages) res.json({ message : -1 });
+    if(req.params.num > num_pages) res.json({ message : -1 , totPages : num_pages });
     var offset = per_page *(req.params.num-1);
     try {
         const query = {
@@ -83,7 +84,7 @@ router.get('/proposed-courses/:num',authenticateToken, async (req,res) => {
         values : [offset,per_page]
         }
         const res1 = await client.query(query);
-        res.json({ courses : res1.rows , totPages : num_pages});
+        res.json({ message : 1, courses : res1.rows , totPages : num_pages});
     }
     catch(err) {
         console.log(err.stack);

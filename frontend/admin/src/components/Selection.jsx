@@ -10,6 +10,7 @@ const [courseName,setCourseName] = useState("")
 const [credits,setCredits] = useState('')
 const [prereq,setPrereq] = useState("")
 const [token,setToken] = useState("")
+const [reload,setReload] = useState(1);
 
 const handleSubmit = (e)=>
 {
@@ -32,7 +33,7 @@ const handleSubmit = (e)=>
                   {
                     alert('Failure');
                   }
-                  window.location.reload();
+                  setReload( (reload+1) % 2);
                   setCourseId('');
                   setCourseName('');
                   setCredits('');
@@ -175,7 +176,7 @@ return (
     
   </div>
   <div className="mt-4 md:mt-0">
-    <PropCourseList />
+    <PropCourseList reload = {reload} setReload = {setReload} />
   </div>
 
 </div>
