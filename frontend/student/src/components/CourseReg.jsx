@@ -23,9 +23,11 @@ function Courseregpage() {
   const [avalCourses, setAvalCourses] = useState([]);
 
   const [totPageNumreg, setTotPageNumreg] = useState(1)
+  const [displayNumReg, setDisplayNumReg] = useState(1)
   const [pageNumreg, setPageNumreg] = useState(1)
 
   const [totPageNumaval, setTotPageNumaval] = useState(1)
+  const [displayNumAval, setDisplayNumAval] = useState(1)
   const [pageNumaval, setPageNumaval] = useState(1)
 
   const updateReg = (updatedlist) => {
