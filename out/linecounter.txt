@@ -1,0 +1,176 @@
+===============================================================================
+EXTENSION NAME : linecounter
+EXTENSION VERSION : 0.2.7
+-------------------------------------------------------------------------------
+count time : 2024-04-26 18:18:55
+count workspace : d:\Semester-6\SWE\Project
+total files : 148
+total code lines : 30396
+total comment lines : 249
+total blank lines : 1059
+
+    statistics
+   |      extension|     total code|  total comment|    total blank|percent|
+   -------------------------------------------------------------------------
+   |         .ipynb|            127|              0|              2|   0.42|
+   |               |            119|             51|             28|   0.39|
+   |            .js|            859|             21|            134|    2.8|
+   |            .md|             23|              8|             12|  0.076|
+   |          .http|             28|              4|              4|  0.092|
+   |           .css|             12|              0|              0|  0.039|
+   |           .jsx|           2277|            165|            542|    7.5|
+   |           .svg|              8|              0|              0|  0.026|
+   |          .json|          26664|              0|            320|     88|
+   |          .html|             52|              0|              0|   0.17|
+   |           .cjs|             84|              0|              0|   0.28|
+   |           .sql|            143|              0|             17|   0.47|
+   -------------------------------------------------------------------------
+backend\admin\.env, code is 7, comment is 0, blank is 1.
+backend\admin\.gitignore, code is 6, comment is 1, blank is 4.
+backend\admin\config\database.js, code is 19, comment is 0, blank is 2.
+backend\admin\index.js, code is 16, comment is 0, blank is 2.
+backend\admin\package-lock.json, code is 1202, comment is 0, blank is 1.
+backend\admin\package.json, code is 22, comment is 0, blank is 0.
+backend\admin\routes\Authenticate.js, code is 26, comment is 0, blank is 5.
+backend\admin\routes\courseSelection.js, code is 119, comment is 6, blank is 10.
+backend\admin\routes\getTeacherName.js, code is 19, comment is 0, blank is 4.
+backend\admin\routes\proposedCourses.js, code is 138, comment is 0, blank is 17.
+backend\admin\routes\verify.js, code is 48, comment is 0, blank is 11.
+backend\admin\test.http, code is 7, comment is 1, blank is 1.
+backend\data.ipynb, code is 127, comment is 0, blank is 2.
+backend\login\.env, code is 7, comment is 0, blank is 1.
+backend\login\.gitignore, code is 6, comment is 1, blank is 4.
+backend\login\config\database.js, code is 19, comment is 0, blank is 2.
+backend\login\index.js, code is 12, comment is 0, blank is 1.
+backend\login\models\data.sql, code is 45, comment is 0, blank is 6.
+backend\login\models\ddl.sql, code is 98, comment is 0, blank is 11.
+backend\login\models\schema.js, code is 10, comment is 0, blank is 6.
+backend\login\package-lock.json, code is 1208, comment is 0, blank is 1.
+backend\login\package.json, code is 23, comment is 0, blank is 0.
+backend\login\routes\index.js, code is 75, comment is 3, blank is 15.
+backend\login\test.http, code is 7, comment is 1, blank is 1.
+backend\student\.env, code is 7, comment is 0, blank is 1.
+backend\student\.gitignore, code is 6, comment is 1, blank is 4.
+backend\student\config\database.js, code is 19, comment is 0, blank is 2.
+backend\student\index.js, code is 14, comment is 0, blank is 1.
+backend\student\package-lock.json, code is 1202, comment is 0, blank is 1.
+backend\student\package.json, code is 22, comment is 0, blank is 0.
+backend\student\routes\feedback_grade.js, code is 35, comment is 0, blank is 16.
+backend\student\routes\index.js, code is 130, comment is 4, blank is 17.
+backend\student\test.http, code is 7, comment is 1, blank is 1.
+backend\teacher\.env, code is 7, comment is 0, blank is 1.
+backend\teacher\.gitignore, code is 6, comment is 1, blank is 4.
+backend\teacher\config\database.js, code is 19, comment is 0, blank is 2.
+backend\teacher\index.js, code is 12, comment is 0, blank is 1.
+backend\teacher\package-lock.json, code is 1202, comment is 0, blank is 1.
+backend\teacher\package.json, code is 22, comment is 0, blank is 0.
+backend\teacher\routes\index.js, code is 41, comment is 0, blank is 11.
+backend\teacher\test.http, code is 7, comment is 1, blank is 1.
+frontend\admin\.env, code is 3, comment is 3, blank is 0.
+frontend\admin\.eslintrc.cjs, code is 21, comment is 0, blank is 0.
+frontend\admin\.gitignore, code is 14, comment is 9, blank is 2.
+frontend\admin\index.html, code is 13, comment is 0, blank is 0.
+frontend\admin\package-lock.json, code is 5406, comment is 0, blank is 79.
+frontend\admin\package.json, code is 31, comment is 0, blank is 0.
+frontend\admin\postcss.config.js, code is 6, comment is 0, blank is 0.
+frontend\admin\public\vite.svg, code is 1, comment is 0, blank is 0.
+frontend\admin\README.md, code is 5, comment is 2, blank is 3.
+frontend\admin\src\assets\react.svg, code is 1, comment is 0, blank is 0.
+frontend\admin\src\components\AdminInfo.jsx, code is 19, comment is 0, blank is 2.
+frontend\admin\src\components\CourseInfo.jsx, code is 1, comment is 0, blank is 0.
+frontend\admin\src\components\CourseListReg.jsx, code is 105, comment is 0, blank is 35.
+frontend\admin\src\components\ErrorPage.jsx, code is 5, comment is 0, blank is 1.
+frontend\admin\src\components\Filters.jsx, code is 73, comment is 0, blank is 9.
+frontend\admin\src\components\Header.jsx, code is 18, comment is 0, blank is 3.
+frontend\admin\src\components\Homepage.jsx, code is 66, comment is 4, blank is 17.
+frontend\admin\src\components\PropCourseList.jsx, code is 119, comment is 0, blank is 30.
+frontend\admin\src\components\Redirect.jsx, code is 11, comment is 0, blank is 3.
+frontend\admin\src\components\SelCoursePopup.jsx, code is 103, comment is 1, blank is 17.
+frontend\admin\src\components\Selection.jsx, code is 171, comment is 0, blank is 15.
+frontend\admin\src\index.css, code is 3, comment is 0, blank is 0.
+frontend\admin\src\main.jsx, code is 13, comment is 0, blank is 3.
+frontend\admin\src\routes.jsx, code is 32, comment is 0, blank is 1.
+frontend\admin\tailwind.config.js, code is 8, comment is 1, blank is 1.
+frontend\admin\vite.config.js, code is 8, comment is 1, blank is 1.
+frontend\login\.env, code is 4, comment is 4, blank is 0.
+frontend\login\.eslintrc.cjs, code is 21, comment is 0, blank is 0.
+frontend\login\.gitignore, code is 14, comment is 9, blank is 2.
+frontend\login\index.html, code is 13, comment is 0, blank is 0.
+frontend\login\package-lock.json, code is 5418, comment is 0, blank is 79.
+frontend\login\package.json, code is 32, comment is 0, blank is 0.
+frontend\login\postcss.config.js, code is 6, comment is 0, blank is 0.
+frontend\login\public\vite.svg, code is 1, comment is 0, blank is 0.
+frontend\login\README.md, code is 5, comment is 2, blank is 3.
+frontend\login\src\assets\react.svg, code is 1, comment is 0, blank is 0.
+frontend\login\src\components\ErrorPage.jsx, code is 5, comment is 0, blank is 1.
+frontend\login\src\components\Login.jsx, code is 82, comment is 7, blank is 30.
+frontend\login\src\components\Success.jsx, code is 13, comment is 0, blank is 5.
+frontend\login\src\index.css, code is 3, comment is 0, blank is 0.
+frontend\login\src\main.jsx, code is 11, comment is 0, blank is 3.
+frontend\login\src\routes.jsx, code is 10, comment is 0, blank is 3.
+frontend\login\src\test.jsx, code is 1, comment is 0, blank is 0.
+frontend\login\tailwind.config.js, code is 8, comment is 1, blank is 1.
+frontend\login\vite.config.js, code is 8, comment is 1, blank is 2.
+frontend\student\.env, code is 2, comment is 2, blank is 0.
+frontend\student\.eslintrc.cjs, code is 21, comment is 0, blank is 0.
+frontend\student\.gitignore, code is 14, comment is 9, blank is 2.
+frontend\student\index.html, code is 13, comment is 0, blank is 0.
+frontend\student\package-lock.json, code is 5406, comment is 0, blank is 79.
+frontend\student\package.json, code is 31, comment is 0, blank is 0.
+frontend\student\postcss.config.js, code is 6, comment is 0, blank is 0.
+frontend\student\public\vite.svg, code is 1, comment is 0, blank is 0.
+frontend\student\README.md, code is 5, comment is 2, blank is 3.
+frontend\student\src\assets\react.svg, code is 1, comment is 0, blank is 0.
+frontend\student\src\components\CourseDetails.jsx, code is 12, comment is 0, blank is 3.
+frontend\student\src\components\CourseFeedbackPage.jsx, code is 60, comment is 7, blank is 7.
+frontend\student\src\components\CourseInfo.jsx, code is 29, comment is 3, blank is 16.
+frontend\student\src\components\CourseReg.jsx, code is 186, comment is 0, blank is 78.
+frontend\student\src\components\ElectiveSelect.jsx, code is 62, comment is 0, blank is 31.
+frontend\student\src\components\ErrorPage.jsx, code is 5, comment is 0, blank is 1.
+frontend\student\src\components\FeedbackForm.jsx, code is 146, comment is 8, blank is 13.
+frontend\student\src\components\Filters.jsx, code is 66, comment is 0, blank is 11.
+frontend\student\src\components\Header.jsx, code is 18, comment is 0, blank is 3.
+frontend\student\src\components\Homepage.jsx, code is 25, comment is 25, blank is 9.
+frontend\student\src\components\OpinionButtons.jsx, code is 21, comment is 0, blank is 2.
+frontend\student\src\components\Rating.jsx, code is 32, comment is 0, blank is 4.
+frontend\student\src\components\Redirect.jsx, code is 11, comment is 0, blank is 3.
+frontend\student\src\components\RegisteredCourses.jsx, code is 56, comment is 8, blank is 8.
+frontend\student\src\components\SemRegisteredCourses.jsx, code is 44, comment is 4, blank is 6.
+frontend\student\src\components\StudentInfo.jsx, code is 27, comment is 0, blank is 2.
+frontend\student\src\components\SubmissionButtons.jsx, code is 37, comment is 9, blank is 7.
+frontend\student\src\index.css, code is 3, comment is 0, blank is 0.
+frontend\student\src\main.jsx, code is 13, comment is 1, blank is 5.
+frontend\student\src\routes.jsx, code is 33, comment is 0, blank is 2.
+frontend\student\tailwind.config.js, code is 8, comment is 1, blank is 1.
+frontend\student\vite.config.js, code is 8, comment is 1, blank is 1.
+frontend\teacher\.env, code is 2, comment is 2, blank is 0.
+frontend\teacher\.eslintrc.cjs, code is 21, comment is 0, blank is 0.
+frontend\teacher\.gitignore, code is 14, comment is 9, blank is 2.
+frontend\teacher\index.html, code is 13, comment is 0, blank is 0.
+frontend\teacher\package-lock.json, code is 5406, comment is 0, blank is 79.
+frontend\teacher\package.json, code is 31, comment is 0, blank is 0.
+frontend\teacher\postcss.config.js, code is 6, comment is 0, blank is 0.
+frontend\teacher\public\vite.svg, code is 1, comment is 0, blank is 0.
+frontend\teacher\README.md, code is 5, comment is 2, blank is 3.
+frontend\teacher\src\assets\react.svg, code is 1, comment is 0, blank is 0.
+frontend\teacher\src\components\CourseDetailsPage.jsx, code is 57, comment is 7, blank is 8.
+frontend\teacher\src\components\CourseSelectionPage.jsx, code is 152, comment is 28, blank is 82.
+frontend\teacher\src\components\ErrorPage.jsx, code is 5, comment is 0, blank is 1.
+frontend\teacher\src\components\Header.jsx, code is 18, comment is 0, blank is 3.
+frontend\teacher\src\components\Homepage.jsx, code is 26, comment is 23, blank is 11.
+frontend\teacher\src\components\InstructorInfo.jsx, code is 19, comment is 0, blank is 2.
+frontend\teacher\src\components\OngoingTimelines.jsx, code is 18, comment is 8, blank is 4.
+frontend\teacher\src\components\PastCourseDetailsPage.jsx, code is 14, comment is 7, blank is 7.
+frontend\teacher\src\components\Redirect.jsx, code is 11, comment is 0, blank is 3.
+frontend\teacher\src\components\SelectionFilters.jsx, code is 54, comment is 0, blank is 9.
+frontend\teacher\src\components\SubmissionButtons.jsx, code is 27, comment is 8, blank is 6.
+frontend\teacher\src\components\TaughtCoursesPage.jsx, code is 44, comment is 7, blank is 6.
+frontend\teacher\src\components\TeachingCourses.jsx, code is 31, comment is 0, blank is 3.
+frontend\teacher\src\components\ViewFeedback.jsx, code is 8, comment is 0, blank is 3.
+frontend\teacher\src\index.css, code is 3, comment is 0, blank is 0.
+frontend\teacher\src\main.jsx, code is 13, comment is 0, blank is 3.
+frontend\teacher\src\routes.jsx, code is 39, comment is 0, blank is 2.
+frontend\teacher\tailwind.config.js, code is 8, comment is 1, blank is 1.
+frontend\teacher\vite.config.js, code is 8, comment is 1, blank is 1.
+README.md, code is 3, comment is 0, blank is 0.
+===============================================================================

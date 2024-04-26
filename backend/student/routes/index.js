@@ -43,6 +43,7 @@ router.get('/test',authenticateToken,(req,res)=>
 router.get('/verify',authenticateToken,async (req,res) => 
 {
   let res1,res2;
+  // getting student details
   try {
     const query = {
       name: 'get-student-name',
@@ -54,24 +55,42 @@ router.get('/verify',authenticateToken,async (req,res) =>
   }
   catch(err) {
     console.log(err.stack);
-    res.json({
+    res.json({   // check if there is a error fetching
       tokenStatus:1,
       status:0
     })
   }
-  
+  // getting the present year and semester
   try {
     const query1 = {
       name: 'get-present-year',
       text: ' select * from current_sem  ',
       values: []
     }
-    res2 = await client.query(query1);
+    res2 = await client.query(query1);   
+  }
+  catch(err) {
+    console.log(err.stack);
+    res.json({
+      tokenStatus:1,
+      status:0
+    })
+  }
+  // getting the courses he registered for in this semester
+  try {
+    const query1 = {
+      name: 'get-registered-courses',
+      text: ' select * from student_courses_present  '+
+            "WHERE student_id = $1",
+      values: [req.user.userName]
+    }
+    const res = await client.query(query1);
     res.json({
       tokenStatus:1,
       status:1,
       details:res1.rows[0],
-      sem:res2.rows[0]
+      sem:res2.rows[0],
+      courses : res.rows
     })
    
   }
@@ -82,7 +101,6 @@ router.get('/verify',authenticateToken,async (req,res) =>
       status:0
     })
   }
-
 })
 
 router.post('available-courses/:pagenum',authenticateToken,async (req,res)=>
