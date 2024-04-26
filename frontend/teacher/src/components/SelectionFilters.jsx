@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 
-function Filters(props){
+function SelectionFilters(props){
 
     
     const handleChange = (e, field) => {
@@ -60,4 +60,4 @@ function Filters(props){
     )
 }
 
-export default Filters
+export default SelectionFilters
