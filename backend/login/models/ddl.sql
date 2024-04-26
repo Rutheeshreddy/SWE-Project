@@ -34,7 +34,7 @@ create table  past_courses (
 
 create table  present_courses (
 	course_id varchar(10),
-	course_name varchar(30)
+	course_name varchar(30),
 	semester varchar(10),
 	year integer,
 	name varchar(30) NOT NULL,
@@ -86,14 +86,20 @@ create table  proposed_courses(
 	primary key (course_id)
 );
 
-create table  selected_courses (
+create table  selected_teacher (
 	course_id varchar(10),
 	teacher_id varchar(30),
-	slot char,
 	teacher_selected integer DEFAULT 0,
-	slot_selected integer DEFAULT 0,
 	primary key (course_id,teacher_id),
-	foreign key (course_id) references proposed_courses on delete cascade
+	foreign key (course_id) references proposed_courses on delete cascade on UPDATE CASCADE
+);
+
+create table  selected_slot (
+	course_id varchar(10),
+	slot char,
+	slot_selected integer DEFAULT 0,
+	primary key (course_id),
+	foreign key (course_id) references proposed_courses on delete cascade on UPDATE CASCADE
 );
 
 create table  timeline (

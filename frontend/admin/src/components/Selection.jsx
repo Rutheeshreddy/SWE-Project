@@ -16,7 +16,8 @@ const handleSubmit = (e)=>
 {
   e.preventDefault();
   setAddCourse(false) ;
-  axios.post(import.meta.env.VITE_ADMIN+"/add-course", {
+  var token = sessionStorage.getItem('token');
+  axios.post(import.meta.env.VITE_ADMIN+"add-course", {
               course_id:courseId,  name:courseName,
               credits:credits,  prereq: prereq
                },{
@@ -55,7 +56,8 @@ const handleCancel = (e)=>
 
 const handleStart = ()=>
 {
-  axios.post(import.meta.env.VITE_ADMIN+"/course-selection/start",{},{
+  var token = sessionStorage.getItem('token');
+  axios.post(import.meta.env.VITE_ADMIN+"course-selection/start",{},{
       headers: {
         'Content-Type': "application/json",
         'Authorization': `Bearer ${token}`,
@@ -82,7 +84,8 @@ const handleStart = ()=>
 
 const handleStop = ()=>
 {
-  axios.post(import.meta.env.VITE_ADMIN+"/course-selection/stop",{},{
+  var token = sessionStorage.getItem('token');
+  axios.post(import.meta.env.VITE_ADMIN+"course-selection/stop",{},{
       headers: {
         'Content-Type': "application/json",
         'Authorization': `Bearer ${token}`,

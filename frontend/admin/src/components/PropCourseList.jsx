@@ -13,7 +13,7 @@ function PropCourseList(props) {
   useEffect(() => {
     setTemp(pageNum);
     var token = sessionStorage.getItem("token");
-    axios.get(import.meta.env.VITE_ADMIN+"/proposed-courses/" + pageNum ,{
+    axios.get(import.meta.env.VITE_ADMIN+"proposed-courses/" + pageNum ,{
         headers: {
           'Content-Type': "application/json",
           'Authorization': `Bearer ${token}`,
@@ -58,12 +58,11 @@ function PropCourseList(props) {
 }
 
   const handleRemoveCourse = (courseId) => {
-    console.log(courseId);
     var answer = window.confirm('Are you sure');
     if(answer)
     {
       var token = sessionStorage.getItem("token");
-      axios.post(import.meta.env.VITE_ADMIN+"/remove-course", {
+      axios.post(import.meta.env.VITE_ADMIN+"remove-course", {
         course_id:courseId
          },{
           headers: {

@@ -2,6 +2,7 @@ import AdminInfo from "./AdminInfo"
 import { useEffect,useState } from "react"
 import axios from "axios"
 import {Link} from "react-router-dom"
+import CourseListReg from "./CourseListReg"
 
 const Homepage = () => 
 {   let studinfo;
@@ -72,8 +73,9 @@ const Homepage = () =>
                                  Grading Period
                             </button></Link>
                    </div>
-                    
-
+                    <div>
+                        <CourseListReg />
+                    </div>
               </div>
        );
 
