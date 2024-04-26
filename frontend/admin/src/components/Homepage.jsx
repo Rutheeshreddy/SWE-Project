@@ -6,7 +6,9 @@ import {Link} from "react-router-dom"
 const Homepage = () => 
 {   let studinfo;
     let regcourses; let token; 
-    const [details,setDetails] = useState({}) 
+    const [details,setDetails] = useState({}); 
+    const [period,setPeriod] = useState("");
+
     useEffect(()=>
     {    
          token = sessionStorage.getItem("token") 
@@ -24,6 +26,7 @@ const Homepage = () =>
             console.log("Ok, verify is working")
             //admin info
             setDetails({name:res.data.name,sem:res.data.sem,year:res.data.year})
+            setPeriod(res.data.current_period)
             }).catch((err) => {
             
             console.log(err);
@@ -37,8 +40,13 @@ const Homepage = () =>
     { 
        if(e.target.id=="CS") 
        { // write condition for checking period
-        e.preventDefault()
+          if(period != "course_selection") {e.preventDefault()}
        }
+       else if(e.target.id=="CS") 
+       { // write condition for checking period
+          if(period != "course_selection") {e.preventDefault()}
+       }
+        console.log(period);
     }
 
 
@@ -49,10 +57,10 @@ const Homepage = () =>
                      </div>
                          
                     <div className="flex flex-row items-center">
-                    <Link to="/selection" onClick={handleClick} > <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2" id="CS">
+                    <Link to="/selection"  > <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2" id="CS">
                             Course Selection Period
                         </button> </Link>
-                    <Link to=""> <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-2">
+                    <Link to="/registration"> <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-2" id="CR">
                                 Course Registration Period
                             </button></Link> 
                     </div>
