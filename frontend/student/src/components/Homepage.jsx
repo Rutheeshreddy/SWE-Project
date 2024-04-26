@@ -7,7 +7,8 @@ import axios from "axios"
 
 const Homepage = () => 
 {   //let studinfo;
-    let regcourses; let token;
+    let token;
+    const [regcourses, setregcourses] = useState([])
     const [details, setdetails] = useState([])
 
     const calcsem = (sem, year) =>{
@@ -42,7 +43,14 @@ const Homepage = () =>
               const detailstemp = {name: res.data.details.name, id: res.data.details.id, department: res.data.details.department, batch : res.data.details.joining_year, semester: calcsem(res.data.sem, res.data.details.joining_year)}
               setdetails(detailstemp)
 
-              console.log(res.data.courses)
+              const regcoursestemp = res.data.courses.map(course => ({
+
+                     courseName : course.name,
+                     courseCode : course.course_id,
+                     electiveType : course.elective
+              }))
+
+              setregcourses(regcoursestemp);
             }
             
             }).catch((err) => {
@@ -62,7 +70,7 @@ const Homepage = () =>
                      </div>
                      <SubmissionButtons />
                      <div className="bg-white p-6 rounded-lg shadow-md">
-                     <SemRegisteredCourses courses={props_arr} />
+                     <SemRegisteredCourses courses={regcourses} />
                      </div>
                </div>
        );
