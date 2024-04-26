@@ -1,7 +1,7 @@
 insert into login (username,password,role) values
-    ('raja','123','admin')
-	('raja1','123','student')
-	('raja2','123','teacher')
+    ('raja','123','admin'),
+	('raja1','123','student'),
+	('raja2','123','teacher'),
 	('cs21btech234@iith.ac.in','12345','student') ,
     ('ee21btech123@iith.ac.in','12345','student'),
     ('raja123','123','student'),
