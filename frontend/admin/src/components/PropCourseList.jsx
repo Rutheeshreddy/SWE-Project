@@ -53,7 +53,7 @@ function PropCourseList(props) {
 
   const handleCourseClick = (e)=> 
   {
-    setCoursemod
+    setCoursemod(true);
 }
 
   const handleRemoveCourse = (courseId) => {

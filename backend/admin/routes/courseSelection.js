@@ -110,7 +110,7 @@ router.post('/course-selection/stop',authenticateToken, async (req,res) => {
                 name: 'get-pending-courses',
                 text: ' select course_id  from proposed_courses as A where ' +
                 ' (select count(*) from selected_courses as B where ' + 
-                ' A.course_id = B.course_id and B.teacher_selected = 1 and slot_selected = 1 ) = 0 ; '
+                ' A.course_id = B.course_id and B.teacher_selected = 1 and B.slot_selected = 1 ) = 0 ; '
             }
             const res3 = await client.query(query3);
             res.json({

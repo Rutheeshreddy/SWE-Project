@@ -66,8 +66,12 @@ router.get('/added-course-details/:id',authenticateToken, async(req,res) => {
       const res1 = await client.query(query);
       var selected_teacher = {id : "", name : ""};
       var teachers = []
+      var slot = '';
       for (var i=0;i<res1.rowCount;i++)
       {
+        if(res1.rows[i].slot_selected == 1) {
+          slot = res1.rows[i].slot;
+        }
           if(res1.rows[i].teacher_selected == 1) 
           {
               selected_teacher.id = res1.rows[i].teacher_id;
@@ -80,8 +84,14 @@ router.get('/added-course-details/:id',authenticateToken, async(req,res) => {
                 name : getTeacherName(res1.rows[i].teacher_id)
               });
           }
+
       }
-      res.json({ period : 1, selected_teacher : selected_teacher, teachers: teachers});
+      res.json({ 
+        period : 1, 
+        selected_teacher : selected_teacher, 
+        teachers: teachers , 
+        slot : slot
+      });
     }
     catch(err) {
       console.log(err.stack);

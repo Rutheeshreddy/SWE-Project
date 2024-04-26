@@ -87,6 +87,7 @@ create table  proposed_courses(
 create table  selected_courses (
 	course_id varchar(10),
 	teacher_id varchar(30),
+	slot char,
 	teacher_selected integer DEFAULT 0,
 	slot_selected integer DEFAULT 0,
 	primary key (course_id,teacher_id),
