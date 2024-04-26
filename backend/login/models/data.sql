@@ -5,8 +5,8 @@ insert into login (username,password,role) values
 	('cs21btech234@iith.ac.in','12345','student') ,
     ('ee21btech123@iith.ac.in','12345','student'),
     ('raja123','123','student'),
-    ('ram.cs@iith.ac.in','12345','instructor'),
-    ('vimal.ee@iith.ac.in','12345','instructor'),
+    ('ram.cs@iith.ac.in','12345','teacher'),
+    ('vimal.ee@iith.ac.in','12345','teacher'),
     ('admin2@iith.ac.in','admin','admin'),
     ('admin3@iith.ac.in','admin','admin') ;
 
