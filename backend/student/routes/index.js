@@ -47,9 +47,24 @@ router.get('/verify',authenticateToken,(req,res) =>
     })
 })
 
-router.get('available-courses/:pagenum',authenticateToken,(req,res)=>
+router.post('available-courses/:pagenum',authenticateToken,async (req,res)=>
 {
-  
+  const filters = req.body.filters
+  try {
+    const query = {
+    name: 'send available courses',
+    text: 'select * from present_courses '+
+          'WHERE instructor_name ~ \'.*$1.*\' AND'+
+          'course_name ~ \'$2\'',
+    values: [filters.instructor,filters.]
+    }
+    const res1 = await client.query(query);
+    course_selection = res1.rows[0].course_selection ;
+    course_reg = res1.roes[0].course_reg ;
+   }
+  catch(err) {
+      console.log(err.stack);
+  }
 })
 
 
