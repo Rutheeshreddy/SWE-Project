@@ -42,6 +42,7 @@ const Homepage = () =>
               const detailstemp = {name: res.data.details.name, id: res.data.details.id, department: res.data.details.department, batch : res.data.details.joining_year, semester: calcsem(res.data.sem, res.data.details.joining_year)}
               setdetails(detailstemp)
 
+              console.log(res.data.courses)
             }
             
             }).catch((err) => {
@@ -49,7 +50,7 @@ const Homepage = () =>
             console.log(err);
             console.log("There is some problem with the server or your internet, try again after some time")
             })
-           },[])
+       },[])
 
        const r1 = {"courseName":"Deep Learning", "courseCode":"AI1100", "electiveType":"Departmental"}
        const r2 = {"courseName":"Machine Learning", "courseCode":"AI1000", "electiveType":"Additional"}
