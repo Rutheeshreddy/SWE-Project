@@ -7,7 +7,9 @@ const router = express.Router();
 
 router.post('/add-course', authenticateToken, async (req,res) => {
 
+    
     try {
+
         const query = {
           name: 'admin-adds-course',
           text: 'insert into proposed_courses(course_id,name,credits,prerequisites) '+
@@ -15,6 +17,15 @@ router.post('/add-course', authenticateToken, async (req,res) => {
           values : [req.body.course_id,req.body.name,req.body.credits,req.body.prereq]
         }
         const res1 = await client.query(query);
+
+        const query2 = {
+          name: 'add-empty-slot',
+          text: 'insert into selected_slot(course_id,slot,slot_selected) '+
+          ' values ($1,$2,$3) ;',
+          values : [req.body.course_id,'',0]
+        }
+        const res2 = await client.query(query2);
+
         return res.json({message : 1});
       }
       catch(err) {
@@ -60,33 +71,35 @@ router.get('/added-course-details/:id',authenticateToken, async(req,res) => {
     try {
       const query = {
         name: 'get-teachers',
-        text: 'select * from selected_courses where course_id = $1 ;',
+        text: 'select * from selected_teacher where course_id = $1 ;',
         values: [req.params.id]        
       }
       const res1 = await client.query(query);
       var selected_teacher = {id : "", name : ""};
       var teachers = []
-      var slot = '';
       for (var i=0;i<res1.rowCount;i++)
       {
-        if(res1.rows[i].slot_selected == 1) {
-          slot = res1.rows[i].slot;
-        }
           if(res1.rows[i].teacher_selected == 1) 
           {
               selected_teacher.id = res1.rows[i].teacher_id;
               selected_teacher.name = await getTeacherName(res1.rows[i].teacher_id);
           }
-          else 
-          {
-              teachers.push({
-                id : res1.rows[i].teacher_id,
-                name : await getTeacherName(res1.rows[i].teacher_id)
-              });
-          }
+
+          teachers.push({
+            id : res1.rows[i].teacher_id,
+            name : await getTeacherName(res1.rows[i].teacher_id)
+          });
 
       }
-      console.log(selected_teacher);
+      const query2 = {
+        name: 'get-slot',
+        text: 'select * from selected_slot where course_id = $1 ;',
+        values: [req.params.id]        
+      }
+      const res2 = await client.query(query2);
+      var slot = '';
+      if(res2.rowCount > 0 && res2.rows[0].slot_selected == 1) slot = res2.rows[0].slot ;
+
       return res.json({ 
         period : 1, 
         selected_teacher : selected_teacher, 
@@ -104,14 +117,43 @@ router.get('/added-course-details/:id',authenticateToken, async(req,res) => {
 router.post('/update-course', authenticateToken, async (req,res) => {
 
   try {
+    
       const query = {
         name: 'admin-updates-course',
-        text: 'update proposed_courses set course_id = $2, name = $2, credits = $3,' +
-              ' prerequisites = $5 where course_id = $1 ;',
+        text: 'update proposed_courses set course_id = $2, name = $3, credits = $4,' +
+              ' prerequisites = $5 where course_id = $1 ; ',
         values : [req.body.course_id_prev,req.body.course_id,req.body.name,
                   req.body.credits,req.body.prereq ]
       }
       const res1 = await client.query(query);
+
+
+      const query2 = {
+        name: 'set-teacher_selected=0',
+        text: 'update selected_teacher set teacher_selected = 0 where course_id = $1 ; ',
+        values : [ req.body.course_id  ]
+      }
+      const res2 = await client.query(query2);
+
+      const query3 = {
+        name: 'admin-updates-selected-teacher',
+        text: 'update selected_teacher set teacher_selected = 1 where course_id = $1 and  '+ 
+            ' teacher_id = $2 ',
+        values : [ req.body.course_id, req.body.teacher_id  ]
+      }
+      const res3 = await client.query(query3);
+
+      var slot_selected = 0;
+      if(req.body.slot == '') slot_selected = 0;
+      else slot_selected = 1;
+
+      const query4 = {
+        name: 'admin-updates-course-slot',
+        text: 'update selected_slot set slot = $2 , slot_selected = $3 where course_id = $1 ',
+        values : [ req.body.course_id, req.body.slot,slot_selected  ]
+      }
+      const res4 = await client.query(query4);
+
     }
     catch(err) {
       console.log(err.stack);

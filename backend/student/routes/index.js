@@ -42,17 +42,17 @@ router.get('/test',authenticateToken,(req,res)=>
 
 router.get('/verify',authenticateToken,async (req,res) => 
 {
-  let res1,res2;
+  let res1,res2, res3;
   // getting student details
   try {
-    // console.log(req.user)
+    console.log(req.user)
     const query = {
       name: 'get-student-name',
       text: ' select * from student where id = $1  ',
       values: [req.user.userName]
     }
     res1 = await client.query(query);
-    // console.log(res1)
+    console.log(res1)
    
   }
   catch(err) {
@@ -86,13 +86,15 @@ router.get('/verify',authenticateToken,async (req,res) =>
             "WHERE student_id = $1",
       values: [req.user.userName]
     }
-    const res = await client.query(query1);
+
+    res3 = await client.query(query1);
+    console.log(res3)
     res.json({
       tokenStatus:1,
       status:1,
       details:res1.rows[0],
       sem:res2.rows[0],
-      courses : res.rows
+      courses : res3.rows
     })
    
   }

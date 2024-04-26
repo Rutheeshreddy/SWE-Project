@@ -14,7 +14,7 @@ router.post('/course-selection/start',authenticateToken, async (req,res) => {
         }
         const res1 = await client.query(query);
         course_selection = res1.rows[0].course_selection ;
-        course_reg = res1.roes[0].course_reg ;
+        course_reg = res1.rows[0].course_reg ;
     }
     catch(err) {
         console.log(err.stack);
@@ -63,66 +63,48 @@ router.post('/course-selection/stop',authenticateToken, async (req,res) => {
     if(course_selection == 1)
     {
         var num_prop_courses = 0;
-        var num_selected_courses = 0;
+        var num_selected_teacher = 0;
+        var num_selected_slot = 0;
 
         try {
         const query = {
             name: 'get-number-of-proposed-courses',
-            text: 'select count(*) as cnt from  proposed_courses;'
+            text: 'select count(*) as cnt from  proposed_courses ;'
         }
         const res1 = await client.query(query);
         num_prop_courses = res1.rows[0].cnt;
+        
+        const query2 = {
+            name: 'get-number-of-selected-teachers',
+            text: 'select count(*) as cnt from  selected_teacher where teacher_selected = 1 ;'
         }
-        catch(err) {
-        console.log(err.stack);
+        const res2 = await client.query(query2);
+        num_selected_teacher = res2.rows[0].cnt;
+        
+        const query3 = {
+            name: 'get-number-of-selected-slots',
+            text: 'select count(*) as cnt from  selected_slot where slot_selected = 1 ;'
         }
-    
-        try {
-        const query = {
-            name: 'get-number-of-selected-courses',
-            text: 'select count(*) as cnt from selected_courses ' +
-            ' where teacher_selected = 1 and slot_selected = 1;'
-        }
-        const res1 = await client.query(query);
-        num_selected_courses = res1.rows[0].cnt;
-        // course-selection period is stopped
-        if(num_prop_courses == num_selected_courses) 
+        const res3 = await client.query(query3);
+        num_selected_slot = res3.rows[0].cnt;
+
+        if(num_prop_courses == num_selected_slot && 
+            num_prop_courses == num_selected_teacher) 
         {
-            try {
-                const query2 = {
+                
+            const query4 = {
                 name: 'stop-course-selection',
                 text: 'update timeline set course_selection = 0 ;'
-                }
-                const res2 = await client.query(query2);
             }
-            catch(err) {
-                console.log(err.stack);
-            }
-            return res.json({
-            message : 1
-            });
+            const res4 = await client.query(query4);
+            
+            return res.json({message : 1});
+
         }
-        // course-selection period can't be stopped due to pending courses
-        else 
-        {
-            try {
-            const query3 = {
-                name: 'get-pending-courses',
-                text: ' select course_id  from proposed_courses as A where ' +
-                ' (select count(*) from selected_courses as B where ' + 
-                ' A.course_id = B.course_id and B.teacher_selected = 1 and B.slot_selected = 1 ) = 0 ; '
-            }
-            const res3 = await client.query(query3);
-            return res.json({
-                message : -1,
-                courses : res3.rows
-            })
-            }
-            catch(err) {
-            console.log(err.stack);
-            }
-        }
-        }
+
+        else return res.json({message : -1});
+        
+    }
         catch(err) {
         console.log(err.stack);
         }

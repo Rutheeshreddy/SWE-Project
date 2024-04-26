@@ -8,7 +8,7 @@ const SelCoursePopup = (props) => {
     {
     // fetch if it after the start of selection period
     var token = sessionStorage.getItem('token');
-    axios.get(import.meta.env.VITE_ADMIN+"/added-course-details/"+props.course.course_id,
+    axios.get(import.meta.env.VITE_ADMIN+"added-course-details/"+props.course.course_id,
     {
             headers: {
               'Content-Type': "application/json",
@@ -38,7 +38,7 @@ const SelCoursePopup = (props) => {
     const [prereq,setPrereq] = useState(props.course.prerequisites)
     const [slot,setSlot] = useState("")
     const [teacherList,setTeacherList] = useState([])
-    const [teacher,setTeacher] = useState("")
+    const [teacher,setTeacher] = useState({})
 
     const handleTeacherClick = (e) => 
     {
@@ -55,11 +55,34 @@ const SelCoursePopup = (props) => {
         props.setCoursemod(false)
     }
     const handleSubmit = (e) => {
-          e.preventDefault()
+        e.preventDefault()
           
+        var token = sessionStorage.getItem('token');
+        axios.post(import.meta.env.VITE_ADMIN+"update-course", {
+            course_id_prev : props.course.course_id,
+            course_id : courseId,
+            name : courseName,
+            credits : credits,
+            prereq : prereq,
+            teacher_id : teacher.id,
+            slot : slot
+          },    {
+            headers: {
+              'Content-Type': "application/json",
+              'Authorization': `Bearer ${token}`,
+          }
+        }).then((res)=>
+        {
+            console.log(res.data);
+
+        }).catch((err) => {
           
-          props.setCoursemod(false)
-          props.setReload(props.reload+1)
+            console.log(err);
+            setErrMsg("There is some problem with the server or your internet, try again after some time")
+        })
+    
+        props.setCoursemod(false)
+        props.setReload((props.reload+1) % 2)
     }
 
         return (
@@ -94,7 +117,7 @@ const SelCoursePopup = (props) => {
             </div>
         {teacherList.map((teacher) => (
 
-            <div key={teacher.id} className="grid grid-cols-4 justify-between items-center mb-2" >
+            <div key={teacher.id} className="grid grid-cols-3 justify-between items-center mb-2" >
             <div id={teacher.id} className="cursor-pointer">{teacher.id}</div>
 
             <div>{teacher.name}</div>

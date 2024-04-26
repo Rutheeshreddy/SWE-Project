@@ -126,7 +126,7 @@ function CourseListReg(){
                             }}/>
 
                             <div className="mx-2">of</div>
-                            <div>{totPageNumaval}</div>
+                            <div>{totPageNum}</div>
                         </div>
 
                         <div> <button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlenext()}>next</button> </div>
