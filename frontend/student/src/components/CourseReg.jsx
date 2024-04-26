@@ -23,10 +23,6 @@ function Courseregpage() {
   const [regCourses, setRegCourses] = useState([]);
   const [avalCourses, setAvalCourses] = useState([]);
 
-  const [totPageNumreg, setTotPageNumreg] = useState(0)
-  const [displayNumReg, setDisplayNumReg] = useState(1)
-  const [pageNumreg, setPageNumreg] = useState(1)
-
   const [totPageNumaval, setTotPageNumaval] = useState(0)
   const [displayNumAval, setDisplayNumAval] = useState(1)
   const [pageNumaval, setPageNumaval] = useState(1)
@@ -34,11 +30,6 @@ function Courseregpage() {
   const updateReg = (updatedlist) => {
 
     setRegCourses(updatedlist)
-  }
-
-  const updateAval = (updatedlist) => {
-
-    setAvalCourses(updatedlist)
   }
   
   const [showModal, setShowModal] = useState(false);
@@ -76,25 +67,6 @@ function Courseregpage() {
       setErrMsg("There is some problem with the server or your internet, try again after some time")
     })
   }, [pageNumaval]);
-
-  useEffect(() => {
-    setDisplayNumReg(pageNumreg)
-    var token = sessionStorage.getItem("token");
-    axios.get(import.meta.env.VITE_ADMIN+"//" + pageNumreg,{
-      headers: {
-        'Content-Type': "application/json",
-        'Authorization': `Bearer ${token}`,
-      }
-    }).then( (res) =>{
-
-      setTotPageNumreg(res.data.totPageNumreg)
-      setRegCourses(res.data.courses)
-    }).catch((err) => {
-
-      console.log(err);
-      setErrMsg("There is some problem with the server or your internet, try again after some time")
-    })
-  }, [pageNumreg]);
 
   useEffect(() => {
 
@@ -147,25 +119,9 @@ function Courseregpage() {
     setFilters(filters)
   }
 
-  const handleprevreg = ()=>{
-
-    if(pageNumreg > 1) setPageNumreg(pageNumreg - 1);
-  }
-
   const handleprevaval = ()=>{
 
     if(pageNumaval > 1) setPageNumaval(pageNumaval - 1);
-  }
-
-  const handlepgnoreg = ()=>{
-
-    if(displayNumReg >= 1 && displayNumReg <= totPageNumreg)
-      setPageNumreg(displayNumReg);
-
-    else {
-      setPageNumreg(totPageNumreg);
-      setDisplayNumReg(totPageNumreg);
-    }  
   }
 
   const handlepgnoaval = ()=>{
@@ -177,11 +133,6 @@ function Courseregpage() {
       setPageNumaval(totPageNumaval);
       setDisplayNumReg(totPageNumaval);
     }   
-  }
-
-  const handlenextreg = ()=>{
-
-    if(pageNumreg < totPageNumreg) setPageNumreg(pageNumreg + 1);
   }
 
   const handlenextaval = ()=>{
@@ -303,25 +254,6 @@ function Courseregpage() {
               ))}
             </div>
           </div>
-        </div>
-
-        <div className="flex gap-3 justify-center font-semibold mb-6">
-          <div> <button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handleprevreg()}>prev</button> </div>
-
-          <div className="flex flex-row items-center">
-            
-            <input className="w-8 border-2" type="text" placeholder={pageNumreg}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-              handlepgnoreg();
-            }
-            }}/>
-
-          <div className="mx-2">of</div>
-          <div>{totPageNumreg}</div>
-          </div>
-
-          <div> <button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlenextreg()}>next</button> </div>
         </div>
 
       </div>
