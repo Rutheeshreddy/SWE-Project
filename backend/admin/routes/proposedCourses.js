@@ -75,17 +75,18 @@ router.get('/added-course-details/:id',authenticateToken, async(req,res) => {
           if(res1.rows[i].teacher_selected == 1) 
           {
               selected_teacher.id = res1.rows[i].teacher_id;
-              selected_teacher.name = getTeacherName(res1.rows[i].teacher_id);
+              selected_teacher.name = await getTeacherName(res1.rows[i].teacher_id);
           }
           else 
           {
               teachers.push({
                 id : res1.rows[i].teacher_id,
-                name : getTeacherName(res1.rows[i].teacher_id)
+                name : await getTeacherName(res1.rows[i].teacher_id)
               });
           }
 
       }
+      console.log(selected_teacher);
       res.json({ 
         period : 1, 
         selected_teacher : selected_teacher, 
