@@ -44,12 +44,14 @@ router.get('/verify',authenticateToken,async (req,res) =>
 {
   let res1,res2;
   try {
+    // console.log(req.user)
     const query = {
       name: 'get-student-name',
       text: ' select * from student where id = $1  ',
-      values: [req.user.username]
+      values: [req.user.userName]
     }
     res1 = await client.query(query);
+    // console.log(res1)
    
   }
   catch(err) {

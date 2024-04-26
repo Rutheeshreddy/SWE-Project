@@ -9,6 +9,18 @@ const Homepage = () =>
 {   //let studinfo;
     let regcourses; let token;
     const [details, setdetails] = useState([])
+
+    const calcsem = (sem, year) =>{
+       var temp = 0
+       if(sem.semester == 'Odd'){
+
+              temp = -1
+       }
+       return ((sem.year - year)*2 + temp)
+    }
+
+
+
     useEffect(()=>
     {    
          token = sessionStorage.getItem("token") 
@@ -19,8 +31,6 @@ const Homepage = () =>
                 'Authorization': `Bearer ${token}`,
             }
         }).then((res) => {
-
-              console.log(res.data)
             
             if (res.data.tokenStatus != 1) {
                 window.location.href = import.meta.env.VITE_LOGIN
@@ -29,7 +39,7 @@ const Homepage = () =>
 
             if(res.data.status === 1){
 
-              detailstemp = {name: res.data.student.name, id: res.data.student.id, department: res.data.student.department, batch : res.data.student.joining_year, semester: res.data.sem.semester}
+              const detailstemp = {name: res.data.details.name, id: res.data.details.id, department: res.data.details.department, batch : res.data.details.joining_year, semester: calcsem(res.data.sem, res.data.details.joining_year)}
               setdetails(detailstemp)
 
             }
@@ -40,13 +50,6 @@ const Homepage = () =>
             console.log("There is some problem with the server or your internet, try again after some time")
             })
            },[])
-
-       useEffect(()=>{
-
-              console.log(details)
-       },[details])
-
-       // const details = {"name": "Raja", "id": "CS21BTECH11000", "department": "Computer Science and Engineering", "batch": "2021", "semester": "6"}
 
        const r1 = {"courseName":"Deep Learning", "courseCode":"AI1100", "electiveType":"Departmental"}
        const r2 = {"courseName":"Machine Learning", "courseCode":"AI1000", "electiveType":"Additional"}
