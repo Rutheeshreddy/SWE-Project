@@ -34,11 +34,13 @@ create table  past_courses (
 
 create table  present_courses (
 	course_id varchar(10),
+	course_name varchar(30)
 	semester varchar(10),
 	year integer,
 	name varchar(30) NOT NULL,
 	credits integer default 0,
 	instructor_id varchar(30),
+	instructor_name varchar(50),
 	prerequisites varchar(50),
 	slot char,
 	max_capacity integer,
