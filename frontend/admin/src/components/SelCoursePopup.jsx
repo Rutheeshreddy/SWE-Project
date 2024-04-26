@@ -40,7 +40,7 @@ const SelCoursePopup = (props) => {
 
     const handleTeacherClick = (e) => 
     {
-        
+        setTeacher(e.target.id)
     }
     const handleCancel = () => {
         props.setCoursemod(false)
@@ -48,7 +48,7 @@ const SelCoursePopup = (props) => {
     const handleSubmit = (e) => {
           e.preventDefault()
           
-
+          
           props.setCoursemod(false)
           props.setReload(props.reload+1)
     }

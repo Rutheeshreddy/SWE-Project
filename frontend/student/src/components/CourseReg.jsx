@@ -52,7 +52,7 @@ function Courseregpage() {
   useEffect(() => {
     setDisplayNumAval(pageNumaval)
     var token = sessionStorage.getItem("token");
-    axios.get(import.meta.env.VITE_ADMIN+"//" + pageNumaval,{
+    axios.get(import.meta.env.VITE_ADMIN+"/available-courses/" + pageNumaval,{
       headers: {
         'Content-Type': "application/json",
         'Authorization': `Bearer ${token}`,
