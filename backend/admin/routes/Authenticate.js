@@ -9,15 +9,15 @@ function authenticateToken(req, res, next) {
     const bearer = req.headers['authorization'];
     const token = bearer && bearer.split(' ')[1];
     if (token == null) {
-      res.json({ tokenStatus: 0 });
       console.log("token not confirmed ",token)
+      return res.json({ tokenStatus: 0 });
       
     }
     else {
       jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
         if (err) {
           console.log("token is invalid")
-          res.json({ tokenStatus: 0 });
+          return res.json({ tokenStatus: 0 });
         }
         else {
           req.user=user

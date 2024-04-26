@@ -54,13 +54,17 @@ router.post('available-courses/:pagenum',authenticateToken,async (req,res)=>
     const query = {
     name: 'send available courses',
     text: 'select * from present_courses '+
-          'WHERE instructor_name ~ \'.*$1.*\' AND'+
-          'course_name ~ \'$2\'',
-    values: [filters.instructor,filters.]
+          "WHERE instructor_name like '%%$1%%' AND credits like '%%$2%%' "+
+          "name like '%%$3%%' AND course_id like  '%%$4%%' AND slot like '%%$5%%'",
+    value: [ filters.instructor,filters.credits,filters.courseName,filters.courseId,filters.slot]
+    
     }
     const res1 = await client.query(query);
-    course_selection = res1.rows[0].course_selection ;
-    course_reg = res1.roes[0].course_reg ;
+    res.json(
+      {
+        courses:res1.rows
+      }
+    )
    }
   catch(err) {
       console.log(err.stack);
