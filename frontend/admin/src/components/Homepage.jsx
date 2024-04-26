@@ -73,9 +73,9 @@ const Homepage = () =>
                                  Grading Period
                             </button></Link>
                    </div>
-                    <div>
+                   <div>
                         <CourseListReg />
-                    </div>
+                   </div>
               </div>
        );
 
