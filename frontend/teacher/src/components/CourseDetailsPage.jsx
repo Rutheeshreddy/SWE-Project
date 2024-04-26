@@ -3,18 +3,13 @@ import { useLocation, useParams } from "react-router-dom";
 import ViewFeedback from "./ViewFeedback";
 
 const CourseDetailsPage = () => {
-    // const location = useLocation();
-    // console.log(location.state)
-    // const courseinfo = location.state?.course;
-
-    // if (!courseinfo) {
-    //     return <div>Error: Course not found</div>;
-    // }
-
-    const [course, setCourse] = useState({});
+    const [students, setStudents] = useState([]);
     const [isFeedback, setIsFeedback] = useState(false);
 
-    const { courseCode } = useParams();
+    const { coursecode } = useParams();
+    const location = useLocation();
+
+    const course = location.state;
 
     useEffect(() => {
     // axios.get("your_api_endpoint_here")
@@ -24,7 +19,9 @@ const CourseDetailsPage = () => {
     //     .catch((err) => {
     //         console.log(err);
     //     });
-
+        const s1 = {name: "Raja1", id: "123"};
+        const s2 = {name: "Raja2", id: "124"};
+        setStudents([s1, s2]);
     }, []);
 
     return (
@@ -49,18 +46,18 @@ const CourseDetailsPage = () => {
                 <div className="bg-gray-200 text-gray-700 grid grid-cols-3 gap-4 p-3 my-3 rounded-md">
                     <div className="font-semibold">Name</div>
                     <div className="font-semibold">ID</div>
-                    <div className="font-semibold">Slot</div>
+                    {/* <div className="font-semibold">Slot</div> */}
                 </div>
-                {course.students && course.students.length > 0 && course.students.map((student) => (
+                {students && students.length > 0 && students.map((student) => (
                     <div key={student.id}>
                         <div className={`grid grid-cols-3 gap-4 p-2 items-center 'bg-gray-100' 'hover:bg-gray-50'`} style={{ borderBottom: '1px solid #ddd' }}>
                             <div>{student.name}</div>
                             <div>{student.id}</div>
-                            <div></div>
+                            {/* <div></div> */}
                         </div>
                     </div>
                 ))}
-                {course.students && (course.students.length == 0) && (
+                {students && (students.length == 0) && (
                     <div>
                         <p className="text-1xl font-semibold m-6 flex justify-center items-center h-full">No registered students</p>
                     </div>
@@ -69,6 +66,7 @@ const CourseDetailsPage = () => {
             </div>
         </div>
     );
+
 };
 
 export default CourseDetailsPage;

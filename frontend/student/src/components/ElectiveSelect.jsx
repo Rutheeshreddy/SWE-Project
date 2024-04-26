@@ -26,7 +26,6 @@ function ElectiveSelect(props){
         if(selectedOption !== null){
     
           const addedCourse = avalCourses.find(course => course.course_id === selectedCourseId);
-          const updatedAvalCourses = avalCourses.filter(course => course.course_id !== selectedCourseId);
 
           const newslot = addedCourse.slot;
 
