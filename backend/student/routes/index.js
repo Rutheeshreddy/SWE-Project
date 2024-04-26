@@ -105,6 +105,31 @@ router.get('/verify',authenticateToken,async (req,res) =>
   }
 })
 
+router.get('/course-info/:id',authenticateToken,async (req,res)=>
+{
+  const course_id = req.params.id; 
+  
+  try {
+      const query = {
+      name: 'get-course-details',
+      text: 'select * from present_courses WHERE course_id = $1 ;',
+      value: [ course_id]
+      }
+      const res1 = await client.query(query);
+      res.json({
+        status:1,
+        course:res1.rows[0]
+      })
+  }
+  catch(err) {
+      console.log(err.stack);
+      res.json({
+        status:0,
+      })
+  }
+
+})
+
 router.post('available-courses/:pagenum',authenticateToken,async (req,res)=>
 {
   const pagenum = req.params.pagenum; var num_courses = 0;
