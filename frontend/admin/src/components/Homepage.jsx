@@ -36,18 +36,18 @@ const Homepage = () =>
     
     },[])
 
-    // function handleClick(e)
-    // { 
-    //    if(e.target.id=="CS") 
-    //    { // write condition for checking period
-    //       if(period != "course_selection") e.preventDefault()
-    //    }
-    //    else if(e.target.id=="CS") 
-    //    { // write condition for checking period
-    //       if(period != "course_selection") e.preventDefault()
-    //    }
-    //     console.log(period);
-    // }
+    function handleClick(e)
+    { 
+       if(e.target.id=="CS") 
+       { // write condition for checking period
+          if(period != "course_selection") {e.preventDefault()}
+       }
+       else if(e.target.id=="CS") 
+       { // write condition for checking period
+          if(period != "course_selection") {e.preventDefault()}
+       }
+        console.log(period);
+    }
 
 
     return (
@@ -60,7 +60,7 @@ const Homepage = () =>
                     <Link to="/selection"  > <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2" id="CS">
                             Course Selection Period
                         </button> </Link>
-                    <Link to=""> <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-2" id="CR">
+                    <Link to="/registration"> <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-2" id="CR">
                                 Course Registration Period
                             </button></Link> 
                     </div>

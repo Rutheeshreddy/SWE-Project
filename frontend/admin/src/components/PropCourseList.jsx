@@ -53,9 +53,8 @@ function PropCourseList(props) {
 
   const handleCourseClick = (e)=> 
   {
-    setCoursemod(true)  
-    setCourseId(e.target.id);
-  }
+    setCoursemod
+}
 
   const handleRemoveCourse = (courseId) => {
     console.log(courseId);
