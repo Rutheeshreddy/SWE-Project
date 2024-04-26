@@ -159,7 +159,7 @@ function Courseregpage() {
 
   const handlepgnoreg = ()=>{
 
-    if(displayNumReg >= 1 && temp <= totPageNumreg)
+    if(displayNumReg >= 1 && displayNumReg <= totPageNumreg)
       setPageNumreg(displayNumReg);
 
     else {
@@ -170,7 +170,7 @@ function Courseregpage() {
 
   const handlepgnoaval = ()=>{
 
-    if(displayNumAval >= 1 && temp <= totPageNumaval)
+    if(displayNumAval >= 1 && displayNumAval <= totPageNumaval)
       setPageNumaval(displayNumAval);
 
     else {
