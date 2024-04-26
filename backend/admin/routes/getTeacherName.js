@@ -12,7 +12,8 @@ async function getTeacherName(teacher_id) {
           values: [teacher_id]
         }
         const res1 = await client.query(query);
-        return res1.rows[0].name;
+        const name =  res1.rows[0].name;
+        return name;
       }
       catch(err) {
         console.log(err.stack);
