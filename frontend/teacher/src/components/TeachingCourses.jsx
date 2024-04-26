@@ -16,7 +16,8 @@ const TeachingCourses = (props) => {
             ) : (
                 props.courses.map((course) => (
                     <div key={course.courseCode}>
-                        <Link to={`/course-details/${course.courseCode}`}>
+                        <Link to={`/course-details/${course.courseCode}`}
+                            state={course}>
                             <div className={`grid grid-cols-3 gap-4 p-2 items-center 'bg-gray-100' 'hover:bg-gray-50' cursor-pointer`} style={{ borderBottom: '1px solid #ddd' }}>
                                 <div>{course.courseName}</div>
                                 <div>{course.courseCode}</div>

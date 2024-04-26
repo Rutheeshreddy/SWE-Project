@@ -27,7 +27,7 @@ const routes = [
     errorElement: <ErrorPage />,
   },
   {
-    path: "/course-details/:course",
+    path: "/course-details/:coursecode",
     element: <CourseDetailsPage />,
     errorElement: <ErrorPage />,
   }, 
