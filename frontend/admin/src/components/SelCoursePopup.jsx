@@ -6,7 +6,27 @@ const SelCoursePopup = (props) => {
     useEffect(()=>
     {
     // fetch if it after the start of selection period
-    
+    axios.get(import.meta.env.VITE_ADMIN+"/added-course-details/"+props.course.course_id,
+    {
+            headers: {
+              'Content-Type': "application/json",
+              'Authorization': `Bearer ${token}`,
+          }
+    }
+    ).then((res)=>
+    {
+             setStart(res.data.period)
+             if(res.data.period)
+             {
+                setSlot(res.data.slot)
+                setTeacherList(res.data.teachers)
+                setTeacher(res.data.selected_teacher)
+             }
+    }).catch((err) => {
+          
+        console.log(err);
+        setErrMsg("There is some problem with the server or your internet, try again after some time")
+        })
     
     },[]);
 
@@ -17,13 +37,22 @@ const SelCoursePopup = (props) => {
     const [slot,setSlot] = useState("")
     const [teacherList,setTeacherList] = useState([])
     const [teacher,setTeacher] = useState("")
+
     const handleTeacherClick = (e) => 
     {
-
-    }
-    const handleCancel = () => {
         
     }
+    const handleCancel = () => {
+        props.setCoursemod(false)
+    }
+    const handleSubmit = (e) => {
+          e.preventDefault()
+          
+
+          props.setCoursemod(false)
+          props.setReload(props.reload+1)
+    }
+
         return (
         <div>
         <form  className="feedback-form p-4 bg-white rounded-lg shadow-md">
@@ -70,7 +99,7 @@ const SelCoursePopup = (props) => {
        )}
 
                     <button type="button" onClick={handleCancel}>Cancel</button>
-                    <button type="submit">Modify</button>
+                    <button type="submit" onClick={handleSubmit}>Modify</button>
                 </form>
         </div>
         );
