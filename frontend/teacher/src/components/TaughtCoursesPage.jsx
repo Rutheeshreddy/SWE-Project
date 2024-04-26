@@ -77,20 +77,46 @@
 // export default TaughtCoursesPage;
 
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ViewPastCourseDetails from "./ViewPastCourseDetails";
+import axios from "axios";
 
 const TaughtCoursesPage = () => {
+    const { id } = useParams();
+    // console.log(id);
     const [semCourseArr, setSemCourseArr] = useState([]);
     const [selectedCourse, setSelectedCourse] = useState(null);
 
     useEffect(() => {
-        const r1 = { courseName: "Deep Learning", courseCode: "AI1100", sem: "1", year: "2021", slot: "P", gpa: "9.5", rating1: "3.5", rating2: "4", rating3: "4.5" };
-        const r2 = { courseName: "Machine Learning", courseCode: "AI1000", sem: "1", year: "2021", slot: "Q", gpa: "9.5", rating1: "3.5", rating2: "4", rating3: "4.5" };
-        const s1 = { sem: "1", year: "2021", courses: [r1, r2] };
-        const s2 = { sem: "2", year: "2021", courses: [r1, r2] };
-        const arr = [s1, s2];
-        setSemCourseArr(arr);
+        // const r1 = { courseName: "Deep Learning", courseCode: "AI1100", sem: "1", year: "2021", slot: "P", gpa: "9.5", rating1: "3.5", rating2: "4", rating3: "4.5" };
+        // const r2 = { courseName: "Machine Learning", courseCode: "AI1000", sem: "1", year: "2021", slot: "Q", gpa: "9.5", rating1: "3.5", rating2: "4", rating3: "4.5" };
+        // const s1 = { sem: "1", year: "2021", courses: [r1, r2] };
+        // const s2 = { sem: "2", year: "2021", courses: [r1, r2] };
+        // const arr = [s1, s2];
+        // setSemCourseArr(arr);
+        var token = sessionStorage.getItem('token');
+        axios.get(import.meta.env.VITE_TEACHER+"taught-courses/" + id, {
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': `Bearer ${token}`,
+            }
+        }).then((res) => {
+            
+            if (res.data.tokenStatus != 1) {
+                window.location.href = import.meta.env.VITE_LOGIN
+            }
+            console.log("Ok, verify is working")
+
+            if(res.data.status === 1){
+
+                setSemCourseArr(res.data.courses);
+            }
+            
+            }).catch((err) => {
+            
+            console.log(err);
+            console.log("There is some problem with the server or your internet, try again after some time")
+            })
     }, []);
 
     const handleCourseClick = (course) => {
@@ -114,13 +140,13 @@ const TaughtCoursesPage = () => {
                     </div>
 
                     {semeach.courses.map((course) => (
-                        <div key={course.courseCode}>
+                        <div key={course.course_id}>
                             <div
                                 className="grid grid-cols-3 gap-4 p-2 items-center hover:bg-gray-50 cursor-pointer"
                                 onClick={() => handleCourseClick(course)}
                             >
-                                <div>{course.courseName}</div>
-                                <div>{course.courseCode}</div>
+                                <div>{course.name}</div>
+                                <div>{course.course_id}</div>
                                 <div>{course.slot}</div>
                             </div>
                         </div>

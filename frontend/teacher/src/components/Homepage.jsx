@@ -21,6 +21,7 @@ const Homepage = () =>
                 'Authorization': `Bearer ${token}`,
             }
         }).then((res) => {
+            // console.log(res.data);
             
             if (res.data.tokenStatus != 1) {
                 window.location.href = import.meta.env.VITE_LOGIN
@@ -29,8 +30,8 @@ const Homepage = () =>
 
             if(res.data.status === 1){
 
-              const detailstemp = {name: res.data.details.name, id: res.data.details.id, department: res.data.details.department}
-              setdetails(detailstemp)
+            //   const detailstemp = {name: res.data.details.name, id: res.data.details.id, department: res.data.details.department}
+              setdetails(res.data.details)
 
               const teachingcoursestemp = res.data.courses.map(course => ({
 
@@ -49,20 +50,20 @@ const Homepage = () =>
             })
        },[])
 
-    const r1 = {"courseName":"Deep Learning", "courseCode":"AI1100", "slot":"P"}
-    const r2 = {"courseName":"Machine Learning", "courseCode":"AI1000", "slot":"Q"}
-    const props_arr = [r1, r2]
+    // const r1 = {"courseName":"Deep Learning", "courseCode":"AI1100", "slot":"P"}
+    // const r2 = {"courseName":"Machine Learning", "courseCode":"AI1000", "slot":"Q"}
+    // const props_arr = [r1, r2]
 
     return (
             <div className="grid grid-cols-1 gap-6">
                     <div className="bg-gray-100 p-6 rounded-lg shadow-md">
                     <InstructorInfo info={details} />
                     </div>
-                    {/* <OngoingTimelines />
-                    <SubmissionButtons />
+                    <OngoingTimelines />
+                    <SubmissionButtons instructor_id={details.id} />
                     <div className="bg-white p-6 rounded-lg shadow-md">
                     <TeachingCourses courses={teachingcourses} />
-                    </div> */}
+                    </div>
             </div>
     );
 }

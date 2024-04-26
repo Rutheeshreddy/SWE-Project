@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 
-const SubmissionButtons = () => {
+const SubmissionButtons = (props) => {
     const [isSelectionOn, setIsSelectionOn] = useState(false);
 
     useEffect(() => {
+        
 
         // axios.get()
          //     .then(response => {
@@ -21,14 +22,14 @@ const SubmissionButtons = () => {
     return (
         <div className="flex flex-row items-center">
             <Link 
-                to="/taught-courses" 
+                to= {"/taught-courses/" + props.instructor_id} 
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2"
             >
                 Taught Courses
             </Link>
             {isSelectionOn && (
                 <Link 
-                    to="/course-selection" 
+                    to= {"/course-selection/" + props.instructor_id}
                     className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-2"
                 >
                     Course Selection

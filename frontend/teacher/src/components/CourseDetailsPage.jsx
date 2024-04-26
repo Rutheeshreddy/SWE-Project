@@ -3,6 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 import GradeSubmissionButtons from "./GradeSubmissionButtons";
 import StudentsList from "./StudentsList";
 import ViewFeedback from "./ViewFeedback";
+import axios from "axios";
 
 const CourseDetailsPage = () => {
     const [students, setStudents] = useState([]);
@@ -15,6 +16,7 @@ const CourseDetailsPage = () => {
     const [isManualEntry, setIsManualEntry] = useState(false);
     const location = useLocation();
     const course = location.state;
+    const {coursecode} = useParams();
 
     const validGrades = ["A+", "A", "A-", "B", "B-", "C", "C-", "D", "F"];
 
@@ -37,40 +39,48 @@ const CourseDetailsPage = () => {
     //     })
     
 
-    useEffect(() => {
-            // axios.get("your_api_endpoint_here")
-            //     .then((res) => {
-            //         setCourse(res.data.course);
-            //     })
-            //     .catch((err) => {
-            //         console.log(err);
-            //     });
+    // useEffect(() => {
+    //         // axios.get("your_api_endpoint_here")
+    //         //     .then((res) => {
+    //         //         setCourse(res.data.course);
+    //         //     })
+    //         //     .catch((err) => {
+    //         //         console.log(err);
+    //         //     });
 
-        const s1 = {name: "John Doe", id: "123", grade:'A'};
-        const s2 = {name: "Jane Smith", id: "124", grade:'A+'};
-        setStudents([s1, s2]);
-    }, []);
+    //     const s1 = {name: "John Doe", id: "123", grade:'A'};
+    //     const s2 = {name: "Jane Smith", id: "124", grade:'A+'};
+    //     setStudents([s1, s2]);
+    // }, []);
 
     useEffect(() => {
         setTemp(pageNum);
-        // var token = sessionStorage.getItem("token");
-        // axios.get(import.meta.env.VITE_ADMIN+"/proposed-courses/" + pageNum ,{
-        //     headers: {
-        //       'Content-Type': "application/json",
-        //       'Authorization': `Bearer ${token}`,
-        //   }
-        //    }).then( (res) => {
+        // console.log(pageNum,coursecode);
+        var token = sessionStorage.getItem("token");
+        axios.get(import.meta.env.VITE_TEACHER+"present-course-details/" + coursecode 
+                                                    + "/" + pageNum ,{
+            headers: {
+              'Content-Type': "application/json",
+              'Authorization': `Bearer ${token}`,
+          }
+           }).then( (res) => {
     
-        //     setTotPageNum(res.data.totPages);
-        //     if(res.data.message == -1) setCourses([]);
-        //     if(res.data.message == 1) setCourses(res.data.courses);
+            if(res.data.status == -2)
+            {
+                setTotPageNum(1);
+                setStudents([]);
+            }
+            else if (res.data.status == 1)
+            {
+                setTotPageNum(res.data.totPages);
+                setStudents(res.data.students);
+            }
     
-        //    }).catch((err) => {
+           }).catch((err) => {
             
-        //     console.log(err);
-        //     setErrMsg("There is some problem with the server or your internet, try again after some time")
-        //     })
-        setTotPageNum(5);
+            console.log(err);
+            setErrMsg("There is some problem with the server or your internet, try again after some time")
+            })
       }, [pageNum]);
     
       useEffect(() => {
@@ -81,10 +91,12 @@ const CourseDetailsPage = () => {
 
   const handleprev = ()=> {
     if(pageNum > 1) setPageNum(pageNum-1);
+    setTemp(pageNum)
   }
 
   const handlenext = ()=>{
     if(pageNum < totPageNum) setPageNum(pageNum+1);
+    setTemp(pageNum)
   }
 
   const handleKeyDown = (event) => {

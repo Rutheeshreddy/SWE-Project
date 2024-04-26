@@ -17,12 +17,12 @@ const routes = [
     element: < Redirect/>,
   },
   {
-    path: "/course-selection",
+    path: "/course-selection/:id",
     element: <CourseSelectionPage />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/taught-courses",
+    path: "/taught-courses/:id",
     element: <TaughtCoursesPage />,
     errorElement: <ErrorPage />,
   },
