@@ -1,7 +1,9 @@
 import Homepage from "./components/Homepage"
 import ErrorPage from "./components/ErrorPage";
 import Redirect from "./components/Redirect";
+import Registration from "./components/Registration";
 import Selection from "./components/Selection";
+
 const routes = [
   {
     path: "/",
@@ -18,7 +20,7 @@ const routes = [
   },
   {
     path: "/registration",
-    element: < Redirect/>,
+    element: <Registration />,
   },
   {
     path: "/feedback",
