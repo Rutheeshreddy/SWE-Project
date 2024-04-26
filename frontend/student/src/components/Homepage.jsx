@@ -7,32 +7,50 @@ import axios from "axios"
 
 const Homepage = () => 
 {   //let studinfo;
-//     let regcourses; let token;
-//     useEffect(()=>
-//     {    
-//          token = sessionStorage.getItem("token") 
-//          //verify token
-//          axios.get(import.meta.env.VITE_STUDENT+"verify", {
-//             headers: {
-//                 'Content-Type': "application/json",
-//                 'Authorization': `Bearer ${token}`,
-//             }
-//         }).then((res) => {
-            
-//             if (res.data.tokenStatus != 1) {
-//                 window.location.href = import.meta.env.VITE_LOGIN
-//             }
-//             console.log("Ok, verify is working")
-//             //student info, reg courses
-            
-//             }).catch((err) => {
-            
-//             console.log(err);
-//             console.log("There is some problem with the server or your internet, try again after some time")
-//             })
-//            },[])
+    let regcourses; let token;
+    const [details, setdetails] = useState([])
 
-       const details = {"name": "Raja", "id": "CS21BTECH11000", "department": "Computer Science and Engineering", "batch": "2021", "semester": "6"}
+    const calcsem = (sem, year) =>{
+       var temp = 0
+       if(sem.semester == 'Odd'){
+
+              temp = -1
+       }
+       return ((sem.year - year)*2 + temp)
+    }
+
+
+
+    useEffect(()=>
+    {    
+         token = sessionStorage.getItem("token") 
+         //verify token
+         axios.get(import.meta.env.VITE_STUDENT+"verify", {
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': `Bearer ${token}`,
+            }
+        }).then((res) => {
+            
+            if (res.data.tokenStatus != 1) {
+                window.location.href = import.meta.env.VITE_LOGIN
+            }
+            console.log("Ok, verify is working")
+
+            if(res.data.status === 1){
+
+              const detailstemp = {name: res.data.details.name, id: res.data.details.id, department: res.data.details.department, batch : res.data.details.joining_year, semester: calcsem(res.data.sem, res.data.details.joining_year)}
+              setdetails(detailstemp)
+
+              console.log(res.data.courses)
+            }
+            
+            }).catch((err) => {
+            
+            console.log(err);
+            console.log("There is some problem with the server or your internet, try again after some time")
+            })
+       },[])
 
        const r1 = {"courseName":"Deep Learning", "courseCode":"AI1100", "electiveType":"Departmental"}
        const r2 = {"courseName":"Machine Learning", "courseCode":"AI1000", "electiveType":"Additional"}

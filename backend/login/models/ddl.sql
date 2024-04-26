@@ -34,7 +34,6 @@ create table  past_courses (
 
 create table  present_courses (
 	course_id varchar(10),
-	course_name varchar(30),
 	semester varchar(10),
 	year integer,
 	name varchar(30) NOT NULL,
@@ -44,6 +43,7 @@ create table  present_courses (
 	prerequisites varchar(50),
 	slot char,
 	max_capacity integer,
+	count integer,
 	primary key (course_id,semester,year),
 	foreign key (instructor_id) references instructor on delete cascade
 );
