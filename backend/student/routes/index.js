@@ -40,11 +40,49 @@ router.get('/test',authenticateToken,(req,res)=>
    res.json({ok:1});
 })
 
-router.get('/verify',authenticateToken,(req,res) => 
+router.get('/verify',authenticateToken,async (req,res) => 
 {
+  let res1,res2;
+  try {
+    const query = {
+      name: 'get-student-name',
+      text: ' select * from student where id = $1  ',
+      values: [req.user.username]
+    }
+    res1 = await client.query(query);
+   
+  }
+  catch(err) {
+    console.log(err.stack);
     res.json({
-      tokenStatus : 1
+      tokenStatus:1,
+      status:0
     })
+  }
+  
+  try {
+    const query1 = {
+      name: 'get-present-year',
+      text: ' select * from current_sem  ',
+      values: []
+    }
+    res2 = await client.query(query1);
+    res.json({
+      tokenStatus:1,
+      status:1,
+      details:res1.rows[0],
+      sem:res2.rows[0]
+    })
+   
+  }
+  catch(err) {
+    console.log(err.stack);
+    res.json({
+      tokenStatus:1,
+      status:0
+    })
+  }
+
 })
 
 router.post('available-courses/:pagenum',authenticateToken,async (req,res)=>

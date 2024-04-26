@@ -40,7 +40,7 @@ INSERT INTO present_courses(
 INSERT INTO student(
 	id, name, department, joining_year)
 	VALUES ('cs21btech123@iith.ac.in', 'Raja', 'cs', 2021),
-	       ('raja2','raja2','cs',2021);
+	       ('raja2','Raja','cs',2021);
 
 INSERT INTO student_courses_present(
 	course_id, semester, year, name, credits, elective, student_id, grade, feedback)
