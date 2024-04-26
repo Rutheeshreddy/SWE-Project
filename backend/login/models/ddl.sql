@@ -34,7 +34,6 @@ create table  past_courses (
 
 create table  present_courses (
 	course_id varchar(10),
-	course_name varchar(30)
 	semester varchar(10),
 	year integer,
 	name varchar(30) NOT NULL,
