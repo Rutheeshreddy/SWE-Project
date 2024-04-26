@@ -87,24 +87,42 @@ router.get('/verify',authenticateToken,async (req,res) =>
 
 router.post('available-courses/:pagenum',authenticateToken,async (req,res)=>
 {
+  const pagenum = req.params.pagenum; var num_courses = 0;
+  var per_page = 5;
+  try {
+      const query = {
+      name: 'get-num-of-courses',
+      text: 'select count(*) as cnt from present_courses ' +
+            "WHERE instructor_name like '%%$1%%' AND credits like '%%$2%%' "+
+            "name like '%%$3%%' AND course_id like  '%%$4%%' AND slot like '%%$5%%'",
+      value: [ filters.instructor,filters.credits,filters.courseName,filters.courseId,filters.slot]
+      }
+      const res1 = await client.query(query);
+      num_courses = res1.rows[0].cnt;
+  }
+  catch(err) {
+      console.log(err.stack);
+  }
+
+  var num_pages = Math.ceil(num_courses / per_page );
+  if(pagenum > num_pages) return res.json({ message : -1 , totPages : num_pages });
+  var offset = per_page *(pagenum-1);
+
   const filters = req.body.filters
   try {
     const query = {
     name: 'send available courses',
     text: 'select * from present_courses '+
           "WHERE instructor_name like '%%$1%%' AND credits like '%%$2%%' "+
-          "name like '%%$3%%' AND course_id like  '%%$4%%' AND slot like '%%$5%%'",
-    value: [ filters.instructor,filters.credits,filters.courseName,filters.courseId,filters.slot]
+          "name like '%%$3%%' AND course_id like  '%%$4%%' AND slot like '%%$5%%' "+
+          "order by course_id limit $7 offset $6 ;",
+    value: [ filters.instructor,filters.credits,filters.courseName,filters.courseId,filters.slot,offset,per_page]
     
     }
     const res1 = await client.query(query);
-    res.json(
-      {
-        courses:res1.rows
-      }
-    )
+    res.json({ message : 1, courses : res1.rows , totPages : num_pages});
    }
-  catch(err) {
+   catch(err) {
       console.log(err.stack);
   }
 })
