@@ -40,11 +40,55 @@ router.get('/test',authenticateToken,(req,res)=>
    res.json({ok:1});
 })
 
-router.get('/verify',authenticateToken,(req,res) => 
+router.get('/verify',authenticateToken,async (req,res) => 
 {
-    res.json({
-      tokenStatus : 1
+  let res1,res2, res3;
+  // getting teacher details
+  try {
+    console.log(req.user)
+    const query = {
+      name: 'get-teacher-name',
+      text: ' select * from instructor where id = $1  ',
+      values: [req.user.userName]
+    }
+    res1 = await client.query(query);
+    console.log(res1)
+   
+  }
+  catch(err) {
+    console.log(err.stack);
+    res.json({   // check if there is a error fetching
+      tokenStatus:1,
+      status:0
     })
+  }
+  // getting the courses he teaches for in this semester
+  try {
+    const query1 = {
+      name: 'get-teaching-courses',
+      text: ' select * from present_courses  '+
+            "WHERE instructor_id = $1",
+      values: [req.user.userName]
+    }
+
+    res3 = await client.query(query1);
+    console.log(res3)
+
+    res.json({
+      tokenStatus:1,
+      status:1,
+      details:res1.rows[0],
+      courses : res3.rows
+    })
+   
+  }
+  catch(err) {
+    console.log(err.stack);
+    res.json({
+      tokenStatus:1,
+      status:0
+    })
+  }
 })
 
 
