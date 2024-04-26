@@ -1,4 +1,5 @@
 import { useState,useEffect } from "react";
+import axios from "axios";
 
 const SelCoursePopup = (props) => {
     const [start,setStart] = useState(false)
@@ -6,6 +7,7 @@ const SelCoursePopup = (props) => {
     useEffect(()=>
     {
     // fetch if it after the start of selection period
+    var token = sessionStorage.getItem('token');
     axios.get(import.meta.env.VITE_ADMIN+"/added-course-details/"+props.course.course_id,
     {
             headers: {
@@ -31,16 +33,23 @@ const SelCoursePopup = (props) => {
     },[]);
 
     const [courseId,setCourseId] = useState(props.course.course_id)
-    const [courseName,setCourseName] = useState(props.course.coursename)
+    const [courseName,setCourseName] = useState(props.course.name)
     const [credits,setCredits] = useState(props.course.credits)
-    const [prereq,setPrereq] = useState(props.course.prereq)
+    const [prereq,setPrereq] = useState(props.course.prerequisites)
     const [slot,setSlot] = useState("")
     const [teacherList,setTeacherList] = useState([])
     const [teacher,setTeacher] = useState("")
 
     const handleTeacherClick = (e) => 
     {
-        
+        e.preventDefault();
+        for (var i=0;i<teacherList.length;i++) 
+        {
+            if(teacherList[i].id == e.target.id) 
+            {
+                setTeacher(teacherList[i]);
+            }
+        }
     }
     const handleCancel = () => {
         props.setCoursemod(false)
@@ -48,7 +57,7 @@ const SelCoursePopup = (props) => {
     const handleSubmit = (e) => {
           e.preventDefault()
           
-
+          
           props.setCoursemod(false)
           props.setReload(props.reload+1)
     }
@@ -74,8 +83,11 @@ const SelCoursePopup = (props) => {
                     />
        {start && (
         <>
+        
         <div>Selected Teacher</div>
-        <div>{teacher.id}</div> <div>{teacher.name}</div>
+        <div>ID : {teacher.id}</div> 
+        <div>Name : {teacher.name}</div>
+
         <div>
             <div className="grid grid-cols-3 justify-between font-semibold items-center mb-2">
             <div>Teacher ID</div>    <div> Name</div>   
@@ -87,13 +99,13 @@ const SelCoursePopup = (props) => {
 
             <div>{teacher.name}</div>
 
-            <div><button className="bg-green-500 text-white px-2 py-1 rounded-md text-sm"  onClick={handleTeacherClick}>+</button></div>
+            <div><button className="bg-green-500 text-white px-2 py-1 rounded-md text-sm" id={teacher.id}  onClick={handleTeacherClick}>+</button></div>
             </div>
             ))}
         </div>
         <div>Slot</div> 
                     <input   type="text"   autoComplete="off"   onChange={(e) => setSlot(e.target.value)} value={slot}
-                    required   className="w-full border rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
+                       className="w-full border rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
                     />
         </>
        )}

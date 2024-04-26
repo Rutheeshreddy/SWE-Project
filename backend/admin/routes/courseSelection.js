@@ -32,16 +32,16 @@ router.post('/course-selection/start',authenticateToken, async (req,res) => {
             catch(err) {
                 console.log(err.stack);
             }
-            res.json({message : 1});
+            return res.json({message : 1});
         }
         // course-selection period is already active
         else if (course_selection == 1)
         {
-            res.json({message : -1}); 
+            return res.json({message : -1}); 
         }
     }
     // course-registrtaion is active, so new courses can not be added
-    else res.json({message : -2}); 
+    else return res.json({message : -2}); 
 })
 
 router.post('/course-selection/stop',authenticateToken, async (req,res) => {
@@ -98,7 +98,7 @@ router.post('/course-selection/stop',authenticateToken, async (req,res) => {
             catch(err) {
                 console.log(err.stack);
             }
-            res.json({
+            return res.json({
             message : 1
             });
         }
@@ -113,7 +113,7 @@ router.post('/course-selection/stop',authenticateToken, async (req,res) => {
                 ' A.course_id = B.course_id and B.teacher_selected = 1 and B.slot_selected = 1 ) = 0 ; '
             }
             const res3 = await client.query(query3);
-            res.json({
+            return res.json({
                 message : -1,
                 courses : res3.rows
             })
@@ -128,7 +128,7 @@ router.post('/course-selection/stop',authenticateToken, async (req,res) => {
         }
     }
     // course-selection not even started
-    else res.json({message : -2});
+    else return res.json({message : -2});
   
   })
 

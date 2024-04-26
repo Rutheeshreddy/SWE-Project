@@ -15,11 +15,11 @@ router.post('/add-course', authenticateToken, async (req,res) => {
           values : [req.body.course_id,req.body.name,req.body.credits,req.body.prereq]
         }
         const res1 = await client.query(query);
-        res.json({message : 1});
+        return res.json({message : 1});
       }
       catch(err) {
         console.log(err.stack);
-        res.json({message : -1});
+        return res.json({message : -1});
       }
   
 })
@@ -33,7 +33,7 @@ router.post('/remove-course', authenticateToken, async (req,res) => {
           values : [req.body.course_id]
         }
         const res1 = await client.query(query);
-        res.json({message : res1.rowCount});
+        return res.json({message : res1.rowCount});
       }
       catch(err) {
         console.log(err.stack);
@@ -54,7 +54,7 @@ router.get('/added-course-details/:id',authenticateToken, async(req,res) => {
   catch(err) {
     console.log(err.stack);
   }
-  if(course_selection == 0) res.json({period : 0});
+  if(course_selection == 0) return res.json({period : 0});
   else 
   {
     try {
@@ -75,18 +75,19 @@ router.get('/added-course-details/:id',authenticateToken, async(req,res) => {
           if(res1.rows[i].teacher_selected == 1) 
           {
               selected_teacher.id = res1.rows[i].teacher_id;
-              selected_teacher.name = getTeacherName(res1.rows[i].teacher_id);
+              selected_teacher.name = await getTeacherName(res1.rows[i].teacher_id);
           }
           else 
           {
               teachers.push({
                 id : res1.rows[i].teacher_id,
-                name : getTeacherName(res1.rows[i].teacher_id)
+                name : await getTeacherName(res1.rows[i].teacher_id)
               });
           }
 
       }
-      res.json({ 
+      console.log(selected_teacher);
+      return res.json({ 
         period : 1, 
         selected_teacher : selected_teacher, 
         teachers: teachers , 
@@ -135,7 +136,7 @@ router.get('/proposed-courses/:num',authenticateToken, async (req,res) => {
     }
 
     var num_pages = Math.ceil(num_courses / per_page );
-    if(req.params.num > num_pages) res.json({ message : -1 , totPages : num_pages });
+    if(req.params.num > num_pages) return res.json({ message : -1 , totPages : num_pages });
     var offset = per_page *(req.params.num-1);
     try {
         const query = {
@@ -144,7 +145,7 @@ router.get('/proposed-courses/:num',authenticateToken, async (req,res) => {
         values : [offset,per_page]
         }
         const res1 = await client.query(query);
-        res.json({ message : 1, courses : res1.rows , totPages : num_pages});
+        return res.json({ message : 1, courses : res1.rows , totPages : num_pages});
     }
     catch(err) {
         console.log(err.stack);

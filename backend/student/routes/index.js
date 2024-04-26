@@ -40,11 +40,73 @@ router.get('/test',authenticateToken,(req,res)=>
    res.json({ok:1});
 })
 
-router.get('/verify',authenticateToken,(req,res) => 
+router.get('/verify',authenticateToken,async (req,res) => 
 {
+  let res1,res2;
+  try {
+    const query = {
+      name: 'get-student-name',
+      text: ' select * from student where id = $1  ',
+      values: [req.user.username]
+    }
+    res1 = await client.query(query);
+   
+  }
+  catch(err) {
+    console.log(err.stack);
     res.json({
-      tokenStatus : 1
+      tokenStatus:1,
+      status:0
     })
+  }
+  
+  try {
+    const query1 = {
+      name: 'get-present-year',
+      text: ' select * from current_sem  ',
+      values: []
+    }
+    res2 = await client.query(query1);
+    res.json({
+      tokenStatus:1,
+      status:1,
+      details:res1.rows[0],
+      sem:res2.rows[0]
+    })
+   
+  }
+  catch(err) {
+    console.log(err.stack);
+    res.json({
+      tokenStatus:1,
+      status:0
+    })
+  }
+
+})
+
+router.post('available-courses/:pagenum',authenticateToken,async (req,res)=>
+{
+  const filters = req.body.filters
+  try {
+    const query = {
+    name: 'send available courses',
+    text: 'select * from present_courses '+
+          "WHERE instructor_name like '%%$1%%' AND credits like '%%$2%%' "+
+          "name like '%%$3%%' AND course_id like  '%%$4%%' AND slot like '%%$5%%'",
+    value: [ filters.instructor,filters.credits,filters.courseName,filters.courseId,filters.slot]
+    
+    }
+    const res1 = await client.query(query);
+    res.json(
+      {
+        courses:res1.rows
+      }
+    )
+   }
+  catch(err) {
+      console.log(err.stack);
+  }
 })
 
 

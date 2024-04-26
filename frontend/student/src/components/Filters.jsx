@@ -11,11 +11,29 @@ function Filters(props){
 
     const HandleFilters = (filters_) => {
 
+      var token = sessionStorage.getItem("token");
+      axios.post(import.meta.env.VITE_ADMIN+"/available-courses/" + 1,
+      {
+        filters:filters
+      },{
+          headers: {
+            'Content-Type': "application/json",
+            'Authorization': `Bearer ${token}`,
+          }
+      }).then( (res) =>{
+
+        props.settotpagenum(res.data.totPageNumaval)
+        props.updatecourselist (res.data.courses)
+      }).catch((err) => {
+
+        console.log(err);
+        setErrMsg("There is some problem with the server or your internet, try again after some time")
+      })
     }
 
     return(
 
-        <div className="grid grid-cols-9 justify-between font-semibold items-center mb-1">
+        <div className="grid grid-cols-7 justify-between font-semibold items-center mb-1">
                 
                 <div>
                   <input className = "w-24 h-6"
@@ -37,24 +55,8 @@ function Filters(props){
                   <input className = "w-24 h-6"
                     type="text"
                     placeholder="Filter..."
-                    value={filters.department}
-                    onChange={(e) => handleChange(e, "courseName")}
-                  />
-                </div>
-                <div>
-                  <input className = "w-24 h-6"
-                    type="text"
-                    placeholder="Filter..."
                     value={filters.instructor}
                     onChange={(e) => handleChange(e, "instructor")}
-                  />
-                </div>
-                <div>
-                  <input className = "w-24 h-6"
-                    type="text"
-                    placeholder="Filter..."
-                    value={filters.semester}
-                    onChange={(e) => handleChange(e, "semester")}
                   />
                 </div>
                 <div>
@@ -65,22 +67,8 @@ function Filters(props){
                     onChange={(e) => handleChange(e, "slot")}
                   />
                 </div>
-                <div>
-                  <input className = "w-24 h-6"
-                    type="text"
-                    placeholder="Filter..."
-                    value={filters.credits}
-                    onChange={(e) => handleChange(e, "credits")}
-                  />
-                </div>
-                <div>
-                  {/* <input className = "w-24 h-6"
-                    type="text"
-                    placeholder="Filter..."
-                    value={filters.currentStudents}
-                    onChange={(e) => handleChange(e, "currentStudents")}
-                  /> */}
-                </div>
+                <div></div>
+                <div></div>
                 <div><button onClick={() => HandleFilters(filters)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Search</button></div>
               </div>  
     )

@@ -39,6 +39,7 @@ create table  present_courses (
 	name varchar(30) NOT NULL,
 	credits integer default 0,
 	instructor_id varchar(30),
+	instructor_name varchar(50),
 	prerequisites varchar(50),
 	slot char,
 	max_capacity integer,

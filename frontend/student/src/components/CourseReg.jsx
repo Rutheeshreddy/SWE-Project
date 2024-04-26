@@ -11,7 +11,7 @@ function Courseregpage() {
   const reg = [
     { id: 1, course_id: 'CS101', coursename:'Intro to Computers', department: "CSE", instructor: 'John Doe', credits: 3, semester: 'Spring 2024', slot: 'N', current : [150, 200], elective: 'Free'},
     { id: 2, course_id: 'ENG201', coursename: 'English Grammar', department: "Languages", instructor: 'Jane Smith', credits: 4, semester: 'Fall 2024', slot: 'L', current: [31, 49], elective: 'Departmental'},
-    { id: 3, course_id: 'ENG291', coursename: 'Grammar PROMAX', department: "Languages", instructor: 'Jolie', credits: 2, semester: 'Fall 2023', slot: 'Z', current: [13, 49], elective: null}  ]
+    { id: 3, course_id: 'ENG291', coursename: 'Grammar PROMAX', department: "Languages", instructor: 'Jolie', credits: 2, semester: 'Fall 2023', slot: 'Z', current: [13, 49], elective: 'Additional'}  ]
   
   const aval = [
     { id: 1, course_id: 'CS111', coursename: 'Comp Sci 4', department: "CSE", instructor: 'John Villa', credits: 3, semester: 'Spring 2024', slot: 'Z', current: [16, 100], elective: null},
@@ -23,10 +23,6 @@ function Courseregpage() {
   const [regCourses, setRegCourses] = useState([]);
   const [avalCourses, setAvalCourses] = useState([]);
 
-  const [totPageNumreg, setTotPageNumreg] = useState(0)
-  const [displayNumReg, setDisplayNumReg] = useState(1)
-  const [pageNumreg, setPageNumreg] = useState(1)
-
   const [totPageNumaval, setTotPageNumaval] = useState(0)
   const [displayNumAval, setDisplayNumAval] = useState(1)
   const [pageNumaval, setPageNumaval] = useState(1)
@@ -34,11 +30,6 @@ function Courseregpage() {
   const updateReg = (updatedlist) => {
 
     setRegCourses(updatedlist)
-  }
-
-  const updateAval = (updatedlist) => {
-
-    setAvalCourses(updatedlist)
   }
   
   const [showModal, setShowModal] = useState(false);
@@ -61,7 +52,10 @@ function Courseregpage() {
   useEffect(() => {
     setDisplayNumAval(pageNumaval)
     var token = sessionStorage.getItem("token");
-    axios.get(import.meta.env.VITE_ADMIN+"//" + pageNumaval,{
+    axios.post(import.meta.env.VITE_ADMIN+"/available-courses/" + pageNumaval,
+    {
+      filters:filters
+    },{
       headers: {
         'Content-Type': "application/json",
         'Authorization': `Bearer ${token}`,
@@ -76,25 +70,6 @@ function Courseregpage() {
       setErrMsg("There is some problem with the server or your internet, try again after some time")
     })
   }, [pageNumaval]);
-
-  useEffect(() => {
-    setDisplayNumReg(pageNumreg)
-    var token = sessionStorage.getItem("token");
-    axios.get(import.meta.env.VITE_ADMIN+"//" + pageNumreg,{
-      headers: {
-        'Content-Type': "application/json",
-        'Authorization': `Bearer ${token}`,
-      }
-    }).then( (res) =>{
-
-      setTotPageNumreg(res.data.totPageNumreg)
-      setRegCourses(res.data.courses)
-    }).catch((err) => {
-
-      console.log(err);
-      setErrMsg("There is some problem with the server or your internet, try again after some time")
-    })
-  }, [pageNumreg]);
 
   useEffect(() => {
 
@@ -136,36 +111,17 @@ function Courseregpage() {
   const [filters, setFilters] = useState({
     courseId: "",
     courseName: "",
-    department: "",
     instructor: "",
-    semester: "",
     slot: "",
-    credits: ""
   });
 
   const updatefilters = (filters) =>{
     setFilters(filters)
   }
 
-  const handleprevreg = ()=>{
-
-    if(pageNumreg > 1) setPageNumreg(pageNumreg - 1);
-  }
-
   const handleprevaval = ()=>{
 
     if(pageNumaval > 1) setPageNumaval(pageNumaval - 1);
-  }
-
-  const handlepgnoreg = ()=>{
-
-    if(displayNumReg >= 1 && displayNumReg <= totPageNumreg)
-      setPageNumreg(displayNumReg);
-
-    else {
-      setPageNumreg(totPageNumreg);
-      setDisplayNumReg(totPageNumreg);
-    }  
   }
 
   const handlepgnoaval = ()=>{
@@ -177,11 +133,6 @@ function Courseregpage() {
       setPageNumaval(totPageNumaval);
       setDisplayNumReg(totPageNumaval);
     }   
-  }
-
-  const handlenextreg = ()=>{
-
-    if(pageNumreg < totPageNumreg) setPageNumreg(pageNumreg + 1);
   }
 
   const handlenextaval = ()=>{
@@ -202,15 +153,13 @@ function Courseregpage() {
 
             <div className="bg-blue-50 p-5">
 
-              <Filters filters = {filters} updatefilters = {updatefilters} Courselist = {avalCourses} updatecourselist = {setAvalCourses}/>
+              <Filters filters = {filters} updatefilters = {updatefilters} Courselist = {avalCourses} updatecourselist = {setAvalCourses} settotpagenum = {setTotPageNumaval}/>
 
-              <div className="grid grid-cols-9 justify-between font-semibold items-center mb-1">
+              <div className="grid grid-cols-7 justify-between font-semibold items-center mb-1">
 
                 <div>Course ID</div>
                 <div>Course Name</div>
-                <div>Department</div>
                 <div>Instructor</div>
-                <div>Semester</div>
                 <div>Slot</div>
                 <div>Credits</div>
                 <div>Current Students</div>
@@ -224,9 +173,7 @@ function Courseregpage() {
                   <div onClick={() => handleCourseIdClick(course.course_id)} className="cursor-pointer">{course.course_id}</div>
 
                   <div>{course.coursename}</div>
-                  <div>{course.department}</div>
                   <div>{course.instructor}</div>
-                  <div>{course.semester}</div>
                   <div>{course.slot}</div>
                   <div>{course.credits}</div>
                   <div>{course.current[0]}</div>
@@ -257,10 +204,7 @@ function Courseregpage() {
           </div>
 
           <div> <button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlenextaval()}>next</button> </div>
-        </div>
-
-
-          
+        </div>          
 
         <div className="grid gap-4 mb-2">
           
@@ -270,13 +214,11 @@ function Courseregpage() {
 
             <div className="bg-blue-50 p-4">
 
-              <div className="grid grid-cols-10 justify-between items-center font-semibold mb-2">
+              <div className="grid grid-cols-8 justify-between items-center font-semibold mb-2">
 
                 <div>Course ID</div>
                 <div>Course Name</div>
-                <div>Department</div>
                 <div>Instructor</div>
-                <div>Semester</div>
                 <div>Slot</div>
                 <div>Credits</div>
                 <div>Elective</div>
@@ -285,14 +227,12 @@ function Courseregpage() {
 
               </div>
               {regCourses.map((course) => (
-                <div key={course.course_id} className="grid grid-cols-10 justify-between items-center mb-2">
+                <div key={course.course_id} className="grid grid-cols-7 justify-between items-center mb-2">
 
                   <div onClick={() => handleCourseIdClick(course.course_id)} className="cursor-pointer">{course.course_id}</div>
 
                   <div>{course.coursename}</div>
-                  <div>{course.department}</div>
                   <div>{course.instructor}</div>
-                  <div>{course.semester}</div>
                   <div>{course.slot}</div>
                   <div>{course.credits}</div>
                   <div>{course.elective}</div>
@@ -303,25 +243,6 @@ function Courseregpage() {
               ))}
             </div>
           </div>
-        </div>
-
-        <div className="flex gap-3 justify-center font-semibold mb-6">
-          <div> <button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handleprevreg()}>prev</button> </div>
-
-          <div className="flex flex-row items-center">
-            
-            <input className="w-8 border-2" type="text" placeholder={pageNumreg}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-              handlepgnoreg();
-            }
-            }}/>
-
-          <div className="mx-2">of</div>
-          <div>{totPageNumreg}</div>
-          </div>
-
-          <div> <button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlenextreg()}>next</button> </div>
         </div>
 
       </div>
