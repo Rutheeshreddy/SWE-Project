@@ -21,6 +21,9 @@ const SelCoursePopup = (props) => {
     {
 
     }
+    const handleCancel = () => {
+        
+    }
         return (
         <div>
         <form  className="feedback-form p-4 bg-white rounded-lg shadow-md">

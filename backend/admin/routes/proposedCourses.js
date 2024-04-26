@@ -1,6 +1,7 @@
 import authenticateToken from "./Authenticate.js";
 import express from 'express';
 import client from '../config/database.js'
+import getTeacherName from "./getTeacherName.js";
 
 const router = express.Router();
 
@@ -32,6 +33,7 @@ router.post('/remove-course', authenticateToken, async (req,res) => {
           values : [req.body.course_id]
         }
         const res1 = await client.query(query);
+        res.json({message : res1.rowCount});
       }
       catch(err) {
         console.log(err.stack);
@@ -39,21 +41,70 @@ router.post('/remove-course', authenticateToken, async (req,res) => {
   
 })
 
+router.get('/added-course-details/:id',authenticateToken, async(req,res) => {
+  var course_selection = 0;
+  try {
+    const query = {
+      name: 'get-selection-period',
+      text: 'select * from timeline'
+    }
+    const res1 = await client.query(query);
+    course_selection = res1.course_selection;
+  }
+  catch(err) {
+    console.log(err.stack);
+  }
+  if(course_selection == 0) res.json({period : 0});
+  else 
+  {
+    try {
+      const query = {
+        name: 'get-teachers',
+        text: 'select * from selected_courses where course_id = $1 ;',
+        values: [req.params.id]        
+      }
+      const res1 = await client.query(query);
+      var selected_teacher = {id : "", name : ""};
+      var teachers = []
+      for (var i=0;i<res1.rowCount;i++)
+      {
+          if(res1.rows[i].teacher_selected == 1) 
+          {
+              selected_teacher.id = res1.rows[i].teacher_id;
+              selected_teacher.name = getTeacherName(res1.rows[i].teacher_id);
+          }
+          else 
+          {
+              teachers.push({
+                id : res1.rows[i].teacher_id,
+                name : getTeacherName(res1.rows[i].teacher_id)
+              });
+          }
+      }
+      res.json({ period : 1, selected_teacher : selected_teacher, teachers: teachers});
+    }
+    catch(err) {
+      console.log(err.stack);
+    }
+  }
+
+} )
+
 router.post('/update-course', authenticateToken, async (req,res) => {
 
-    try {
-        const query = {
-          name: 'admin-updates-course',
-          text: 'update proposed_courses set course_id = $2, name = $2, credits = $3,' +
-                ' prerequisites = $5 where course_id = $1 ;',
-          values : [req.body.course_id_prev,req.body.course_id,req.body.name,
-                    req.body.credits,req.body.prereq ]
-        }
-        const res1 = await client.query(query);
+  try {
+      const query = {
+        name: 'admin-updates-course',
+        text: 'update proposed_courses set course_id = $2, name = $2, credits = $3,' +
+              ' prerequisites = $5 where course_id = $1 ;',
+        values : [req.body.course_id_prev,req.body.course_id,req.body.name,
+                  req.body.credits,req.body.prereq ]
       }
-      catch(err) {
-        console.log(err.stack);
-      }
+      const res1 = await client.query(query);
+    }
+    catch(err) {
+      console.log(err.stack);
+    }
   
 })
 
@@ -74,7 +125,7 @@ router.get('/proposed-courses/:num',authenticateToken, async (req,res) => {
     }
 
     var num_pages = Math.ceil(num_courses / per_page );
-    if(req.params.num > num_pages) res.json({ message : -1 });
+    if(req.params.num > num_pages) res.json({ message : -1 , totPages : num_pages });
     var offset = per_page *(req.params.num-1);
     try {
         const query = {
@@ -83,7 +134,7 @@ router.get('/proposed-courses/:num',authenticateToken, async (req,res) => {
         values : [offset,per_page]
         }
         const res1 = await client.query(query);
-        res.json({ courses : res1.rows , totPages : num_pages});
+        res.json({ message : 1, courses : res1.rows , totPages : num_pages});
     }
     catch(err) {
         console.log(err.stack);
