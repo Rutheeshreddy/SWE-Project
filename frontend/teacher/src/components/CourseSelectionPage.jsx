@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
-import CourseInfo from "./CourseInfo.jsx"
-import Filters from "./Filters.jsx"
+import SelectionFilters from "./SelectionFilters";
 import axios from "axios"
 
 
@@ -20,43 +18,43 @@ function Courseregpage() {
 
   useEffect(() => {
 
-    setDisplayNumAval(pageNumaval)
+    // setDisplayNumAval(pageNumaval)
 
-    var token = sessionStorage.getItem("token");
-    axios.get(import.meta.env.VITE_ADMIN+"//" + pageNumaval,{
-      headers: {
-        'Content-Type': "application/json",
-        'Authorization': `Bearer ${token}`,
-      }
-    }).then( (res) =>{
+    // var token = sessionStorage.getItem("token");
+    // axios.get(import.meta.env.VITE_ADMIN+"//" + pageNumaval,{
+    //   headers: {
+    //     'Content-Type': "application/json",
+    //     'Authorization': `Bearer ${token}`,
+    //   }
+    // }).then( (res) =>{
 
-      setTotPageNumaval(res.data.totPageNumaval)
-      setAvalCourses(res.data.courses)
-    }).catch((err) => {
+    //   setTotPageNumaval(res.data.totPageNumaval)
+    //   setAvalCourses(res.data.courses)
+    // }).catch((err) => {
 
-      console.log(err);
-      setErrMsg("There is some problem with the server or your internet, try again after some time")
-    })
+    //   console.log(err);
+    //   setErrMsg("There is some problem with the server or your internet, try again after some time")
+    // })
   }, [pageNumaval]);
 
   useEffect(() => {
 
-    setDisplayNumSel(pageNumsel)
-    var token = sessionStorage.getItem("token");
-    axios.get(import.meta.env.VITE_ADMIN+"//" + pageNumsel,{
-      headers: {
-        'Content-Type': "application/json",
-        'Authorization': `Bearer ${token}`,
-      }
-    }).then( (res) =>{
+    // setDisplayNumSel(pageNumsel)
+    // var token = sessionStorage.getItem("token");
+    // axios.get(import.meta.env.VITE_ADMIN+"//" + pageNumsel,{
+    //   headers: {
+    //     'Content-Type': "application/json",
+    //     'Authorization': `Bearer ${token}`,
+    //   }
+    // }).then( (res) =>{
 
-      setTotPageNumsel(res.data.totPageNumsel)
-      setSelCourses(res.data.courses)
-    }).catch((err) => {
+    //   setTotPageNumsel(res.data.totPageNumsel)
+    //   setSelCourses(res.data.courses)
+    // }).catch((err) => {
 
-      console.log(err);
-      setErrMsg("There is some problem with the server or your internet, try again after some time")
-    })
+    //   console.log(err);
+    //   setErrMsg("There is some problem with the server or your internet, try again after some time")
+    // })
   }, [pageNumsel]);
 
 
@@ -147,7 +145,7 @@ function Courseregpage() {
 
             <div className="bg-blue-50 p-5">
 
-              <Filters filters = {filters} updatefilters = {updatefilters} Courselist = {avalCourses} updatecourselist = {setAvalCourses}/>
+              <SelectionFilters filters = {filters} updatefilters = {updatefilters} Courselist = {avalCourses} updatecourselist = {setAvalCourses}/>
 
               <div className="grid grid-cols-6 justify-between font-semibold items-center mb-1">
 
@@ -241,7 +239,7 @@ function Courseregpage() {
 
           <div className="flex flex-row items-center">
             
-            <input className="w-8 border-2" type="text" placeholder={pageNumreg}
+            <input className="w-8 border-2" type="text" placeholder={pageNumsel}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
               handlepgnosel();
@@ -249,7 +247,7 @@ function Courseregpage() {
             }}/>
 
           <div className="mx-2">of</div>
-          <div>{totPageNumreg}</div>
+          <div>{totPageNumsel}</div>
           </div>
 
           <div> <button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlenextsel()}>next</button> </div>
