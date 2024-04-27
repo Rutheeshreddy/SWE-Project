@@ -3,6 +3,9 @@ import ErrorPage from "./components/ErrorPage";
 import Redirect from "./components/Redirect";
 import Registration from "./components/Registration";
 import Selection from "./components/Selection";
+import Grading from "./components/Grading";
+import Feedback from './components/Feedback';
+
 
 const routes = [
   {
@@ -24,7 +27,7 @@ const routes = [
   },
   {
     path: "/feedback",
-    element: < Redirect/>,
+    element: < Feedback/>,
   },
   {
     path: "/grading",

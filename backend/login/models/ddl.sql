@@ -10,7 +10,7 @@ create table  student (
 	id varchar(30) primary key,
 	name varchar(30) NOT NULL,
 	department varchar(10) NOT NULL,
-	joining_year integer NOT NULL 
+	joining_year integer NOT NULL
 );
 
 create table  instructor (
@@ -33,7 +33,8 @@ create table  past_courses (
 	rating_3 FLOAT,
 	max_capacity integer,
 	primary key (course_id,semester,year),
-	foreign key (instructor_id) references instructor on delete cascade
+	foreign key (instructor_id) references instructor(id) on delete cascade 
+			on update cascade
 );
 
 create table  present_courses (
@@ -46,10 +47,11 @@ create table  present_courses (
 	instructor_name varchar(50),
 	prerequisites varchar(50),
 	slot char,
-	max_capacity integer,
+	max_capacity integer default 100,
 	count integer default 0,
 	primary key (course_id,semester,year),
-	foreign key (instructor_id) references instructor on delete cascade
+	foreign key (instructor_id) references instructor(id) on delete cascade 
+					on update cascade
 );
 
 create table  student_courses_past(
@@ -63,8 +65,9 @@ create table  student_courses_past(
 	grade varchar(5) ,
 	feedback varchar(200) ,
 	primary key (course_id,semester,year,student_id),
-	foreign key (student_id) references student on delete cascade,
-	foreign key (course_id,semester,year) references past_courses on delete cascade
+	foreign key (student_id) references student(id) on delete cascade,
+	foreign key (course_id,semester,year) references past_courses(course_id,semester,year)
+		 on delete cascade on update cascade
 );
 
 create table  student_courses_present(
@@ -79,7 +82,8 @@ create table  student_courses_present(
 	feedback boolean default false ,
 	primary key (course_id,semester,year,student_id),
 	foreign key (student_id) references student on delete cascade,
-	foreign key (course_id,semester,year) references present_courses on delete cascade
+	foreign key (course_id,semester,year) references present_courses(course_id,semester,year)
+		 on delete cascade on update cascade
 );
 
 create table  proposed_courses(
@@ -95,7 +99,8 @@ create table  selected_teacher (
 	teacher_id varchar(30),
 	teacher_selected integer DEFAULT 0,
 	primary key (course_id,teacher_id),
-	foreign key (course_id) references proposed_courses on delete cascade on UPDATE CASCADE
+	foreign key (course_id) references proposed_courses(course_id)
+		 on delete cascade on update cascade
 );
 
 create table  selected_slot (
@@ -103,7 +108,8 @@ create table  selected_slot (
 	slot char,
 	slot_selected integer DEFAULT 0,
 	primary key (course_id),
-	foreign key (course_id) references proposed_courses on delete cascade on UPDATE CASCADE
+	foreign key (course_id) references proposed_courses(course_id)
+		 on delete cascade on update cascade
 );
 
 create table  timeline (

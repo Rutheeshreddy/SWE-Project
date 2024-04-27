@@ -4,7 +4,7 @@ import axios from "axios";
 const handleStart = ()=>
 {
     var token = sessionStorage.getItem('token');
-    axios.post(import.meta.env.VITE_ADMIN+"registration/start",{},{
+    axios.post(import.meta.env.VITE_ADMIN+"feedback/start",{},{
         headers: {
           'Content-Type': "application/json",
           'Authorization': `Bearer ${token}`,
@@ -12,15 +12,15 @@ const handleStart = ()=>
        }).then( (res) => {
         if(res.data.message == 1)
         {
-            alert('Course-registration started');
+            alert('Course-Feedback started');
         }
         else if (res.data.message == -1)
         {
-            alert('Course-registration period is already active');
+            alert('Course-Feedback period is already active');
         }
         else if (res.data.message == -2)
         {
-          alert('Course-registration can not be started');
+          alert('Course-Feedback can not be started');
         }
        }).catch((err) => {
         
@@ -33,7 +33,7 @@ const handleStart = ()=>
 const handleStop = ()=>
 {
     var token = sessionStorage.getItem('token');
-  axios.post(import.meta.env.VITE_ADMIN+"registration/stop",{},{
+  axios.post(import.meta.env.VITE_ADMIN+"feedback/stop",{},{
       headers: {
         'Content-Type': "application/json",
         'Authorization': `Bearer ${token}`,
@@ -41,11 +41,11 @@ const handleStop = ()=>
      }).then( (res) => {
       if(res.data.message == 1)
       {
-          alert('Course-registration stopped');
+          alert('Course-Feedback stopped');
       }
       else if (res.data.message == -1)
       {
-        alert('course-registration did not start');
+        alert('course-feedback did not start');
       }
      }).catch((err) => {
       
@@ -55,7 +55,7 @@ const handleStop = ()=>
     
 }
 
-const Registration = ()=>
+const Feedback = ()=>
 {
 
    return (
@@ -72,4 +72,4 @@ const Registration = ()=>
    )
 }
 
-export default Registration;
+export default Feedback;
