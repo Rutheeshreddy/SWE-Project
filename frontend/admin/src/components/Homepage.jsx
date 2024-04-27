@@ -9,7 +9,7 @@ const Homepage = () =>
     let regcourses; let token; 
     const [details,setDetails] = useState({}); 
     const [period,setPeriod] = useState("");
-
+    const [prevPeriod,setPrevPeriod] = useState(1)
     useEffect(()=>
     {    
          token = sessionStorage.getItem("token") 
@@ -27,7 +27,7 @@ const Homepage = () =>
             console.log("Ok, verify is working")
             //admin info
             setDetails({name:res.data.name,sem:res.data.sem,year:res.data.year})
-            setPeriod(res.data.current_period)
+            setPeriod(res.data.current_period) ; setPrevPeriod(res.data.prev_period)
             }).catch((err) => {
             
             console.log(err);
@@ -41,13 +41,21 @@ const Homepage = () =>
     { 
        if(e.target.id=="CS") 
        { // write condition for checking period
-          if(period != "course_selection") {e.preventDefault()}
+          if(period != "course_selection" && prevPeriod != 4) {e.preventDefault()}
        }
-       else if(e.target.id=="CS") 
-       { // write condition for checking period
-          if(period != "course_selection") {e.preventDefault()}
+       else if(e.target.id=="CR") 
+       {
+          if(period != "course_reg" || prevPeriod != 4) {e.preventDefault()}
        }
-        console.log(period);
+       else if(e.target.id=="CF") 
+       { 
+          if(period != "course_feedback" && prevPeriod != 2) {e.preventDefault()}
+       }
+       else (e.target.id=="GP") 
+       { 
+          if(period != "course_grading" && prevPeriod != 3) {e.preventDefault()}
+       }
+    
     }
 
 
@@ -66,10 +74,10 @@ const Homepage = () =>
                             </button></Link> 
                     </div>
                     <div className="flex flex-row items-center">
-                    <Link to="">  <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mr-2">
+                    <Link to="">  <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mr-2" id="CF">
                                 Course Feedback Period
                             </button></Link>
-                    <Link to=""> <button className="bg-pink-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mr-2">
+                    <Link to=""> <button className="bg-pink-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mr-2" id="GP">
                                  Grading Period
                             </button></Link>
                    </div>

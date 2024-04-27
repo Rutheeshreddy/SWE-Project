@@ -35,6 +35,31 @@ function authenticateToken(req, res, next) {
 
 };
 
+router.get('/past-and-present-courses',authenticateToken, async(req, res) =>
+{
+  try{
+    const query = {
+      name :  'bring-past-and-present-courses',
+      text : 'select * from student_courses_past where student_id = $1',
+      values : [req.user.userName]
+    }
+
+    const res1 = await client.query(query)
+    console.log(res1.rows)
+    res.json({
+      courses: res1.rows,
+      status: 1})
+  }
+
+  catch(err){
+
+    console.log(err.stack);
+    res.json({
+      status:0,
+    })
+  }
+})
+
 
 
 router.post('/register-courses',authenticateToken,async (req,res) => 

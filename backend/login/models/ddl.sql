@@ -76,7 +76,7 @@ create table  student_courses_present(
 	elective varchar(20),
 	student_id varchar(30),
 	grade varchar(5) ,
-	feedback varchar(200) ,
+	feedback boolean default false ,
 	primary key (course_id,semester,year,student_id),
 	foreign key (student_id) references student on delete cascade,
 	foreign key (course_id,semester,year) references present_courses on delete cascade
@@ -118,4 +118,16 @@ create table  timeline (
 create table current_sem (
 	semester varchar(10),
 	year integer 
+);
+
+create table feedback (
+	id SERIAL primary key,
+	course_id VARCHAR(10),
+	semester varchar(10),
+	year integer, 
+	iq1 integer, iq2 integer, iq3 integer, iq4 integer,
+	cq1 integer, cq2 integer, cq3 integer, cq4 integer,
+	cr1 integer, cr2 integer, cr3 integer,
+	ir1 integer,ir2 integer,ir3 integer,
+	cf varchar(200), if varchar(200) 
 );
