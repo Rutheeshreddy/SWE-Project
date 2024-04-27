@@ -93,6 +93,67 @@ router.get('/verify',authenticateToken,async (req,res) =>
   }
 })
 
+router.get('/get-timelines',authenticateToken,async (req,res) => 
+{
+  let res1;
+  // getting timeline details
+  try {
+    // console.log(req.user)
+    const query1 = {
+      name: 'get-timeline-details',
+      text: ' select * from timeline  '
+    }
+    res1 = await client.query(query1);
+    // console.log(res1.rows)
+    return res.json({
+
+      tokenStatus:1,
+      status:1,
+      grade : res1.rows[0].course_grading,
+      selection : res1.rows[0].course_selection,
+      prev_period : res1.rows[0].prev_period
+
+    })
+  }
+  catch(err) {
+    console.log(err.stack);
+    return res.json({   // check if there is a error fetching
+      tokenStatus:1,
+      status:0
+    })
+  }
+   
+})
+
+router.post('/give-grade',authenticateToken,async (req,res) => 
+{
+  let res1;
+  // getting timeline details
+  try {
+    // console.log(req.user)
+    const query1 = {
+      name: 'give-grade',
+      text: ' update student_courses_present set grade = $1 where course_id = $2 and student_id = $3',
+      values: [req.body.grade, req.body.course_id, req.body.student_id]
+    }
+    res1 = await client.query(query1);
+    // console.log(res1.rows)
+    return res.json({
+
+      tokenStatus:1,
+      status:1
+    })
+  }
+  catch(err) {
+    console.log(err.stack);
+    return res.json({   // check if there is a error fetching
+      tokenStatus:1,
+      status:0
+    })
+  }
+   
+})
+
 router.get('/taught-courses/:instructor_id',authenticateToken,async (req,res) => 
 {
 
@@ -156,10 +217,15 @@ router.get('/available-courses/:num',authenticateToken, async (req,res) => {
 
   var num_courses = 0;
   var per_page = 3;
+  var instructor_id = req.user.userName;
+  var dept = (instructor_id.split('.')[1]).split('@')[0] ;
+  // rajesh.cs@iith.ac.in
   try {
       const query = {
       name: 'get-num-of-courses',
-      text: 'select count(*) as cnt from proposed_courses ;'
+      text: ' select count(*) as cnt from (select * from proposed_courses as A where course_id like $1) where  course_id not in' +
+      ' (select course_id from selected_teacher as B where teacher_id = $2  and teacher_selected = 1 ) ;',
+      values: [`%${dept}%`,req.user.userName]
       }
       const res1 = await client.query(query);
       num_courses = res1.rows[0].cnt;
@@ -187,8 +253,10 @@ router.get('/available-courses/:num',authenticateToken, async (req,res) => {
   try {
       const query = {
       name: 'get-current-page-courses',
-      text: 'select * from proposed_courses order by course_id limit $2 offset $1 ;',
-      values : [offset,per_page]
+      text:  ' select * from (select * from proposed_courses as A where course_id like $3) where  course_id not in' +
+      ' (select course_id from selected_teacher as B where teacher_id = $4  and teacher_selected = 1 ) ' +
+      ' order by course_id limit $2 offset $1 ;',
+      values : [offset,per_page,`%${dept}%`,req.user.userName]
       }
       const res1 = await client.query(query);
       return res.json({
@@ -207,53 +275,22 @@ router.get('/available-courses/:num',authenticateToken, async (req,res) => {
   }
 })
 
-router.get('/selected-courses/:instructor_id/:num',authenticateToken, async (req,res) => {
+router.get('/selected-courses',authenticateToken, async (req,res) => {
 
-  var num_courses = 0;
-  var per_page = 3;
-  try {
-      const query = {
-      name: 'get-num-of-selected-courses',
-      text: 'select count(*) as cnt from selected_teacher where teacher_id = $1 ;',
-      values: [req.params.instructor_id]
-      }
-      const res1 = await client.query(query);
-      num_courses = res1.rows[0].cnt;
-  }
-  catch(err) {
-      console.log(err.stack);
-      return res.json({   // check if there is a error fetching
-        tokenStatus:1,
-        status:0
-      })
-  }
-
-  var num_pages = Math.ceil(num_courses / per_page );
-
-  // If page number is greater than max_number of pages
-  if(req.params.num > num_pages) {
-    return res.json({ 
-      tokenStatus:1,
-      status : -1 ,
-       totPages : num_pages 
-      });
-  }
-
-  var offset = per_page *(req.params.num-1);
+ 
   try {
       const query = {
       name: 'get-current-page-selected-courses',
       text: 'select * from proposed_courses where course_id in ' + 
-          ' ( select course_id from selected_teacher where teacher_id = $3) ' +
-          '  order by course_id limit $2 offset $1 ;',
-      values : [offset,per_page,req.params.instructor_id]
+          ' ( select course_id from selected_teacher where teacher_id = $1 and teacher_selected = 0) ' +
+          '  order by course_id;',
+      values : [req.user.userName]
       }
       const res1 = await client.query(query);
       return res.json({
         tokenStatus:1,
          status : 1, 
          courses : res1.rows , 
-         totPages : num_pages
         });
   }
   catch(err) {
@@ -330,6 +367,74 @@ router.get('/present-course-details/:course_id/:num',authenticateToken, async (r
       })
   }
 })
+
+router.post('/register-courses',authenticateToken,async (req,res) => 
+{
+  
+    // removing all courses the student already registered for
+    
+    try {
+        const query = {
+        name: 'delete-teacher-courses',
+        text: 'delete from selected_teacher WHERE teacher_id = $1',
+        values: [req.user.userName]
+        }
+        const res1 = await client.query(query);
+  
+    }
+    catch(err) {
+        console.log(err.stack);
+        res.json({
+          status:0,
+        })
+    }
+    let sem,year  
+    // getting the present year and semester
+            try {
+                const query1 = {
+                name: 'get-present-year',
+                text: ' select * from current_sem  ',
+                values: []
+                }
+              const res2 = await client.query(query1); 
+              sem = res2.rows[0].semester
+              year = res2.rows[0].year  
+            }
+            catch(err) {
+                console.log(err.stack);
+                res.json({
+                tokenStatus:1,
+                status:0
+                })
+            }
+    // adding the new list of courses
+    let carr = req.body.regCourses
+    // console.log(carr);
+    for(let i = 0;i<carr.length;i++)
+    {   
+        try {
+                const query = {
+                name: 'send-request-to-teach',
+                text: 'insert into selected_teacher(course_id,teacher_id,teacher_selected) VALUES ($1,$2,0) ;',
+                values: [carr[i].course_id,req.user.userName]
+                }
+                const res1 = await client.query(query);
+        
+            }
+            catch(err) {
+                console.log(err.stack);
+                return res.json({
+                status:0,
+                })
+            }
+  }
+
+  return res.json({
+    status:1
+  })
+   
+})
+
 
 
 

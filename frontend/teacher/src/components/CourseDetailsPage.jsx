@@ -84,9 +84,26 @@ const CourseDetailsPage = () => {
       }, [pageNum]);
     
       useEffect(() => {
-        //axios request
-        setIsGradeOn(true);
-        setIsFeedbackDone(true);
+        var token = sessionStorage.getItem('token');
+        axios.get(import.meta.env.VITE_TEACHER + 'get-timelines',{
+            headers: {
+            'Content-Type': "application/json",
+            'Authorization': `Bearer ${token}`,
+        }
+        })
+            .then((res) => {
+
+                if(res.data.status == 1) {
+                    setIsGradeOn(res.data.grade == 1);
+                    if(res.data.prev_period == 3) setIsFeedbackDone(true);
+                    else setIsFeedbackDone(false);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        // setIsGradeOn(true);
+        // setIsFeedbackDone(true);
       }, [])
 
   const handleprev = ()=> {
@@ -132,7 +149,28 @@ const CourseDetailsPage = () => {
                 return;
             }
             //axios request
-            //to send student id and his grade
+            //to send course id, student id and his grade
+            var token = sessionStorage.getItem('token');
+            axios.post(import.meta.env.VITE_TEACHER + 'give-grade',{
+                course_id: course.courseCode,
+                student_id: studentId,
+                grade: enteredGrade
+            },{
+                headers: {
+                'Content-Type': "application/json",
+                'Authorization': `Bearer ${token}`,
+            }
+            }).then((res) => {
+                    if(res.data.status == 1) {
+
+                    }
+                    else {
+                        
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
     }
 

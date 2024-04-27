@@ -65,6 +65,7 @@ const SelCoursePopup = (props) => {
             credits : credits,
             prereq : prereq,
             teacher_id : teacher.id,
+            teacher_name : teacher.name,
             slot : slot
           },    {
             headers: {

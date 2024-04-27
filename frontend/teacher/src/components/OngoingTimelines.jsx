@@ -1,20 +1,30 @@
 import React, {useState, useEffect} from "react";
+import axios from 'axios';
 
 const   OngoingTimelines = () => {
     const [isGradeOn, setIsGradeOn] = useState(false);
     const [isFeedback, setIsFeedback] = useState(false);
 
-    useEffect(() => {
-    // axios.get("your_api_endpoint_here")
-    //     .then((res) => {
-    //         setIsGradeOn(res.data.grade);
-    //         setIsFeedbackn(res.data.feedback);
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     });
-        setIsGradeOn(true);
-        setIsFeedback(true);
+    useEffect(() => { 
+
+        var token = sessionStorage.getItem('token');
+        axios.get(import.meta.env.VITE_TEACHER + 'get-timelines',{
+            headers: {
+            'Content-Type': "application/json",
+            'Authorization': `Bearer ${token}`,
+        }
+        })
+            .then((res) => {
+
+                if(res.data.status == 1) {
+                    setIsGradeOn(res.data.grade == 1);
+                    if(res.data.prev_period == 3) setIsFeedback(true);
+                    else setIsFeedback(false);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }, [])
 
     return (

@@ -7,11 +7,12 @@ const  CourseSelectionPage = () => {
 
   const [selCourses, setSelCourses] = useState([]);
   const [avalCourses, setAvalCourses] = useState([]);
-  const [regCourses, setRegCourses] = useState([]);
 
-  const [totPageNumsel, setTotPageNumsel] = useState(0)
-  const [displayNumsel, setDisplayNumsel] = useState(1)
-  const [pageNumsel, setPageNumsel] = useState(1)
+  // const [regCourses, setRegCourses] = useState([]);
+
+  // const [totPageNumsel, setTotPageNumsel] = useState(1)
+  // const [displayNumsel, setDisplayNumsel] = useState(1)
+  // const [pageNumsel, setPageNumsel] = useState(1)
 
   const [totPageNumaval, setTotPageNumaval] = useState(0)
   const [displayNumAval, setDisplayNumAval] = useState(1)
@@ -35,6 +36,7 @@ const  CourseSelectionPage = () => {
       // console.log(res.data);
       if(res.data.status == 1) {
         setTotPageNumaval(res.data.totPages)
+        // setTotPageNumsel(res.data.totPages)
         setAvalCourses(res.data.courses)
       }
 
@@ -47,34 +49,34 @@ const  CourseSelectionPage = () => {
 
   useEffect(() => {
 
-    setDisplayNumsel(pageNumsel)
     var token = sessionStorage.getItem("token");
-    axios.get(import.meta.env.VITE_TEACHER+"selected-courses/"+ id + "/" + pageNumsel,{
+    axios.get(import.meta.env.VITE_TEACHER+"selected-courses",
+    {
       headers: {
         'Content-Type': "application/json",
         'Authorization': `Bearer ${token}`,
       }
     }).then( (res) =>{
+      console.log(res.data);
+      if(res.data.status == 1) setSelCourses(res.data.courses)
 
-      if(res.data.status == 1) {
-      setTotPageNumsel(res.data.totPages)
-      setSelCourses(res.data.courses)
-      }
-
+      
     }).catch((err) => {
 
       console.log(err);
       setErrMsg("There is some problem with the server or your internet, try again after some time")
     })
-  }, [pageNumsel]);
-
-
+  }, []);
 
   const handleRemoveCourse = (courseId) => {
 
     const updatedselCourses = selCourses.filter(course => course.course_id !== courseId);
     setSelCourses(updatedselCourses);
   };
+  const updateReg = (updatedlist) => {
+
+    setSelCourses(updatedlist)
+  }
 
   const handleAddCourse = (courseId) => {
 
@@ -86,8 +88,41 @@ const  CourseSelectionPage = () => {
         updateReg([...selCourses, addedCourse]);           
     }
 
+    else {
+      alert('You already selected the course');
+    }
+
     
   };
+
+  const handleRegister = () =>{
+
+    var token = sessionStorage.getItem("token");
+    axios.post(import.meta.env.VITE_TEACHER+"register-courses/",
+    {
+      regCourses: selCourses
+    },{
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${token}`,
+      }
+    }).then( (res) =>{
+
+      if(res.data.status !== 1){
+
+        alert("registration unsuccessful!");
+      }
+      else{
+        alert("registration successful")
+      }
+
+    
+    }).catch((err) => {
+
+      console.log(err);
+      setErrMsg("There is some problem with the server or your internet, try again after some time")
+    })
+  }
 
   const [filters, setFilters] = useState({
     courseId: "",
@@ -101,11 +136,6 @@ const  CourseSelectionPage = () => {
     setFilters(filters)
   }
 
-  const handleprevsel = ()=>{
-
-    if(pageNumsel > 1) setPageNumsel(pageNumsel - 1);
-    setDisplayNumsel(pageNumsel);
-  }
 
   const handleprevaval = ()=>{
 
@@ -113,16 +143,6 @@ const  CourseSelectionPage = () => {
     setDisplayNumAval(pageNumaval);
   }
 
-  const handlepgnosel = ()=>{
-
-    if(displayNumsel >= 1 && displayNumsel <= totPageNumsel)
-      setPageNumsel(displayNumsel);
-
-    else {
-      setPageNumsel(totPageNumsel);
-      setDisplayNumsel(totPageNumsel);
-    }  
-  }
 
   const handlepgnoaval = ()=>{
 
@@ -135,11 +155,6 @@ const  CourseSelectionPage = () => {
     }   
   }
 
-  const handlenextsel = ()=>{
-
-    if(pageNumsel < totPageNumsel) setPageNumsel(pageNumsel + 1);
-    setDisplayNumsel(pageNumsel);
-  }
 
   const handlenextaval = ()=>{
 
@@ -219,7 +234,7 @@ const  CourseSelectionPage = () => {
           
           <div className="col-span-3 overflow-y-auto rounded-lg shadow-xs">
 
-            <div className="text-lg font-semibold text-center mb-2">Registered Courses</div>
+            <div className="text-lg font-semibold text-center mb-2">Selected Courses</div>
 
             <div className="bg-blue-50 p-4">
 
@@ -249,26 +264,8 @@ const  CourseSelectionPage = () => {
             </div>
           </div>
         </div>
-
-        <div className="flex gap-3 justify-center font-semibold mb-6">
-          <div> <button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handleprevsel()}>prev</button> </div>
-
-          <div className="flex flex-row items-center">
-            
-            <input className="w-8 border-2" type="text" value={displayNumsel}
-            onChange={(e) => setDisplayNumsel(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-              handlepgnosel();
-            }
-            }}/>
-
-          <div className="mx-2">of</div>
-          <div>{totPageNumsel}</div>
-          </div>
-
-          <div> <button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlenextsel()}>next</button> </div>
-        </div>
+        
+        <div className = "flex justify-center mt-6"><button className="bg-red-500 text-white px-2 py-1 rounded-md text-sm" onClick = {() => handleRegister()}> Register</button></div>
 
       </div>
 

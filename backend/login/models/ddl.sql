@@ -23,10 +23,14 @@ create table  past_courses (
 	course_id varchar(10),
 	semester varchar(10),
 	year integer,
-	name varchar(30) NOT NULL,
-	credits integer default 0,
+	name varchar(30) NOT NULL ,
+	credits integer default 0 ,
 	instructor_id varchar(30) ,
 	prerequisites varchar(50),
+	avg_gpa FLOAT,
+	rating_1 FLOAT,
+	rating_2 FLOAT,
+	rating_3 FLOAT,
 	max_capacity integer,
 	primary key (course_id,semester,year),
 	foreign key (instructor_id) references instructor on delete cascade
@@ -106,7 +110,9 @@ create table  timeline (
 	course_selection integer default 0,
 	course_reg integer default 0,
 	course_feedback integer default 0,
-	course_grading integer default 0
+	course_grading integer default 0,
+	prev_period integer default 0,
+	primary key (course_selection)
 );
 
 create table current_sem (

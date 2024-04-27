@@ -1,7 +1,7 @@
 import authenticateToken from "./Authenticate.js";
 import express from 'express';
 import client from '../config/database.js'
-import getTeacherName from "./getTeacherName.js";
+import {getTeacherName,getSem} from "./getTeacherName.js";
 
 const router = express.Router();
 
@@ -44,6 +44,14 @@ router.post('/remove-course', authenticateToken, async (req,res) => {
           values : [req.body.course_id]
         }
         const res1 = await client.query(query);
+
+        const query2 = {
+          name: 'admin-removes-course-from',
+          text: 'delete from present_courses where course_id = $1 ;',
+          values : [req.body.course_id]
+        }
+        const res2 = await client.query(query2);
+
         return res.json({message : res1.rowCount});
       }
       catch(err) {
@@ -154,6 +162,35 @@ router.post('/update-course', authenticateToken, async (req,res) => {
       }
       const res4 = await client.query(query4);
 
+      if(req.body.teacher_id != null) {
+        const query6 = {
+          name: 'get',
+          text: 'select count(*) as cnt from present_courses where course_id = $1 ',
+          values : [ req.body.course_id]
+        }
+        const res6 = await client.query(query6);
+        if(res6.rows[0].cnt == 0) {
+        var {sem,year} = await getSem()
+        const query5 = {
+          name: 'admin-inserts-course-into-present-courses',
+          text: 'insert into present_courses values ($1,$2,$3,$4,$5,$6,$7,$8,$9,100,0) ',
+          values : [ req.body.course_id,sem,year,req.body.name,req.body.credits,
+            req.body.teacher_id,req.body.teacher_name,req.body.prereq,req.body.slot]
+        }
+        const res5 = await client.query(query5);
+    }
+    else {
+      const query7 = {
+        name: 'admin-updates-course-into-present-courses',
+        text: 'update present_courses set course_id = $1, sem = $2, year = $3, name = $4, credits =$5,' +
+        'prereq = $6, instructor_id = $7, instructor_name = $8, slot = $9 where course_id = $10 ',
+        values : [ req.body.course_id,sem,year,req.body.name,req.body.credits,
+          req.body.teacher_id,req.body.teacher_name,req.body.prereq,req.body.slot, 
+        req.body.course_id_prev]
+      }
+      const res5 = await client.query(query6);
+    }
+    }
     }
     catch(err) {
       console.log(err.stack);

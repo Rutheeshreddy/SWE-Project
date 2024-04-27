@@ -1,23 +1,30 @@
 import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
+import axios from "axios";
 
 const SubmissionButtons = (props) => {
     const [isSelectionOn, setIsSelectionOn] = useState(false);
 
-    useEffect(() => {
-        
+    useEffect(() => { 
 
-        // axios.get()
-         //     .then(response => {
-         //         data = response.data
-         //         setIsSelectionOn(data.selection);
-         //     })
-         //     .catch(error => {
-         //         console.error("Error fetching status:", error);
-         //     });
+        var token = sessionStorage.getItem('token');
+        axios.get(import.meta.env.VITE_TEACHER + 'get-timelines',{
+            headers: {
+            'Content-Type': "application/json",
+            'Authorization': `Bearer ${token}`,
+        }
+        })
+            .then((res) => {
 
-        setIsSelectionOn(true);
-    }, []);
+                if(res.data.status == 1) {
+                    setIsSelectionOn(res.data.selection == 1);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, [])
+
 
     return (
         <div className="flex flex-row items-center">
