@@ -4,7 +4,7 @@ import CourseInfo from "./CourseInfo.jsx"
 import ElectiveSelect from "./ElectiveSelect.jsx"
 import Filters from "./Filters.jsx"
 import axios from "axios"
-
+import { useNavigate } from "react-router-dom";
 
 function Courseregpage() {
 
@@ -163,6 +163,14 @@ function Courseregpage() {
         'Authorization': `Bearer ${token}`,
       }
     }).then( (res) =>{
+
+      if(res.data.status !== 1){
+
+        alert("registration unsuccessful!");
+      }
+      else{
+        alert("registration successful")
+      }
 
     
     }).catch((err) => {

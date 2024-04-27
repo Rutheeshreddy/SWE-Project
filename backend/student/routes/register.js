@@ -77,8 +77,8 @@ router.post('/register-courses',authenticateToken,async (req,res) =>
                 })
             }
     // adding the new list of courses
-    carr = req.body.regCourses
-    for(i = 0;i<carr.length;i++)
+    let carr = req.body.regCourses
+    for(let i = 0;i<carr.length;i++)
     {   
         try {
                 const query = {
