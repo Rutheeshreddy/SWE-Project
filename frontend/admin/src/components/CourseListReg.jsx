@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import Filters from "./Filters.jsx"
+import Filters from "./Filters.jsx";
+import axios from "axios";
 
 function CourseListReg(){
-
+    const [errMsg, setErrMsg] = useState("");
     const [filters, setFilters] = useState({
         courseId: "",
         courseName: "",
@@ -25,7 +26,7 @@ function CourseListReg(){
     useEffect(() => {
         setTemp(pageNum);
         var token = sessionStorage.getItem("token");
-        axios.get(import.meta.env.VITE_ADMIN+"//" + pageNum ,{
+        axios.get(import.meta.env.VITE_ADMIN + pageNum ,{
             headers: {
                 'Content-Type': "application/json",
                 'Authorization': `Bearer ${token}`,

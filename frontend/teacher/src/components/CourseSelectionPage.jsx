@@ -47,6 +47,26 @@ const  CourseSelectionPage = () => {
     })
   }, [pageNumaval]);
 
+  useEffect(() => {
+
+    var token = sessionStorage.getItem("token");
+    axios.get(import.meta.env.VITE_TEACHER+"selected-courses",
+    {
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${token}`,
+      }
+    }).then( (res) =>{
+      console.log(res.data);
+      if(res.data.status == 1) setSelCourses(res.data.courses)
+
+      
+    }).catch((err) => {
+
+      console.log(err);
+      setErrMsg("There is some problem with the server or your internet, try again after some time")
+    })
+  }, []);
 
   const handleRemoveCourse = (courseId) => {
 
@@ -74,6 +94,35 @@ const  CourseSelectionPage = () => {
 
     
   };
+
+  const handleRegister = () =>{
+
+    var token = sessionStorage.getItem("token");
+    axios.post(import.meta.env.VITE_TEACHER+"register-courses/",
+    {
+      regCourses: selCourses
+    },{
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${token}`,
+      }
+    }).then( (res) =>{
+
+      if(res.data.status !== 1){
+
+        alert("registration unsuccessful!");
+      }
+      else{
+        alert("registration successful")
+      }
+
+    
+    }).catch((err) => {
+
+      console.log(err);
+      setErrMsg("There is some problem with the server or your internet, try again after some time")
+    })
+  }
 
   const [filters, setFilters] = useState({
     courseId: "",
@@ -215,6 +264,8 @@ const  CourseSelectionPage = () => {
             </div>
           </div>
         </div>
+        
+        <div className = "flex justify-center mt-6"><button className="bg-red-500 text-white px-2 py-1 rounded-md text-sm" onClick = {() => handleRegister()}> Register</button></div>
 
       </div>
 

@@ -35,9 +35,10 @@ function Courseregpage() {
   const [selectedCourseId, setSelectedCourseId] = useState(null);
   const modalRef = useRef(null);
 
-  const updatecourseid = (courseid) =>{
+  const updatecourseid = (courseid) => {
 
     setSelectedCourseId(courseid)
+
   }
 
   const [showChoice, setShowChoice] = useState(false)
@@ -49,6 +50,7 @@ function Courseregpage() {
   }
 
   useEffect(() => {
+
     setDisplayNum(pageNum)
     
     var token = sessionStorage.getItem("token");
@@ -64,10 +66,12 @@ function Courseregpage() {
 
       setTotPageNum(res.data.totPages)
       setAvalCourses(res.data.courses)
+
     }).catch((err) => {
 
       console.log(err);
       setErrMsg("There is some problem with the server or your internet, try again after some time")
+
     })
   }, [pageNum]);
 
