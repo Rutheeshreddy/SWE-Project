@@ -119,3 +119,15 @@ create table current_sem (
 	semester varchar(10),
 	year integer 
 );
+
+create table feedback (
+	id SERIAL primary key,
+	course_id VARCHAR(10),
+	semester varchar(10),
+	year integer, 
+	iq1 integer, iq2 integer, iq3 integer, iq4 integer,
+	cq1 integer, cq2 integer, cq3 integer, cq4 integer,
+	cr1 integer, cr2 integer, cr3 integer,
+	ir1 integer,ir2 integer,ir3 integer,
+	cf varchar(200), if varchar(200) 
+);
