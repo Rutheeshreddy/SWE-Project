@@ -108,7 +108,7 @@ router.post('/register-courses',authenticateToken,async (req,res) =>
         try {
                 const query = {
                 name: 'add-course-to-student',
-                text: 'insert into student_courses_present VALUES ($1,$2,$3,$4,$5,$6,$7,NULL,NULL)',
+                text: 'insert into student_courses_present VALUES ($1,$2,$3,$4,$5,$6,$7,NULL,false)',
                 values: [carr[i].course_id,sem,year,carr[i].name,carr[i].credits,carr[i].elective,req.user.userName]
                 }
                 const res1 = await client.query(query);
