@@ -315,6 +315,67 @@ router.get('/selected-courses',authenticateToken, async (req,res) => {
   }
 })
 
+router.get('/view-feedback/:course_id',authenticateToken, async (req,res) => {
+  var res2
+  console.log(req.params.course_id)
+  try {
+    const query = {
+    name: 'get-sem-year',
+    text: 'select * from current_sem',
+    values : []
+    }
+    res2 = await client.query(query);
+}
+catch(err) {
+    console.log(err.stack);
+    return res.json({   // check if there is a error fetching
+      tokenStatus:1,
+      status:0
+    })
+}
+var res3;
+try {
+  const query3 = {
+  name: 'get-written-feedback-for-a-course',
+  text: 'select cf, tf from feedback where course_id = $1 and semester = $2 and year = $3',
+  values : [req.params.course_id, res2.rows[0].semester, res2.rows[0].year]
+  }
+  res3 = await client.query(query3);
+  console.log(res3.rows);
+  
+}
+catch(err) {
+  console.log(err.stack);
+  return res.json({   // check if there is a error fetching
+    tokenStatus:1,
+    status:0
+  })
+}
+
+  try {
+      const query1 = {
+      name: 'get-feedback-for-a-course',
+      text: 'select AVG(iq1) as avgiq1, AVG(iq2) as avgiq2, AVG(iq3) as avgiq3, AVG(iq4) as avgiq4, AVG(cq1) as avgcq1, AVG(cq2) as avgcq2, AVG(cq3) as avgcq3, AVG(cq4) as avgcq4, AVG(ir1) as avgir1, AVG(ir2) as avgir2, AVG(ir3) as avgir3, AVG(cr1) as avgcr1, AVG(cr2) as avgcr2, AVG(cr3) as avgcr3 from feedback where course_id = $1 and semester = $2 and year = $3',
+      values : [req.params.course_id, res2.rows[0].semester, res2.rows[0].year]
+      }
+      const res1 = await client.query(query1);
+      console.log(res1.rows);
+      return res.json({
+        tokenStatus:1,
+         status : 1, 
+         feedback : {avgs: res1.rows, cftf: res3.rows} 
+        });
+  }
+  catch(err) {
+      console.log(err.stack);
+      return res.json({   // check if there is a error fetching
+        tokenStatus:1,
+        status:0
+      })
+  }
+
+})
+
 router.get('/present-course-details/:course_id/:num',authenticateToken, async (req,res) => {
 
   var num_students = 0;
