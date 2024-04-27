@@ -48,9 +48,9 @@ INSERT INTO student(
 INSERT INTO student_courses_present(
 	course_id, semester, year, name, credits, elective, student_id, grade, feedback)
 	VALUES 
-	('cs123', 'Odd',2024 , 'Computer Architecture', 2, 'Department', 'cs21btech123@iith.ac.in','' , '' ),
-	('cs456', 'Odd',2024 , 'Operating Systems', 3, 'Department', 'cs21btech123@iith.ac.in', '', ''),
-	('ee123', 'Odd',2024 , 'Digital Design', 2, 'Free', 'cs21btech123@iith.ac.in', '' , '' )
+	('cs123', 'Odd',2024 , 'Computer Architecture', 2, 'Department', 'cs21btech123@iith.ac.in','' , false ),
+	('cs456', 'Odd',2024 , 'Operating Systems', 3, 'Department', 'cs21btech123@iith.ac.in', '', false),
+	('ee123', 'Odd',2024 , 'Digital Design', 2, 'Free', 'cs21btech123@iith.ac.in', '' , false )
 	;
 
 INSERT INTO past_courses(

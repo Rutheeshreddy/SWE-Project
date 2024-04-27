@@ -93,7 +93,7 @@ function PropCourseList(props) {
 
             <div className="bg-blue-50 p-5">
 
-              <div className="grid grid-cols-5 justify-between font-semibold items-center mb-2">
+              <div className="grid grid-cols-4 justify-between font-semibold items-center mb-2">
 
                 <div>Course ID</div>
                 <div>Course Name</div>
