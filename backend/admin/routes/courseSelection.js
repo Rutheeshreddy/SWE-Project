@@ -6,7 +6,7 @@ const router = express.Router();
 router.post('/course-selection/start',authenticateToken, async (req,res) => {
 
     var course_selection = 0;
-    var course_reg = 0;
+    var prev_period = 0;
     try {
         const query = {
         name: 'check if we can start course selection',
@@ -14,12 +14,12 @@ router.post('/course-selection/start',authenticateToken, async (req,res) => {
         }
         const res1 = await client.query(query);
         course_selection = res1.rows[0].course_selection ;
-        course_reg = res1.rows[0].course_reg ;
+        prev_period = res1.rows[0].prev_period ;
     }
     catch(err) {
         console.log(err.stack);
     }
-    if(course_reg == 0) {
+    if(prev_period == 0) {
         // start the course-selection period
         if(course_selection == 0) {
             try {
@@ -47,7 +47,6 @@ router.post('/course-selection/start',authenticateToken, async (req,res) => {
 router.post('/course-selection/stop',authenticateToken, async (req,res) => {
   
     var course_selection = 0;
-    var course_reg = 0;
     try {
         const query = {
         name: 'check if we can start course selection',
@@ -55,7 +54,6 @@ router.post('/course-selection/stop',authenticateToken, async (req,res) => {
         }
         const res1 = await client.query(query);
         course_selection = res1.rows[0].course_selection ;
-        course_reg = res1.rows[0].course_reg ;
     }
     catch(err) {
         console.log(err.stack);
@@ -88,16 +86,22 @@ router.post('/course-selection/stop',authenticateToken, async (req,res) => {
         const res3 = await client.query(query3);
         num_selected_slot = res3.rows[0].cnt;
 
-        if(num_prop_courses == num_selected_slot && 
+        if(num_prop_courses == num_selected_slot &&
             num_prop_courses == num_selected_teacher) 
         {
                 
             const query4 = {
                 name: 'stop-course-selection',
-                text: 'update timeline set course_selection = 0 ;'
+                text: 'update timeline set course_selection = 0, prev_period = 1 ;'
             }
             const res4 = await client.query(query4);
-            
+
+            const query5 = {
+                name: 'empty-proposed-courses-table',
+                text: 'delete from proposed_courses ;'
+            }
+            const res5 = await client.query(query5);
+
             return res.json({message : 1});
 
         }

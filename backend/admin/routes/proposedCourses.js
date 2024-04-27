@@ -125,16 +125,16 @@ router.get('/added-course-details/:id',authenticateToken, async(req,res) => {
 router.post('/update-course', authenticateToken, async (req,res) => {
 
   try {
-    
+    console.log(req.body);
       const query = {
         name: 'admin-updates-course',
-        text: 'update proposed_courses set course_id = $2, name = $3, credits = $4,' +
-              ' prerequisites = $5 where course_id = $1 ; ',
-        values : [req.body.course_id_prev,req.body.course_id,req.body.name,
+        text: 'update proposed_courses set name = $2, credits = $3,' +
+              ' prerequisites = $4 where course_id = $1 ; ',
+        values : [req.body.course_id,req.body.name,
                   req.body.credits,req.body.prereq ]
       }
       const res1 = await client.query(query);
-      console.log(res1.rows);
+      // console.log(res1.rows);
 
       const query2 = {
         name: 'set-teacher_selected=0',
@@ -142,7 +142,7 @@ router.post('/update-course', authenticateToken, async (req,res) => {
         values : [ req.body.course_id  ]
       }
       const res2 = await client.query(query2);
-      console.log(res2.rows);
+      // console.log(res2.rows);
 
       const query3 = {
         name: 'admin-updates-selected-teacher',
@@ -151,7 +151,7 @@ router.post('/update-course', authenticateToken, async (req,res) => {
         values : [ req.body.course_id, req.body.teacher_id  ]
       }
       const res3 = await client.query(query3);
-      console.log(res3.rows);
+      // console.log(res3.rows);
 
       var slot_selected = 0;
       if(req.body.slot == '') slot_selected = 0;
@@ -163,40 +163,45 @@ router.post('/update-course', authenticateToken, async (req,res) => {
         values : [ req.body.course_id, req.body.slot,slot_selected  ]
       }
       const res4 = await client.query(query4);
-      console.log(res4.rows);
+      // console.log(res4.rows);
 
       if(req.body.teacher_id != null) {
         const query6 = {
-          name: 'get',
+          name: 'find-if-course-already-inserted',
           text: 'select count(*) as cnt from present_courses where course_id = $1 ',
           values : [ req.body.course_id]
         }
         const res6 = await client.query(query6);
-        console.log(res6.rows);
+        // console.log(res6.rows);
+        const semester = await getSem();
+        const sem = semester.sem;
+        const year = semester.year;
 
         if(res6.rows[0].cnt == 0) {
-        var {sem,year} = await getSem()
-        const query5 = {
-          name: 'admin-inserts-course-into-present-courses',
-          text: 'insert into present_courses values ($1,$2,$3,$4,$5,$6,$7,$8,$9,100,0) ; ',
-          values : [ req.body.course_id,sem,year,req.body.name,req.body.credits,
-            req.body.teacher_id,req.body.teacher_name,req.body.prereq,req.body.slot]
+
+          const query5 = {
+            name: 'admin-inserts-course-into-present-courses',
+            text: 'insert into present_courses values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,default) ; ',
+            values : [ req.body.course_id,sem,year,req.body.name,req.body.credits,
+              req.body.teacher_id,req.body.teacher_name,req.body.prereq,req.body.slot,
+              req.body.max_capacity]
+          }
+          const res5 = await client.query(query5);
+          // console.log(res5.rows);
         }
-        const res5 = await client.query(query5);
-        console.log(res5.rows);
-    }
-    else {
-      const query7 = {
-        name: 'admin-updates-course-into-present-courses',
-        text: 'update present_courses set course_id = $1, sem = $2, year = $3, name = $4, credits =$5,' +
-        'prereq = $6, instructor_id = $7, instructor_name = $8, slot = $9 where course_id = $10 ',
-        values : [ req.body.course_id,sem,year,req.body.name,req.body.credits,
-          req.body.teacher_id,req.body.teacher_name,req.body.prereq,req.body.slot, 
-        req.body.course_id_prev]
+      else {
+        const query7 = {
+          name: 'admin-updates-course-into-present-courses',
+          text: 'update present_courses set name = $6, credits = $7, prerequisites = $8 , ' + 
+          ' instructor_id = $1, instructor_name = $2, ' +
+          ' slot = $3 , max_capacity = $4 where course_id = $5 ',
+          values : [ req.body.teacher_id,req.body.teacher_name,req.body.slot, 
+            req.body.max_capacity,req.body.course_id,req.body.name,
+            req.body.credits,req.body.prereq]
+        }
+        const res7 = await client.query(query7);
+        // console.log(res7.rows);
       }
-      const res7 = await client.query(query7);
-      console.log(res7.rows);
-    }
     }
     }
     catch(err) {

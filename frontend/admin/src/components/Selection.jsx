@@ -73,7 +73,7 @@ const handleStart = ()=>
       }
       else if (res.data.message == -2)
       {
-        alert('Course-selection period can not be started because course-registration is active');
+        alert('Course-selection can not be started');
       }
      }).catch((err) => {
       

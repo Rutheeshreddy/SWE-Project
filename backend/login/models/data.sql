@@ -33,7 +33,7 @@ INSERT INTO instructor(
 INSERT INTO present_courses(
 	course_id, semester, year, name, credits, instructor_id, prerequisites, slot, max_capacity)
 	VALUES 
-	('cs231','Odd',2021,'Rajesh ni ela padeyali',3,'raja1','','A',500),
+	('cs231','Odd',2021,'Rajesh ni ela padeyali',3,'raja1','','A',default),
 	('cs123', 'Odd',2024 , 'Computer Architecture', 2, 'rajesh.cs@iith.ac.in', '', 'A', 100),
 	('cs456', 'Odd',2024 , 'Operating Systems', 3, 'rajesh.cs@iith.ac.in', '', 'B', 150),
 	('ee123', 'Odd',2024 , 'Digital Design', 2, 'ravi.ee@iith.ac.in', '', 'Q', 80),
@@ -46,11 +46,11 @@ INSERT INTO student(
 	       ('raja2','Raja','cs',2021);
 
 INSERT INTO student_courses_present(
-	course_id, semester, year, name, credits, elective, student_id, grade, feedback)
+	course_id, semester, year, name, credits, elective, student_id, grade)
 	VALUES 
-	('cs123', 'Odd',2024 , 'Computer Architecture', 2, 'Department', 'cs21btech123@iith.ac.in','' , '' ),
-	('cs456', 'Odd',2024 , 'Operating Systems', 3, 'Department', 'cs21btech123@iith.ac.in', '', ''),
-	('ee123', 'Odd',2024 , 'Digital Design', 2, 'Free', 'cs21btech123@iith.ac.in', '' , '' )
+	('cs123', 'Odd',2024 , 'Computer Architecture', 2, 'Department', 'cs21btech123@iith.ac.in',''),
+	('cs456', 'Odd',2024 , 'Operating Systems', 3, 'Department', 'cs21btech123@iith.ac.in', ''),
+	('ee123', 'Odd',2024 , 'Digital Design', 2, 'Free', 'cs21btech123@iith.ac.in', '' )
 	;
 
 INSERT INTO past_courses(
@@ -62,12 +62,13 @@ INSERT INTO past_courses(
 	('cs678', 'Even' , 2022 , 'DBMS-II', 2, 'rajesh.cs@iith.ac.in', 'DBMS-I' , 150)
 	;
 
-INSERT INTO proposed_courses(
-	course_id, name, credits, prerequisites)
-	VALUES 
-	('cs100', 'swe', 3, 'na'),
-	('cs105', 'os', 3, 'na'),
-	('cs106', 'dbms', 1, 'na'),
-	('cs134', 'algo', 4, 'na'),
-	('ee143', 'gates', 2, 'na'),
-	('ce333', 'chemicals', 3, 'na') ;
+-- INSERT INTO proposed_courses(
+-- 	course_id, name, credits, prerequisites)
+-- 	VALUES 
+-- 	('cs100', 'swe', 3, 'na'),
+-- 	('cs105', 'os', 3, 'na'),
+-- 	('cs106', 'dbms', 1, 'na') ;
+
+	-- ('cs134', 'algo', 4, 'na'),
+	-- ('ee143', 'gates', 2, 'na'),
+	-- ('ce333', 'chemicals', 3, 'na') ;
