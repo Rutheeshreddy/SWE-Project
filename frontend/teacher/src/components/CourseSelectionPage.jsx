@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import SelectionFilters from "./SelectionFilters";
 import axios from "axios"
+import { useParams } from "react-router-dom";
 
-
-function Courseregpage() {
+const  CourseSelectionPage = () => {
 
   const [selCourses, setSelCourses] = useState([]);
   const [avalCourses, setAvalCourses] = useState([]);
+  const [regCourses, setRegCourses] = useState([]);
 
   const [totPageNumsel, setTotPageNumsel] = useState(0)
   const [displayNumsel, setDisplayNumsel] = useState(1)
@@ -16,45 +17,55 @@ function Courseregpage() {
   const [displayNumAval, setDisplayNumAval] = useState(1)
   const [pageNumaval, setPageNumaval] = useState(1)
 
+  const { id } = useParams();
+
   useEffect(() => {
 
-    // setDisplayNumAval(pageNumaval)
 
-    // var token = sessionStorage.getItem("token");
-    // axios.get(import.meta.env.VITE_ADMIN+"//" + pageNumaval,{
-    //   headers: {
-    //     'Content-Type': "application/json",
-    //     'Authorization': `Bearer ${token}`,
-    //   }
-    // }).then( (res) =>{
+    setDisplayNumAval(pageNumaval);
 
-    //   setTotPageNumaval(res.data.totPageNumaval)
-    //   setAvalCourses(res.data.courses)
-    // }).catch((err) => {
+    var token = sessionStorage.getItem("token");
+    axios.get(import.meta.env.VITE_TEACHER+"available-courses/" + pageNumaval,{
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${token}`,
+      }
+    }).then( (res) =>{
+      // console.log(pageNumaval);
+      // console.log(res.data);
+      if(res.data.status == 1) {
+        setTotPageNumaval(res.data.totPages)
+        setAvalCourses(res.data.courses)
+      }
 
-    //   console.log(err);
-    //   setErrMsg("There is some problem with the server or your internet, try again after some time")
-    // })
+    }).catch((err) => {
+
+      console.log(err);
+      setErrMsg("There is some problem with the server or your internet, try again after some time")
+    })
   }, [pageNumaval]);
 
   useEffect(() => {
 
-    // setDisplayNumSel(pageNumsel)
-    // var token = sessionStorage.getItem("token");
-    // axios.get(import.meta.env.VITE_ADMIN+"//" + pageNumsel,{
-    //   headers: {
-    //     'Content-Type': "application/json",
-    //     'Authorization': `Bearer ${token}`,
-    //   }
-    // }).then( (res) =>{
+    setDisplayNumsel(pageNumsel)
+    var token = sessionStorage.getItem("token");
+    axios.get(import.meta.env.VITE_TEACHER+"selected-courses/"+ id + "/" + pageNumsel,{
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${token}`,
+      }
+    }).then( (res) =>{
 
-    //   setTotPageNumsel(res.data.totPageNumsel)
-    //   setSelCourses(res.data.courses)
-    // }).catch((err) => {
+      if(res.data.status == 1) {
+      setTotPageNumsel(res.data.totPages)
+      setSelCourses(res.data.courses)
+      }
 
-    //   console.log(err);
-    //   setErrMsg("There is some problem with the server or your internet, try again after some time")
-    // })
+    }).catch((err) => {
+
+      console.log(err);
+      setErrMsg("There is some problem with the server or your internet, try again after some time")
+    })
   }, [pageNumsel]);
 
 
@@ -67,8 +78,8 @@ function Courseregpage() {
 
   const handleAddCourse = (courseId) => {
 
-    const addedCourse = avalCourses.find(course => course.course_id === CourseId);
-    const courseclashing = (selCourses.filter(course =>course.course_id === CourseId)).length
+    const addedCourse = avalCourses.find(course => course.course_id === courseId);
+    const courseclashing = (selCourses.filter(course =>course.course_id === courseId)).length
 
     if(!courseclashing){
 
@@ -93,21 +104,23 @@ function Courseregpage() {
   const handleprevsel = ()=>{
 
     if(pageNumsel > 1) setPageNumsel(pageNumsel - 1);
+    setDisplayNumsel(pageNumsel);
   }
 
   const handleprevaval = ()=>{
 
     if(pageNumaval > 1) setPageNumaval(pageNumaval - 1);
+    setDisplayNumAval(pageNumaval);
   }
 
   const handlepgnosel = ()=>{
 
-    if(displayNumsel >= 1 && displayNumSel <= totPageNumsel)
-      setPageNumsel(displayNumSel);
+    if(displayNumsel >= 1 && displayNumsel <= totPageNumsel)
+      setPageNumsel(displayNumsel);
 
     else {
       setPageNumsel(totPageNumsel);
-      setDisplayNumSel(totPageNumsel);
+      setDisplayNumsel(totPageNumsel);
     }  
   }
 
@@ -118,18 +131,20 @@ function Courseregpage() {
 
     else {
       setPageNumaval(totPageNumaval);
-      setDisplayNumReg(totPageNumaval);
+      setDisplayNumAval(totPageNumaval);
     }   
   }
 
   const handlenextsel = ()=>{
 
     if(pageNumsel < totPageNumsel) setPageNumsel(pageNumsel + 1);
+    setDisplayNumsel(pageNumsel);
   }
 
   const handlenextaval = ()=>{
 
     if(pageNumaval < totPageNumaval) setPageNumaval(pageNumaval + 1);
+    setDisplayNumAval(pageNumaval);
   }
 
   return (
@@ -163,7 +178,7 @@ function Courseregpage() {
                 <div key={course.course_id} className="grid grid-cols-6 justify-between items-center mb-2">
                   <div onClick={() => handleCourseIdClick(course.course_id)} className="cursor-pointer">{course.course_id}</div>
 
-                  <div>{course.coursename}</div>
+                  <div>{course.name}</div>
                   <div>{course.department}</div>
                   <div>{course.semester}</div>
                   <div>{course.credits}</div>
@@ -182,7 +197,8 @@ function Courseregpage() {
 
           <div className="flex flex-row items-center">
             
-            <input className="w-8 border-2" type="text" placeholder={pageNumaval}
+            <input className="w-8 border-2" type="text" value={displayNumAval}
+            onChange={(e) => setDisplayNumAval(e.target.value)} 
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
               handlepgnoaval();
@@ -222,7 +238,7 @@ function Courseregpage() {
 
                   <div onClick={() => handleCourseIdClick(course.course_id)} className="cursor-pointer">{course.course_id}</div>
 
-                  <div>{course.coursename}</div>
+                  <div>{course.name}</div>
                   <div>{course.department}</div>
                   <div>{course.semester}</div>
                   <div>{course.credits}</div>
@@ -239,7 +255,8 @@ function Courseregpage() {
 
           <div className="flex flex-row items-center">
             
-            <input className="w-8 border-2" type="text" placeholder={pageNumsel}
+            <input className="w-8 border-2" type="text" value={displayNumsel}
+            onChange={(e) => setDisplayNumsel(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
               handlepgnosel();
@@ -259,4 +276,4 @@ function Courseregpage() {
   );
 }
 
-export default Courseregpage;
+export default CourseSelectionPage;
