@@ -45,7 +45,7 @@ router.get('/past-and-present-courses',authenticateToken, async(req, res) =>
     }
 
     const res1 = await client.query(query)
-    console.log(res1.rows)
+    // console.log(res1.rows)
     res.json({
       courses: res1.rows,
       status: 1})

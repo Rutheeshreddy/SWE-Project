@@ -10,6 +10,11 @@ const handleStart = ()=>
           'Authorization': `Bearer ${token}`,
       }
        }).then( (res) => {
+        
+        if (res.data.tokenStatus === 0) {
+          window.location.href = import.meta.env.VITE_LOGIN
+        }
+
         if(res.data.message == 1)
         {
             alert('Course-Grading started');
@@ -39,6 +44,11 @@ const handleStop = ()=>
         'Authorization': `Bearer ${token}`,
     }
      }).then( (res) => {
+
+      if (res.data.tokenStatus === 0) {
+        window.location.href = import.meta.env.VITE_LOGIN
+      }
+      
       if(res.data.message == 1)
       {
           alert('Course-Grading stopped');

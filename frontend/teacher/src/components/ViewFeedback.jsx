@@ -21,6 +21,10 @@ const ViewFeedback = ({ courseCode, onClose }) => {
                 'Authorization': `Bearer ${token}`,
             }
         }).then(res => {
+            if (res.data.tokenStatus === 0) {
+                window.location.href = import.meta.env.VITE_LOGIN
+            }
+            
             if(res.data.status === 1) {
                 const myArray = res.data.feedback.avgs.map(obj => Object.values(obj).map(Number)).flat();
                 const index1 = 4; // End of the first segment and start of the second

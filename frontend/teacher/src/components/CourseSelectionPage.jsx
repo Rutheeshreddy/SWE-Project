@@ -33,6 +33,11 @@ const  CourseSelectionPage = () => {
         'Authorization': `Bearer ${token}`,
       }
     }).then( (res) =>{
+
+      if (res.data.tokenStatus === 0) {
+        window.location.href = import.meta.env.VITE_LOGIN
+      }
+      
       if(res.data.status == 1) {
         setTotPageNumaval(res.data.totPages)
         setAvalCourses(res.data.courses)
@@ -55,6 +60,11 @@ const  CourseSelectionPage = () => {
         'Authorization': `Bearer ${token}`,
       }
     }).then( (res) =>{
+
+      if (res.data.tokenStatus === 0) {
+        window.location.href = import.meta.env.VITE_LOGIN
+      }
+
       if(res.data.status == 1) setSelCourses(res.data.courses)
 
       
@@ -104,6 +114,10 @@ const  CourseSelectionPage = () => {
         'Authorization': `Bearer ${token}`,
       }
     }).then( (res) =>{
+
+      if (res.data.tokenStatus === 0) {
+        window.location.href = import.meta.env.VITE_LOGIN
+      }
 
       if(res.data.status !== 1){
 

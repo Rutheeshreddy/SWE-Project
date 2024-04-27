@@ -70,6 +70,9 @@ function PropCourseList(props) {
             'Authorization': `Bearer ${token}`,
         }
          }).then( (res) => {
+            if (res.data.tokenStatus === 0) {
+              window.location.href = import.meta.env.VITE_LOGIN
+            }
             props.setReload((props.reload + 1) % 2) ;
          }).catch((err) => {
           

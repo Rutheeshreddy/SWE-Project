@@ -21,6 +21,11 @@ function SelectionFilters(props){
           'Authorization': `Bearer ${token}`,
         }
       }).then( (res) =>{
+        
+        if (res.data.tokenStatus === 0) {
+          window.location.href = import.meta.env.VITE_LOGIN
+        }
+        
         if(res.data.status == 1) {
           props.setTotPageNumaval(res.data.totPages)
           props.updatecourselist(res.data.courses)

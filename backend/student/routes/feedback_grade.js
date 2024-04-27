@@ -42,8 +42,8 @@ router.post('/give-feedback/',authenticateToken,async (req,res)=>
   const feedback = req.body.feedback
   let res1;
 
-  console.log(req.body)
-  console.log()
+  // console.log(req.body)
+  // console.log()
 
   try {
       const query = {

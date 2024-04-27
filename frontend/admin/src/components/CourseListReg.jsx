@@ -32,7 +32,9 @@ function CourseListReg(){
                 'Authorization': `Bearer ${token}`,
           }
         }).then( (res) => {
-    
+            if (res.data.tokenStatus === 0) {
+                window.location.href = import.meta.env.VITE_LOGIN
+            }    
             setTotPageNum(res.data.totPageNum)
             setAvalCourses(res.data.courses)    
         }).catch((err) => {            

@@ -33,7 +33,7 @@ const Homepage = () =>
             }
         }).then((res) => {
             
-            if (res.data.tokenStatus != 1) {
+            if (res.data.tokenStatus === 0) {
                 window.location.href = import.meta.env.VITE_LOGIN
             }
             console.log("Ok, verify is working")
@@ -48,7 +48,8 @@ const Homepage = () =>
                      courseName : course.name,
                      courseCode : course.course_id,
                      electiveType : course.elective,
-                     credits : course.credits
+                     credits : course.credits,
+                     instructor : course.instructor_name
               }))
 
               setregcourses(regcoursestemp);

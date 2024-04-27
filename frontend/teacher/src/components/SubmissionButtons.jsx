@@ -16,6 +16,10 @@ const SubmissionButtons = (props) => {
         })
             .then((res) => {
 
+                if (res.data.tokenStatus === 0) {
+                    window.location.href = import.meta.env.VITE_LOGIN
+                }
+
                 if(res.data.status == 1) {
                     setIsSelectionOn(res.data.selection == 1);
                 }

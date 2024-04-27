@@ -71,15 +71,10 @@ const FeedbackForm = ({ course, onClose, removeFromCourseArr }) => {
             'Authorization': `Bearer ${token}`,
           }
         }).then( (res) =>{
-    
-          if(res.data.status !== 1){
-    
-            alert("registration unsuccessful!");
-          }
-          else{
-            alert("registration successful")
-          }
-    
+
+            if (res.data.tokenStatus === 0) {
+                window.location.href = import.meta.env.VITE_LOGIN
+            }    
         
         }).catch((err) => {
     
