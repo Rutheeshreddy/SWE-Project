@@ -10,10 +10,10 @@ function Filters(props){
       updatefilters({ ...filters, [field]: e.target.value });
     }
 
-    const HandleFilters = (filters_) => {
+    const HandleFilters = () => {
 
       var token = sessionStorage.getItem("token");
-      axios.post(import.meta.env.VITE_STUDENT+"/available-courses/" + 1,
+      axios.post(import.meta.env.VITE_STUDENT+"available-courses/" + 1,
       {
         filters:filters
       },{
@@ -23,7 +23,7 @@ function Filters(props){
           }
       }).then( (res) =>{
 
-        props.settotpagenum(res.data.totPageNumaval)
+        props.settotpagenum(res.data.totPages)
         props.updatecourselist (res.data.courses)
       }).catch((err) => {
 
@@ -70,7 +70,7 @@ function Filters(props){
                 </div>
                 <div></div>
                 <div></div>
-                <div><button onClick={() => HandleFilters(filters)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Search</button></div>
+                <div><button onClick={() => HandleFilters()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Search</button></div>
               </div>  
     )
 }

@@ -11,9 +11,20 @@ function Courseregpage() {
   const [regCourses, setRegCourses] = useState([]);
   const [avalCourses, setAvalCourses] = useState([]);
 
-  const [totPageNumaval, setTotPageNumaval] = useState(0)
-  const [displayNumAval, setDisplayNumAval] = useState(1)
-  const [pageNumaval, setPageNumaval] = useState(1)
+  const [TotPageNum, setTotPageNum] = useState(0)
+  const [displayNum, setDisplayNum] = useState(1)
+  const [pageNum, setPageNum] = useState(1)
+
+  const [filters, setFilters] = useState({
+    courseId: "",
+    courseName: "",
+    instructor: "",
+    slot: "",
+  });
+
+  const updatefilters = (filters) =>{
+    setFilters(filters)
+  }
 
   const updateReg = (updatedlist) => {
 
@@ -38,9 +49,10 @@ function Courseregpage() {
   }
 
   useEffect(() => {
-    setDisplayNumAval(pageNumaval)
+    setDisplayNum(pageNum)
+    
     var token = sessionStorage.getItem("token");
-    axios.post(import.meta.env.VITE_STUDENT+"available-courses/" + pageNumaval,
+    axios.post(import.meta.env.VITE_STUDENT+"available-courses/" + pageNum,
     {
       filters:filters
     },{
@@ -50,14 +62,14 @@ function Courseregpage() {
       }
     }).then( (res) =>{
 
-      setTotPageNumaval(res.data.totPageNumaval)
+      setTotPageNum(res.data.totPages)
       setAvalCourses(res.data.courses)
     }).catch((err) => {
 
       console.log(err);
       setErrMsg("There is some problem with the server or your internet, try again after some time")
     })
-  }, [pageNumaval]);
+  }, [pageNum]);
 
   useEffect(() => {
 
@@ -117,36 +129,31 @@ function Courseregpage() {
     setShowModal(true);
   };
 
-  const [filters, setFilters] = useState({
-    courseId: "",
-    courseName: "",
-    instructor: "",
-    slot: "",
-  });
-
-  const updatefilters = (filters) =>{
-    setFilters(filters)
-  }
-
   const handleprevaval = ()=>{
 
-    if(pageNumaval > 1) setPageNumaval(pageNumaval - 1);
+    if(pageNum > 1) setPageNum(pageNum - 1);
   }
 
   const handlepgnoaval = ()=>{
 
-    if(displayNumAval >= 1 && displayNumAval <= totPageNumaval)
-      setPageNumaval(displayNumAval);
+    if(displayNum >= 1 && displayNum <= TotPageNum)
+      setPageNum(displayNum);
 
     else {
-      setPageNumaval(totPageNumaval);
-      setDisplayNumReg(totPageNumaval);
+      setPageNum(TotPageNum);
+      setDisplayNum(TotPageNum);
     }   
   }
 
   const handlenextaval = ()=>{
 
-    if(pageNumaval < totPageNumaval) setPageNumaval(pageNumaval + 1);
+    if(pageNum < TotPageNum) setPageNum(pageNum + 1);
+    console.log("hi")
+  }
+
+  const handleRegister = () =>{
+
+
   }
 
   return (
@@ -162,7 +169,7 @@ function Courseregpage() {
 
             <div className="bg-blue-50 p-5">
 
-              <Filters filters = {filters} updatefilters = {updatefilters} Courselist = {avalCourses} updatecourselist = {setAvalCourses} settotpagenum = {setTotPageNumaval}/>
+              <Filters filters = {filters} updatefilters = {updatefilters} Courselist = {avalCourses} updatecourselist = {setAvalCourses} settotpagenum = {setTotPageNum}/>
 
               <div className="grid grid-cols-7 justify-between font-semibold items-center mb-1">
 
@@ -201,7 +208,7 @@ function Courseregpage() {
 
           <div className="flex flex-row items-center">
             
-            <input className="w-8 border-2" type="text" placeholder={pageNumaval}
+            <input className="w-8 border-2" type="text" placeholder={pageNum}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
               handlepgnoaval();
@@ -209,7 +216,7 @@ function Courseregpage() {
             }}/>
 
           <div className="mx-2">of</div>
-          <div>{totPageNumaval}</div>
+          <div>{TotPageNum}</div>
           </div>
 
           <div> <button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlenextaval()}>next</button> </div>
@@ -253,6 +260,8 @@ function Courseregpage() {
             </div>
           </div>
         </div>
+
+        <div className = "flex justify-center mt-6"><button className="bg-red-500 text-white px-2 py-1 rounded-md text-sm" onClick = {() => handleRegister()}> Register</button></div>
 
       </div>
 

@@ -132,10 +132,8 @@ router.get('/course-info/:id',authenticateToken,async (req,res)=>
 router.post('/available-courses/:pagenum',authenticateToken,async (req,res)=>
 {
   const pagenum = req.params.pagenum; var num_courses = 0;
-  var per_page = 5;
+  var per_page = 3;
   const filters = req.body.filters
-
-filters.credits = 3
 
   console.log(filters)
 
@@ -143,11 +141,12 @@ filters.credits = 3
       const query = {
       name: 'get-num-of-courses',
       text: 'select count(*) as cnt from present_courses ' +
-            "WHERE instructor_name like '%%" + filters.instructor + "%%'AND credits = $1 AND "+
-           "name like '%%" + filters.courseName +"%%' AND course_id like  '%%" +filters.courseId + "%%' AND slot like '%%" + filters.slot + "%%'",
-     values: [filters.credits]
+            "WHERE instructor_name ilike $1 AND "+
+           "name ilike $2 AND course_id ilike  $3 AND slot ilike $4",
+      values: [`%${filters.instructor}%`, `%${filters.courseName}%`, `%${filters.courseId}%`, `%${filters.slot}%`] 
       }
       const res1 = await client.query(query);
+      console.log("res1rows")
       console.log(res1.rows)
       num_courses = res1.rows[0].cnt;
   }
@@ -156,20 +155,26 @@ filters.credits = 3
   }
 
   var num_pages = Math.ceil(num_courses / per_page );
-  if(pagenum > num_pages) return res.json({ message : -1 , totPages : num_pages });
+  if(num_pages == 0) num_pages = 1
+
+  if(pagenum > num_pages){     
+    return res.json({ message : -1 , totPages : num_pages });}
   var offset = per_page *(pagenum-1);
 
   try {
-    const query = {
+
+
+    const query1 = {
     name: 'send available courses',
-    text: 'select * from present_courses '+
-    "WHERE instructor_name like '%%" + filters.instructor + "%%'AND credits = $1 AND "+
-    "name like '%%" + filters.courseName +"%%' AND course_id like  '%%" +filters.courseId + "%%' AND slot like '%%" + filters.slot + "%%'" +
-          "order by course_id limit $3 offset $2 ;",
-    values: [filters.credits, offset, per_page]
+    text: 'select * from present_courses ' +
+            "WHERE instructor_name ilike $1 AND "+
+           "name ilike $2 AND course_id ilike  $3 AND slot ilike $4 " +
+           "group by course_id, semester, year, name, credits, instructor_id, instructor_name, prerequisites, slot, max_capacity order by course_id limit $5 offset $6",
+          values: [`%${filters.instructor}%`, `%${filters.courseName}%`, `%${filters.courseId}%`, `%${filters.slot}%`, per_page, offset] 
     
     }
-    const res1 = await client.query(query);
+    const res1 = await client.query(query1);
+
     console.log(res1.rows)
     res.json({ message : 1, courses : res1.rows , totPages : num_pages});
    }
@@ -183,12 +188,12 @@ router.get('/registered-courses/',authenticateToken,async (req,res)=>
   
   try {
       const query = {
-      name: 'get-course-details',
+      name: 'get-student-course-details',
       text: 'select * from student_courses_present WHERE student_id = $1',
       values: [req.user.userName]
       }
       const res1 = await client.query(query);
-      console.log(res1.rows)
+
       res.json({
         status:1,
         courses:res1.rows
