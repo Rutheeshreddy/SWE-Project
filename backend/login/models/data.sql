@@ -16,8 +16,8 @@ insert into login (username,password,role) values
 insert into current_sem(semester,year) values 
     ('Odd',2024) ;
 
-insert into timeline(course_selection,course_reg,course_feedback,course_grading) values 
-    (0,0,0,0) ;
+insert into timeline(course_selection,course_reg,course_feedback,course_grading,prev_period) values 
+    (0,0,0,0,0) ;
 
 INSERT INTO instructor(
 	id, name, department)
@@ -61,3 +61,13 @@ INSERT INTO past_courses(
 	('cs507', 'Even' , 2022 , 'SWE', 3, 'rajesh.cs@iith.ac.in', '' , 70) ,
 	('cs678', 'Even' , 2022 , 'DBMS-II', 2, 'rajesh.cs@iith.ac.in', 'DBMS-I' , 150)
 	;
+
+INSERT INTO proposed_courses(
+	course_id, name, credits, prerequisites)
+	VALUES 
+	('cs100', 'swe', 3, 'na'),
+	('cs105', 'os', 3, 'na'),
+	('cs106', 'dbms', 1, 'na'),
+	('cs134', 'algo', 4, 'na'),
+	('ee143', 'gates', 2, 'na'),
+	('ce333', 'chemicals', 3, 'na') ;

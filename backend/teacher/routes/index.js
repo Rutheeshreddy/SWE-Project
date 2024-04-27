@@ -93,6 +93,39 @@ router.get('/verify',authenticateToken,async (req,res) =>
   }
 })
 
+router.get('/get-timelines',authenticateToken,async (req,res) => 
+{
+  let res1;
+  // getting timeline details
+  try {
+    // console.log(req.user)
+    const query1 = {
+      name: 'get-timeline-details',
+      text: ' select * from timeline  '
+    }
+    res1 = await client.query(query1);
+    // console.log(res1.rows)
+    return res.json({
+
+      tokenStatus:1,
+      status:1,
+      grade : res1.rows[0].course_grading,
+      selection : res1.rows[0].course_selection,
+      prev_period : res1.rows[0].prev_period
+
+    })
+  }
+  catch(err) {
+    console.log(err.stack);
+    return res.json({   // check if there is a error fetching
+      tokenStatus:1,
+      status:0
+    })
+  }
+   
+})
+
+
 router.get('/taught-courses/:instructor_id',authenticateToken,async (req,res) => 
 {
 
@@ -156,10 +189,15 @@ router.get('/available-courses/:num',authenticateToken, async (req,res) => {
 
   var num_courses = 0;
   var per_page = 3;
+  var instructor_id = req.user.userName;
+  var dept = (instructor_id.split('.')[1]).split('@')[0] ;
+  console.log(dept);
+  // rajesh.cs@iith.ac.in
   try {
       const query = {
       name: 'get-num-of-courses',
-      text: 'select count(*) as cnt from proposed_courses ;'
+      text: 'select count(*) as cnt from proposed_courses where course_id like $1  ;',
+      values: [`%${dept}%`]
       }
       const res1 = await client.query(query);
       num_courses = res1.rows[0].cnt;
@@ -187,8 +225,9 @@ router.get('/available-courses/:num',authenticateToken, async (req,res) => {
   try {
       const query = {
       name: 'get-current-page-courses',
-      text: 'select * from proposed_courses order by course_id limit $2 offset $1 ;',
-      values : [offset,per_page]
+      text: 'select * from proposed_courses where course_id like $3 ' +
+      ' order by course_id limit $2 offset $1 ;',
+      values : [offset,per_page,`%${dept}%`]
       }
       const res1 = await client.query(query);
       return res.json({
@@ -330,6 +369,7 @@ router.get('/present-course-details/:course_id/:num',authenticateToken, async (r
       })
   }
 })
+
 
 
 
