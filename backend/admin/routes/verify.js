@@ -15,6 +15,7 @@ router.get('/verify',authenticateToken, async (req,res) =>
     var current_sem = "";
     var current_year = 0;
     var current_period = "";
+    var prev_period = 0;
   
     try {
       const query = {
@@ -35,6 +36,7 @@ router.get('/verify',authenticateToken, async (req,res) =>
         text: 'SELECT * FROM timeline ;'
       }
       const res1 = await client.query(query);
+      prev_period = res1.rows[0].prev_period;
       if(res1.rows[0].course_reg == 1) current_period = 'course_reg';
       else if(res1.rows[0].course_feedback == 1) current_period = 'course_feedback';
       else if(res1.rows[0].course_grading == 1) current_period = 'course_grading';
@@ -50,7 +52,8 @@ router.get('/verify',authenticateToken, async (req,res) =>
       sem : current_sem,
       year : current_year,
       name : req.user.userName.split('@')[0],
-      period : current_period
+      period : current_period,
+      prev_period : prev_period
     })
   
   

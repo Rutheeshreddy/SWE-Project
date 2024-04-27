@@ -47,7 +47,7 @@ create table  present_courses (
 	prerequisites varchar(50),
 	slot char,
 	max_capacity integer,
-	count integer,
+	count integer default 0,
 	primary key (course_id,semester,year),
 	foreign key (instructor_id) references instructor on delete cascade
 );
