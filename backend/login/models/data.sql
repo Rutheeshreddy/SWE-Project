@@ -10,7 +10,7 @@ insert into login (username,password,role) values
 	('ram.cs@iith.ac.in','12345','teacher'),
 	('ravi.ee@iith.ac.in','12345','teacher'),
 	('pavan.ai@iith.ac.in','12345','teacher'),
-    ('admin2@iith.ac.in','admin','admin'),
+    ('admin2@iith.ac.in','admin','admin') ,
     ('admin3@iith.ac.in','admin','admin') ;
 
 insert into current_sem(semester,year) values 

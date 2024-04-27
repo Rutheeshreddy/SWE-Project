@@ -8,15 +8,14 @@ const  CourseSelectionPage = () => {
   const [selCourses, setSelCourses] = useState([]);
   const [avalCourses, setAvalCourses] = useState([]);
 
-  // const [regCourses, setRegCourses] = useState([]);
-
-  // const [totPageNumsel, setTotPageNumsel] = useState(1)
-  // const [displayNumsel, setDisplayNumsel] = useState(1)
-  // const [pageNumsel, setPageNumsel] = useState(1)
-
   const [totPageNumaval, setTotPageNumaval] = useState(0)
   const [displayNumAval, setDisplayNumAval] = useState(1)
   const [pageNumaval, setPageNumaval] = useState(1)
+
+  const [filters, setFilters] = useState({
+    courseId: "",
+    courseName: "",
+  });
 
   const { id } = useParams();
 
@@ -26,17 +25,16 @@ const  CourseSelectionPage = () => {
     setDisplayNumAval(pageNumaval);
 
     var token = sessionStorage.getItem("token");
-    axios.get(import.meta.env.VITE_TEACHER+"available-courses/" + pageNumaval,{
+    axios.post(import.meta.env.VITE_TEACHER+"available-courses/" + pageNumaval, {
+        filters : filters 
+    },{
       headers: {
         'Content-Type': "application/json",
         'Authorization': `Bearer ${token}`,
       }
     }).then( (res) =>{
-      // console.log(pageNumaval);
-      // console.log(res.data);
       if(res.data.status == 1) {
         setTotPageNumaval(res.data.totPages)
-        // setTotPageNumsel(res.data.totPages)
         setAvalCourses(res.data.courses)
       }
 
@@ -57,7 +55,6 @@ const  CourseSelectionPage = () => {
         'Authorization': `Bearer ${token}`,
       }
     }).then( (res) =>{
-      console.log(res.data);
       if(res.data.status == 1) setSelCourses(res.data.courses)
 
       
@@ -124,16 +121,9 @@ const  CourseSelectionPage = () => {
     })
   }
 
-  const [filters, setFilters] = useState({
-    courseId: "",
-    courseName: "",
-    department: "",
-    semester: "",
-    credits: ""
-  });
-
   const updatefilters = (filters) =>{
     setFilters(filters)
+    // console.log(filters);
   }
 
 
@@ -175,14 +165,12 @@ const  CourseSelectionPage = () => {
 
             <div className="bg-blue-50 p-5">
 
-              <SelectionFilters filters = {filters} updatefilters = {updatefilters} Courselist = {avalCourses} updatecourselist = {setAvalCourses}/>
+              <SelectionFilters filters = {filters} updatefilters = {updatefilters} setTotPageNumaval = {setTotPageNumaval} updatecourselist = {setAvalCourses}/>
 
-              <div className="grid grid-cols-6 justify-between font-semibold items-center mb-1">
+              <div className="grid grid-cols-4 justify-between font-semibold items-center mb-1">
 
                 <div>Course ID</div>
                 <div>Course Name</div>
-                <div>Department</div>
-                <div>Semester</div>
                 <div>Credits</div>
                 <div>Add</div>
 
@@ -190,12 +178,10 @@ const  CourseSelectionPage = () => {
 
               {avalCourses.map((course) => (
 
-                <div key={course.course_id} className="grid grid-cols-6 justify-between items-center mb-2">
+                <div key={course.course_id} className="grid grid-cols-4 justify-between items-center mb-2">
                   <div onClick={() => handleCourseIdClick(course.course_id)} className="cursor-pointer">{course.course_id}</div>
 
                   <div>{course.name}</div>
-                  <div>{course.department}</div>
-                  <div>{course.semester}</div>
                   <div>{course.credits}</div>
 
                   <div><button className="bg-green-500 text-white px-2 py-1 rounded-md text-sm" onClick={() => handleAddCourse(course.course_id)}>+</button></div>
@@ -238,24 +224,20 @@ const  CourseSelectionPage = () => {
 
             <div className="bg-blue-50 p-4">
 
-              <div className="grid grid-cols-6 justify-between items-center font-semibold mb-2">
+              <div className="grid grid-cols-4 justify-between items-center font-semibold mb-2">
 
                 <div>Course ID</div>
                 <div>Course Name</div>
-                <div>Department</div>
-                <div>Semester</div>
                 <div>Credits</div>
                 <div>Remove</div>
 
               </div>
               {selCourses.map((course) => (
-                <div key={course.course_id} className="grid grid-cols-6 justify-between items-center mb-2">
+                <div key={course.course_id} className="grid grid-cols-4 justify-between items-center mb-2">
 
                   <div onClick={() => handleCourseIdClick(course.course_id)} className="cursor-pointer">{course.course_id}</div>
 
                   <div>{course.name}</div>
-                  <div>{course.department}</div>
-                  <div>{course.semester}</div>
                   <div>{course.credits}</div>
 
                   <div><button className="bg-red-500 text-white px-2 py-1 rounded-md text-sm" onClick={() => handleRemoveCourse(course.course_id)}>-</button></div>
