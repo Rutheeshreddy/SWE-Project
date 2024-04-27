@@ -36,12 +36,51 @@ function authenticateToken(req, res, next) {
 };
 
 
-
-router.get('/verify',authenticateToken,async (req,res) => 
+router.post('/give-feedback/',authenticateToken,async (req,res)=>
 {
-  let res1,res2;
 
-   
+  const feedback = req.body.feedback
+  let res1;
+
+  console.log(req.body)
+  console.log()
+
+  try {
+      const query = {
+        name : 'get-current-sem',
+        text : 'select * from current_sem',
+        values : []     
+      }
+      res1 = await client.query(query)
+  }
+  catch(err) {
+      console.log(err.stack);
+  }
+
+  try {
+    const query1 = {
+      name : 'insert-feedback',
+      text : 'insert into feedback values (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)',
+      values : [req.body.course_id, res1.rows[0].semester, res1.rows[0].year, feedback[0].iq1, feedback[0].iq2, feedback[0].iq3, feedback[0].iq4, feedback[0].cq1, feedback[0].cq2, feedback[0].cq3, feedback[0].cq4, feedback[1].cr1, feedback[1].cr2, feedback[1].cr3, feedback[1].ir1, feedback[1].ir2, feedback[1].ir3, feedback[2], feedback[3], req.body.instructor_id]    
+    }
+    const res2 = await client.query(query1)
+  
+  }
+   catch(err) {
+      console.log(err.stack);
+  }
+
+  try {
+    const query2 = {
+      name : 'update-feedback',
+      text : 'update student_courses_present set feedback = true where student_id = $1 AND course_id = $2',
+      values : [req.user.userName, req.body.course_id]
+    }
+    const res3 = await client.query(query2)
+  }
+   catch(err) {
+      console.log(err.stack);
+  }
 })
   
    

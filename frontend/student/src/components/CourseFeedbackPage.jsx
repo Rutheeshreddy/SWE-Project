@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import FeedbackForm from "./FeedbackForm"; 
+import axios from "axios";
 
 const CourseFeedbackPage = () => {
     const [courseArr, setCourseArr] = useState([]);
@@ -7,18 +8,34 @@ const CourseFeedbackPage = () => {
     const [showFeedbackForm, setShowFeedbackForm] = useState(false);
 
     useEffect(() => {
-        // axios.get("your_api_endpoint_here")
-        //     .then((res) => {
-        //         setCourseArr(res.data);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
 
-        const r1 = { courseName: "Deep Learning", courseCode: "AI1100", courseInstructor: "Raja1" };
-        const r2 = { courseName: "Machine Learning", courseCode: "AI1000", courseInstructor: "Raja2" };
-        const arr = [r1, r2];
-        setCourseArr(arr);
+        var token = sessionStorage.getItem("token") 
+        axios.get(import.meta.env.VITE_STUDENT+"pending-feedback", {
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': `Bearer ${token}`,
+            }
+        }).then((res) => {
+
+            if(res.data.status == 1){
+
+                var temp = res.data.courses.map(course =>({
+
+                    courseName : course.name,
+                    courseCode : course.course_id,
+                    courseInstructor : course.instructor_name,
+                    courseInstructorId : course.instructor_id
+                }))
+
+                setCourseArr(temp)
+            }           
+    
+            
+        }).catch((err) => {
+        
+        console.log(err);
+        console.log("There is some problem with the server or your internet, try again after some time")
+        })
     }, []);
 
     const removeFromCourseArr = (courseToRemove) => {
