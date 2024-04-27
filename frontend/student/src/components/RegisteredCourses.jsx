@@ -1,24 +1,41 @@
 import React, { useState, useEffect } from "react";
 import CourseDetails from "./CourseDetails";
+import axios from "axios";
 
 const RegisteredCourses = () => {
     const [semCourseArr, setSemCourseArr] = useState([]);
 
     useEffect(() => {
-        // axios.get("your_api_endpoint_here")
-        //     .then((res) => {
-        //         setSemCourseArr(res.data);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
 
-        const r1 = { courseName: "Deep Learning", courseCode: "AI1100", electiveType: "Departmental" };
-        const r2 = { courseName: "Machine Learning", courseCode: "AI1000", electiveType: "Additional" };
-        const s1 = { sem: "1", year: "2021", courses: [r1, r2]}
-        const s2 = { sem: "2", year: "2021", courses: [r1, r2]}
-        const arr = [s1, s2];
-        setSemCourseArr(arr);
+        var token = sessionStorage.getItem("token");
+        axios.get(import.meta.env.VITE_STUDENT+"past-and-present-courses/",
+        {
+        headers: {
+            'Content-Type': "application/json",
+            'Authorization': `Bearer ${token}`,
+        }
+        }).then( (res) =>{
+
+            const temp = [];
+            const keymap = {};
+
+            res.data.courses.forEach(obj => {
+                const key = obj.year + '_' + obj.semester;
+                if (!keymap[key]) {
+                    keymap[key] = { year: obj.year, sem: obj.semester, courses: [] };
+                    temp.push(keymap[key]);
+                }
+                keymap[key].courses.push({ courseName: obj.name , courseCode: obj.course_id, electiveType: obj.elective, instructor: obj.instructor_name, grade: obj.grade, credits: obj.credits});
+            });
+
+            setSemCourseArr(temp)            
+        
+        }).catch((err) => {
+
+        console.log(err);
+        setErrMsg("There is some problem with the server or your internet, try again after some time")
+        })
+        
     }, []);
 
     // Use an object to store open courses for each semester
