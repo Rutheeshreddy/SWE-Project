@@ -45,14 +45,12 @@ router.get('/verify',authenticateToken,async (req,res) =>
   let res1,res2, res3;
   // getting student details
   try {
-    console.log(req.user)
     const query = {
       name: 'get-student-name',
       text: ' select * from student where id = $1  ',
       values: [req.user.userName]
     }
     res1 = await client.query(query);
-    console.log(res1)
    
   }
   catch(err) {
@@ -88,7 +86,6 @@ router.get('/verify',authenticateToken,async (req,res) =>
     }
 
     res3 = await client.query(query1);
-    console.log(res3)
     res.json({
       tokenStatus:1,
       status:1,
@@ -114,8 +111,8 @@ router.get('/course-info/:id',authenticateToken,async (req,res)=>
   try {
       const query = {
       name: 'get-course-details',
-      text: 'select * from present_courses WHERE course_id = $1 ;',
-      value: [ course_id]
+      text: 'select * from present_courses WHERE course_id = $1',
+      values: [course_id]
       }
       const res1 = await client.query(query);
       res.json({
@@ -132,19 +129,25 @@ router.get('/course-info/:id',authenticateToken,async (req,res)=>
 
 })
 
-router.post('available-courses/:pagenum',authenticateToken,async (req,res)=>
+router.post('/available-courses/:pagenum',authenticateToken,async (req,res)=>
 {
   const pagenum = req.params.pagenum; var num_courses = 0;
-  var per_page = 5;
+  var per_page = 3;
+  const filters = req.body.filters
+
+  console.log(filters)
+
   try {
       const query = {
       name: 'get-num-of-courses',
       text: 'select count(*) as cnt from present_courses ' +
-            "WHERE instructor_name like '%%$1%%' AND credits like '%%$2%%' "+
-            "name like '%%$3%%' AND course_id like  '%%$4%%' AND slot like '%%$5%%'",
-      value: [ filters.instructor,filters.credits,filters.courseName,filters.courseId,filters.slot]
+            "WHERE instructor_name ilike $1 AND "+
+           "name ilike $2 AND course_id ilike  $3 AND slot ilike $4",
+      values: [`%${filters.instructor}%`, `%${filters.courseName}%`, `%${filters.courseId}%`, `%${filters.slot}%`] 
       }
       const res1 = await client.query(query);
+      console.log("res1rows")
+      console.log(res1.rows)
       num_courses = res1.rows[0].cnt;
   }
   catch(err) {
@@ -152,26 +155,57 @@ router.post('available-courses/:pagenum',authenticateToken,async (req,res)=>
   }
 
   var num_pages = Math.ceil(num_courses / per_page );
-  if(pagenum > num_pages) return res.json({ message : -1 , totPages : num_pages });
+  if(num_pages == 0) num_pages = 1
+
+  if(pagenum > num_pages){     
+    return res.json({ message : -1 , totPages : num_pages });}
   var offset = per_page *(pagenum-1);
 
-  const filters = req.body.filters
   try {
-    const query = {
+
+
+    const query1 = {
     name: 'send available courses',
-    text: 'select * from present_courses '+
-          "WHERE instructor_name like '%%$1%%' AND credits like '%%$2%%' "+
-          "name like '%%$3%%' AND course_id like  '%%$4%%' AND slot like '%%$5%%' "+
-          "order by course_id limit $7 offset $6 ;",
-    value: [ filters.instructor,filters.credits,filters.courseName,filters.courseId,filters.slot,offset,per_page]
+    text: 'select * from present_courses ' +
+            "WHERE instructor_name ilike $1 AND "+
+           "name ilike $2 AND course_id ilike  $3 AND slot ilike $4 " +
+           "group by course_id, semester, year, name, credits, instructor_id, instructor_name, prerequisites, slot, max_capacity order by course_id limit $5 offset $6",
+          values: [`%${filters.instructor}%`, `%${filters.courseName}%`, `%${filters.courseId}%`, `%${filters.slot}%`, per_page, offset] 
     
     }
-    const res1 = await client.query(query);
+    const res1 = await client.query(query1);
+
+    console.log(res1.rows)
     res.json({ message : 1, courses : res1.rows , totPages : num_pages});
    }
    catch(err) {
       console.log(err.stack);
   }
+})
+
+router.get('/registered-courses/',authenticateToken,async (req,res)=>
+{
+  
+  try {
+      const query = {
+      name: 'get-student-course-details',
+      text: 'select * from student_courses_present WHERE student_id = $1',
+      values: [req.user.userName]
+      }
+      const res1 = await client.query(query);
+
+      res.json({
+        status:1,
+        courses:res1.rows
+      })
+  }
+  catch(err) {
+      console.log(err.stack);
+      res.json({
+        status:0,
+      })
+  }
+
 })
 
 

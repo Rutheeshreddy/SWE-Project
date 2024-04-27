@@ -47,7 +47,8 @@ const Homepage = () =>
 
                      courseName : course.name,
                      courseCode : course.course_id,
-                     electiveType : course.elective
+                     electiveType : course.elective,
+                     credits : course.credits
               }))
 
               setregcourses(regcoursestemp);
@@ -60,9 +61,6 @@ const Homepage = () =>
             })
        },[])
 
-       const r1 = {"courseName":"Deep Learning", "courseCode":"AI1100", "electiveType":"Departmental"}
-       const r2 = {"courseName":"Machine Learning", "courseCode":"AI1000", "electiveType":"Additional"}
-       const props_arr = [r1, r2]
        return (
               <div className="grid grid-cols-1 gap-6">
                      <div className="bg-gray-100 p-6 rounded-lg shadow-md">
