@@ -148,12 +148,28 @@ function Courseregpage() {
   const handlenextaval = ()=>{
 
     if(pageNum < TotPageNum) setPageNum(pageNum + 1);
-    console.log("hi")
+
   }
 
   const handleRegister = () =>{
 
+    var token = sessionStorage.getItem("token");
+    axios.post(import.meta.env.VITE_STUDENT+"register-courses/",
+    {
+      regCourses: regCourses
+    },{
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${token}`,
+      }
+    }).then( (res) =>{
 
+    
+    }).catch((err) => {
+
+      console.log(err);
+      setErrMsg("There is some problem with the server or your internet, try again after some time")
+    })
   }
 
   return (
