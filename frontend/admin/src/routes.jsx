@@ -28,7 +28,7 @@ const routes = [
   },
   {
     path: "/grading",
-    element: < Redirect/>,
+    element: < Grading/>,
   },
 ];
 
