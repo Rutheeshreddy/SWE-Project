@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
 
 function Filters(props){
 
@@ -12,7 +13,7 @@ function Filters(props){
     const HandleFilters = (filters_) => {
 
       var token = sessionStorage.getItem("token");
-      axios.post(import.meta.env.VITE_ADMIN+"/available-courses/" + 1,
+      axios.post(import.meta.env.VITE_STUDENT+"/available-courses/" + 1,
       {
         filters:filters
       },{

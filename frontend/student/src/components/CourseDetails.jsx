@@ -1,7 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const CourseDetails = (props) => {
+    let token;
     const { course } = props;
+    const [slot, setslot] = useState("")
+    const [instructor, setinstructor] = useState("")
 
     useEffect(()=>
     {    
@@ -13,6 +17,12 @@ const CourseDetails = (props) => {
                 'Authorization': `Bearer ${token}`,
             }
         }).then((res) => {
+
+            if(res.data.status == 1){
+
+                setinstructor(res.data.course.instructor_name)
+                setslot(res.data.course.slot)
+            }
             
             
             
@@ -25,9 +35,9 @@ const CourseDetails = (props) => {
 
     return (
         <div>
-            <p>Details about {course.courseName}</p>
-            <p>Details about {course.courseCode}</p>
-            <p>Details about {course.electiveType}</p>
+            <p>Slot : {slot}</p>
+            <p>Credits : {course.credits}</p>
+            <p>Instructor : {instructor}</p>
         </div>
     );
 };

@@ -8,18 +8,6 @@ import axios from "axios"
 
 function Courseregpage() {
 
-  const reg = [
-    { id: 1, course_id: 'CS101', coursename:'Intro to Computers', department: "CSE", instructor: 'John Doe', credits: 3, semester: 'Spring 2024', slot: 'N', current : [150, 200], elective: 'Free'},
-    { id: 2, course_id: 'ENG201', coursename: 'English Grammar', department: "Languages", instructor: 'Jane Smith', credits: 4, semester: 'Fall 2024', slot: 'L', current: [31, 49], elective: 'Departmental'},
-    { id: 3, course_id: 'ENG291', coursename: 'Grammar PROMAX', department: "Languages", instructor: 'Jolie', credits: 2, semester: 'Fall 2023', slot: 'Z', current: [13, 49], elective: 'Additional'}  ]
-  
-  const aval = [
-    { id: 1, course_id: 'CS111', coursename: 'Comp Sci 4', department: "CSE", instructor: 'John Villa', credits: 3, semester: 'Spring 2024', slot: 'Z', current: [16, 100], elective: null},
-    { id: 2, course_id: 'ENG281', coursename: 'English Intro', department: "Languages", instructor: 'Jane Smith', credits: 4, semester: 'Fall 2024', slot: 'K', current: [25, 50], elective: null},
-    { id: 3, course_id: 'ENG291', coursename: 'Grammar PROMAX', department: "Languages", instructor: 'Jolie', credits: 2, semester: 'Fall 2023', slot: 'Z', current: [13, 49], elective: null}
-
-  ]
-
   const [regCourses, setRegCourses] = useState([]);
   const [avalCourses, setAvalCourses] = useState([]);
 
@@ -52,7 +40,7 @@ function Courseregpage() {
   useEffect(() => {
     setDisplayNumAval(pageNumaval)
     var token = sessionStorage.getItem("token");
-    axios.post(import.meta.env.VITE_ADMIN+"/available-courses/" + pageNumaval,
+    axios.post(import.meta.env.VITE_STUDENT+"available-courses/" + pageNumaval,
     {
       filters:filters
     },{
@@ -70,6 +58,27 @@ function Courseregpage() {
       setErrMsg("There is some problem with the server or your internet, try again after some time")
     })
   }, [pageNumaval]);
+
+  useEffect(() => {
+
+    var token = sessionStorage.getItem("token");
+    axios.get(import.meta.env.VITE_STUDENT+"registered-courses/",
+    {
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${token}`,
+      }
+    }).then( (res) =>{
+
+      if(res.data.status == 1) setRegCourses(res.data.courses)
+
+      
+    }).catch((err) => {
+
+      console.log(err);
+      setErrMsg("There is some problem with the server or your internet, try again after some time")
+    })
+  }, []);
 
   useEffect(() => {
 
@@ -169,14 +178,14 @@ function Courseregpage() {
 
               {avalCourses.map((course) => (
 
-                <div key={course.course_id} className="grid grid-cols-9 justify-between items-center mb-2">
+                <div key={course.course_id} className="grid grid-cols-7 justify-between items-center mb-2">
                   <div onClick={() => handleCourseIdClick(course.course_id)} className="cursor-pointer">{course.course_id}</div>
 
-                  <div>{course.coursename}</div>
-                  <div>{course.instructor}</div>
+                  <div>{course.name}</div>
+                  <div>{course.instructor_name}</div>
                   <div>{course.slot}</div>
                   <div>{course.credits}</div>
-                  <div>{course.current[0]}</div>
+                  <div>{course.count}</div>
 
                   <div><button className="bg-green-500 text-white px-2 py-1 rounded-md text-sm" onClick={() => handleAddCourse(course.course_id)}>+</button></div>
                 </div>
@@ -227,16 +236,16 @@ function Courseregpage() {
 
               </div>
               {regCourses.map((course) => (
-                <div key={course.course_id} className="grid grid-cols-7 justify-between items-center mb-2">
+                <div key={course.course_id} className="grid grid-cols-8 justify-between items-center mb-2">
 
                   <div onClick={() => handleCourseIdClick(course.course_id)} className="cursor-pointer">{course.course_id}</div>
 
-                  <div>{course.coursename}</div>
+                  <div>{course.name}</div>
                   <div>{course.instructor}</div>
                   <div>{course.slot}</div>
                   <div>{course.credits}</div>
                   <div>{course.elective}</div>
-                  <div>{course.current[0]}</div>
+                  <div>{course.count}</div>
 
                   <div><button className="bg-red-500 text-white px-2 py-1 rounded-md text-sm" onClick={() => handleRemoveCourse(course.course_id)}>-</button></div>
                 </div>
