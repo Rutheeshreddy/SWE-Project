@@ -47,7 +47,7 @@ create table  present_courses (
 	prerequisites varchar(50),
 	slot char,
 	max_capacity integer,
-	count integer,
+	count integer default 0,
 	primary key (course_id,semester,year),
 	foreign key (instructor_id) references instructor on delete cascade
 );
@@ -76,7 +76,7 @@ create table  student_courses_present(
 	elective varchar(20),
 	student_id varchar(30),
 	grade varchar(5) ,
-	feedback varchar(200) ,
+	feedback boolean default false ,
 	primary key (course_id,semester,year,student_id),
 	foreign key (student_id) references student on delete cascade,
 	foreign key (course_id,semester,year) references present_courses on delete cascade

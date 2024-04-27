@@ -134,7 +134,7 @@ router.post('/update-course', authenticateToken, async (req,res) => {
                   req.body.credits,req.body.prereq ]
       }
       const res1 = await client.query(query);
-
+      console.log(res1.rows);
 
       const query2 = {
         name: 'set-teacher_selected=0',
@@ -142,6 +142,7 @@ router.post('/update-course', authenticateToken, async (req,res) => {
         values : [ req.body.course_id  ]
       }
       const res2 = await client.query(query2);
+      console.log(res2.rows);
 
       const query3 = {
         name: 'admin-updates-selected-teacher',
@@ -150,6 +151,7 @@ router.post('/update-course', authenticateToken, async (req,res) => {
         values : [ req.body.course_id, req.body.teacher_id  ]
       }
       const res3 = await client.query(query3);
+      console.log(res3.rows);
 
       var slot_selected = 0;
       if(req.body.slot == '') slot_selected = 0;
@@ -161,6 +163,7 @@ router.post('/update-course', authenticateToken, async (req,res) => {
         values : [ req.body.course_id, req.body.slot,slot_selected  ]
       }
       const res4 = await client.query(query4);
+      console.log(res4.rows);
 
       if(req.body.teacher_id != null) {
         const query6 = {
@@ -169,15 +172,18 @@ router.post('/update-course', authenticateToken, async (req,res) => {
           values : [ req.body.course_id]
         }
         const res6 = await client.query(query6);
+        console.log(res6.rows);
+
         if(res6.rows[0].cnt == 0) {
         var {sem,year} = await getSem()
         const query5 = {
           name: 'admin-inserts-course-into-present-courses',
-          text: 'insert into present_courses values ($1,$2,$3,$4,$5,$6,$7,$8,$9,100,0) ',
+          text: 'insert into present_courses values ($1,$2,$3,$4,$5,$6,$7,$8,$9,100,0) ; ',
           values : [ req.body.course_id,sem,year,req.body.name,req.body.credits,
             req.body.teacher_id,req.body.teacher_name,req.body.prereq,req.body.slot]
         }
         const res5 = await client.query(query5);
+        console.log(res5.rows);
     }
     else {
       const query7 = {
@@ -188,7 +194,8 @@ router.post('/update-course', authenticateToken, async (req,res) => {
           req.body.teacher_id,req.body.teacher_name,req.body.prereq,req.body.slot, 
         req.body.course_id_prev]
       }
-      const res5 = await client.query(query6);
+      const res7 = await client.query(query7);
+      console.log(res7.rows);
     }
     }
     }
