@@ -8,7 +8,7 @@ const OpinionButtons = ({ question, onChange }) => {
                     <input type="radio" id={`${option.replaceAll(" ", "")}`}
                            name={question}
                            value={option}
-                           onChange={() => onChange(option)}
+                           onChange={() => onChange(5-index)}
                            className="w-4 h-4"
                     />
                     <label htmlFor={`${option.replaceAll(" ", "")}`} className="text-sm">

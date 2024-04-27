@@ -208,6 +208,33 @@ router.get('/registered-courses/',authenticateToken,async (req,res)=>
 
 })
 
+router.get('/pending-feedback/',authenticateToken,async (req,res)=>
+{
+  
+  try {
+      const query = {
+      name: 'get-feedback-false-courses',
+      text: 'select course_id, name, instructor_name, instructor_id from present_courses where course_id in (select course_id from student_courses_present WHERE student_id = $1 AND feedback = false)',
+      values: [req.user.userName]
+      }
+      const res1 = await client.query(query);
+
+      console.log(res1.rows)
+
+      res.json({
+        status:1,
+        courses:res1.rows
+      })
+  }
+  catch(err) {
+      console.log(err.stack);
+      res.json({
+        status:0,
+      })
+  }
+
+})
+
 
 
 export default router;

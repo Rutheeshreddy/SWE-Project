@@ -135,6 +135,6 @@ create table feedback (
 	cq1 integer, cq2 integer, cq3 integer, cq4 integer,
 	cr1 integer, cr2 integer, cr3 integer,
 	ir1 integer,ir2 integer,ir3 integer,
-	cf varchar(200), 
-	if varchar(200) 
+	cf varchar(200), tf varchar(200), 
+	instructor_id varchar(50)
 );
