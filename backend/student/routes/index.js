@@ -80,8 +80,7 @@ router.get('/verify',authenticateToken,async (req,res) =>
   try {
     const query1 = {
       name: 'get-registered-courses',
-      text: ' select * from student_courses_present  '+
-            "WHERE student_id = $1",
+      text: 'select student_courses_present.course_id as course_id, student_courses_present.name as name, present_courses.instructor_name as instructor_name, present_courses.slot as slot, present_courses.credits as credits, student_courses_present.elective as elective from student_courses_present inner join present_courses on present_courses.course_id = student_courses_present.course_id  WHERE student_courses_present.student_id = $1',
       values: [req.user.userName]
     }
 
@@ -135,7 +134,7 @@ router.post('/available-courses/:pagenum',authenticateToken,async (req,res)=>
   var per_page = 3;
   const filters = req.body.filters
 
-  console.log(filters)
+  // console.log(filters)
 
   try {
       const query = {
@@ -146,8 +145,8 @@ router.post('/available-courses/:pagenum',authenticateToken,async (req,res)=>
       values: [`%${filters.instructor}%`, `%${filters.courseName}%`, `%${filters.courseId}%`, `%${filters.slot}%`] 
       }
       const res1 = await client.query(query);
-      console.log("res1rows")
-      console.log(res1.rows)
+      // console.log("res1rows")
+      // console.log(res1.rows)
       num_courses = res1.rows[0].cnt;
   }
   catch(err) {
@@ -175,7 +174,7 @@ router.post('/available-courses/:pagenum',authenticateToken,async (req,res)=>
     }
     const res1 = await client.query(query1);
 
-    console.log(res1.rows)
+    // console.log(res1.rows)
     res.json({ message : 1, courses : res1.rows , totPages : num_pages});
    }
    catch(err) {
@@ -183,16 +182,20 @@ router.post('/available-courses/:pagenum',authenticateToken,async (req,res)=>
   }
 })
 
+//to print registered courses in course registration page.
+
 router.get('/registered-courses/',authenticateToken,async (req,res)=>
 {
   
   try {
       const query = {
       name: 'get-student-course-details',
-      text: 'select * from student_courses_present WHERE student_id = $1',
+      text: 'select student_courses_present.course_id as course_id, student_courses_present.name as name, present_courses.instructor_name as instructor_name, present_courses.slot as slot, present_courses.credits as credits, student_courses_present.elective as elective from student_courses_present inner join present_courses on present_courses.course_id = student_courses_present.course_id  WHERE student_courses_present.student_id = $1',
       values: [req.user.userName]
       }
       const res1 = await client.query(query);
+      // console.log("ippudu ikkada")
+      console.log(res1.rows)
 
       res.json({
         status:1,
@@ -219,7 +222,7 @@ router.get('/pending-feedback/',authenticateToken,async (req,res)=>
       }
       const res1 = await client.query(query);
 
-      console.log(res1.rows)
+      // console.log(res1.rows)
 
       res.json({
         status:1,

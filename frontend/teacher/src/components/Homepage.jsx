@@ -23,7 +23,7 @@ const Homepage = () =>
         }).then((res) => {
             // console.log(res.data);
             
-            if (res.data.tokenStatus != 1) {
+            if (res.data.tokenStatus === 0) {
                 window.location.href = import.meta.env.VITE_LOGIN
             }
 

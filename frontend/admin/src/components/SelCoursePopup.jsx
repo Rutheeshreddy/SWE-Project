@@ -17,13 +17,16 @@ const SelCoursePopup = (props) => {
     }
     ).then((res)=>
     {
-             setStart(res.data.period)
-             if(res.data.period)
-             {
-                setSlot(res.data.slot)
-                setTeacherList(res.data.teachers)
-                setTeacher(res.data.selected_teacher)
-             }
+        if (res.data.tokenStatus === 0) {
+            window.location.href = import.meta.env.VITE_LOGIN
+        }
+        setStart(res.data.period)
+        if(res.data.period)
+        {
+        setSlot(res.data.slot)
+        setTeacherList(res.data.teachers)
+        setTeacher(res.data.selected_teacher)
+        }
     }).catch((err) => {
           
         console.log(err);
@@ -76,6 +79,9 @@ const SelCoursePopup = (props) => {
           }
         }).then((res)=>
         {
+            if (res.data.tokenStatus === 0) {
+                window.location.href = import.meta.env.VITE_LOGIN
+            }
             console.log(res.data);
 
         }).catch((err) => {

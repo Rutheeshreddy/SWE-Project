@@ -16,6 +16,10 @@ const   OngoingTimelines = () => {
         })
             .then((res) => {
 
+                if (res.data.tokenStatus === 0) {
+                    window.location.href = import.meta.env.VITE_LOGIN
+                }
+
                 if(res.data.status == 1) {
                     setIsGradeOn(res.data.grade == 1);
                     if(res.data.prev_period == 3) setIsFeedback(true);

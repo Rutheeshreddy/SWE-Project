@@ -16,6 +16,10 @@ const RegisteredCourses = () => {
         }
         }).then( (res) =>{
 
+            if (res.data.tokenStatus === 0) {
+                window.location.href = import.meta.env.VITE_LOGIN
+            }       
+
             const temp = [];
             const keymap = {};
 

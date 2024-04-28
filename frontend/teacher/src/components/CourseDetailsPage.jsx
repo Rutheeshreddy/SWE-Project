@@ -31,6 +31,10 @@ const CourseDetailsPage = () => {
               'Authorization': `Bearer ${token}`,
           }
            }).then( (res) => {
+
+            if (res.data.tokenStatus == 0) {
+                window.location.href = import.meta.env.VITE_LOGIN
+            }
     
             if(res.data.status == -2)
             {
@@ -59,6 +63,10 @@ const CourseDetailsPage = () => {
         }
         })
             .then((res) => {
+
+                if (res.data.tokenStatus === 0) {
+                    window.location.href = import.meta.env.VITE_LOGIN
+                }
 
                 if(res.data.status == 1) {
                     setIsGradeOn(res.data.grade == 1);

@@ -66,6 +66,47 @@ router.post('/grading/stop',authenticateToken, async (req,res) => {
             text: 'update timeline set course_grading = 0, prev_period = 0 ;'
             }
             const res1 = await client.query(query);
+
+            const query2 = {
+                name: 'get-present-courses',
+                text: 'select * from present_courses ;'
+                }
+            const res2 = await client.query(query2);
+            const courses = res2.rows;
+            for (var i=0;i<courses.length;i++) 
+            {
+                const query = {
+                    name: 'insert into past_courses',
+                    text: 'insert into past_courses values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12);',
+                    values: [courses[i].course_id,courses[i].semester,courses[i].year,
+                        courses[i].name,courses[i].credits,courses[i].instructor_id,
+                        courses[i].prerequisites,6.5,1.8,3,2.5,courses[i].max_capacity]
+                    }
+                    const res1 = await client.query(query);
+            }
+
+            const query3 = {
+                name: 'get-present-courses-students',
+                text: 'select * from student_courses_present ;'
+                }
+            const res3 = await client.query(query3);
+            const students = res2.rows;
+            for (var i=0;i<students.length;i++) 
+            {
+                const query = {
+                    name: 'insert into past_students',
+                    text: 'insert into student_courses_present values ($1,$2,$3,$4,$5,$6,$7,$8);',
+                    values: [students[i].course_id,students[i].semester,students[i].year,
+                        students[i].name,students[i].credits,students[i].elective,
+                        students[i].student_id,students[i].grade]
+                    }
+                    const res1 = await client.query(query);
+            }
+            const query4 = {
+                name: 'delete-present-courses',
+                text: 'delete from present_courses ;'
+                }
+            const res4 = await client.query(query4);
         }
         catch(err) {
             console.log(err.stack);
