@@ -962,6 +962,1080 @@
                     "filename": "README.md"
                 }
             ]
+        },
+        {
+            "version": "0.2.7",
+            "counttime": "2024-04-28 09:35:35",
+            "filesum": 167,
+            "codesum": 33026,
+            "commentsum": 343,
+            "blanksum": 1457,
+            "statistics": {
+                "": {
+                    "code": 120,
+                    "comment": 52,
+                    "blank": 28
+                },
+                ".json": {
+                    "code": 26664,
+                    "comment": 0,
+                    "blank": 320
+                },
+                ".cjs": {
+                    "code": 84,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".md": {
+                    "code": 23,
+                    "comment": 8,
+                    "blank": 12
+                },
+                ".html": {
+                    "code": 52,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".js": {
+                    "code": 1978,
+                    "comment": 92,
+                    "blank": 289
+                },
+                ".css": {
+                    "code": 12,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".jsx": {
+                    "code": 3689,
+                    "comment": 169,
+                    "blank": 760
+                },
+                ".http": {
+                    "code": 28,
+                    "comment": 4,
+                    "blank": 4
+                },
+                ".svg": {
+                    "code": 8,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".sql": {
+                    "code": 241,
+                    "comment": 18,
+                    "blank": 42
+                },
+                ".ipynb": {
+                    "code": 127,
+                    "comment": 0,
+                    "blank": 2
+                }
+            },
+            "filelist": [
+                {
+                    "blank": 1,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "backend\\admin\\.env"
+                },
+                {
+                    "blank": 4,
+                    "code": 6,
+                    "comment": 1,
+                    "filename": "backend\\admin\\.gitignore"
+                },
+                {
+                    "blank": 2,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "backend\\admin\\config\\database.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 22,
+                    "comment": 0,
+                    "filename": "backend\\admin\\index.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 1202,
+                    "comment": 0,
+                    "filename": "backend\\admin\\package-lock.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 22,
+                    "comment": 0,
+                    "filename": "backend\\admin\\package.json"
+                },
+                {
+                    "blank": 5,
+                    "code": 26,
+                    "comment": 0,
+                    "filename": "backend\\admin\\routes\\Authenticate.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "backend\\admin\\routes\\calculateGpa.js"
+                },
+                {
+                    "blank": 16,
+                    "code": 101,
+                    "comment": 4,
+                    "filename": "backend\\admin\\routes\\courseSelection.js"
+                },
+                {
+                    "blank": 5,
+                    "code": 73,
+                    "comment": 3,
+                    "filename": "backend\\admin\\routes\\Feedback.js"
+                },
+                {
+                    "blank": 6,
+                    "code": 34,
+                    "comment": 1,
+                    "filename": "backend\\admin\\routes\\getTeacherName.js"
+                },
+                {
+                    "blank": 7,
+                    "code": 112,
+                    "comment": 3,
+                    "filename": "backend\\admin\\routes\\Grading.js"
+                },
+                {
+                    "blank": 32,
+                    "code": 207,
+                    "comment": 7,
+                    "filename": "backend\\admin\\routes\\proposedCourses.js"
+                },
+                {
+                    "blank": 26,
+                    "code": 248,
+                    "comment": 13,
+                    "filename": "backend\\admin\\routes\\Registration.js"
+                },
+                {
+                    "blank": 11,
+                    "code": 39,
+                    "comment": 0,
+                    "filename": "backend\\admin\\routes\\verify.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 7,
+                    "comment": 1,
+                    "filename": "backend\\admin\\test.http"
+                },
+                {
+                    "blank": 2,
+                    "code": 127,
+                    "comment": 0,
+                    "filename": "backend\\data.ipynb"
+                },
+                {
+                    "blank": 1,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "backend\\login\\.env"
+                },
+                {
+                    "blank": 4,
+                    "code": 6,
+                    "comment": 1,
+                    "filename": "backend\\login\\.gitignore"
+                },
+                {
+                    "blank": 2,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "backend\\login\\config\\database.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "backend\\login\\index.js"
+                },
+                {
+                    "blank": 20,
+                    "code": 59,
+                    "comment": 9,
+                    "filename": "backend\\login\\models\\data.sql"
+                },
+                {
+                    "blank": 9,
+                    "code": 56,
+                    "comment": 9,
+                    "filename": "backend\\login\\models\\data2.sql"
+                },
+                {
+                    "blank": 13,
+                    "code": 126,
+                    "comment": 0,
+                    "filename": "backend\\login\\models\\ddl.sql"
+                },
+                {
+                    "blank": 6,
+                    "code": 10,
+                    "comment": 0,
+                    "filename": "backend\\login\\models\\schema.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 1208,
+                    "comment": 0,
+                    "filename": "backend\\login\\package-lock.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 23,
+                    "comment": 0,
+                    "filename": "backend\\login\\package.json"
+                },
+                {
+                    "blank": 15,
+                    "code": 75,
+                    "comment": 3,
+                    "filename": "backend\\login\\routes\\index.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 7,
+                    "comment": 1,
+                    "filename": "backend\\login\\test.http"
+                },
+                {
+                    "blank": 1,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "backend\\student\\.env"
+                },
+                {
+                    "blank": 4,
+                    "code": 6,
+                    "comment": 1,
+                    "filename": "backend\\student\\.gitignore"
+                },
+                {
+                    "blank": 2,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "backend\\student\\config\\database.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 16,
+                    "comment": 0,
+                    "filename": "backend\\student\\index.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 1202,
+                    "comment": 0,
+                    "filename": "backend\\student\\package-lock.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 22,
+                    "comment": 0,
+                    "filename": "backend\\student\\package.json"
+                },
+                {
+                    "blank": 19,
+                    "code": 69,
+                    "comment": 2,
+                    "filename": "backend\\student\\routes\\feedback_grade.js"
+                },
+                {
+                    "blank": 37,
+                    "code": 196,
+                    "comment": 11,
+                    "filename": "backend\\student\\routes\\index.js"
+                },
+                {
+                    "blank": 24,
+                    "code": 107,
+                    "comment": 4,
+                    "filename": "backend\\student\\routes\\register.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 7,
+                    "comment": 1,
+                    "filename": "backend\\student\\test.http"
+                },
+                {
+                    "blank": 1,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "backend\\teacher\\.env"
+                },
+                {
+                    "blank": 4,
+                    "code": 6,
+                    "comment": 1,
+                    "filename": "backend\\teacher\\.gitignore"
+                },
+                {
+                    "blank": 2,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "backend\\teacher\\config\\database.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "backend\\teacher\\index.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 1202,
+                    "comment": 0,
+                    "filename": "backend\\teacher\\package-lock.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 22,
+                    "comment": 0,
+                    "filename": "backend\\teacher\\package.json"
+                },
+                {
+                    "blank": 56,
+                    "code": 436,
+                    "comment": 33,
+                    "filename": "backend\\teacher\\routes\\index.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 7,
+                    "comment": 1,
+                    "filename": "backend\\teacher\\test.http"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 3,
+                    "filename": "frontend\\admin\\.env"
+                },
+                {
+                    "blank": 0,
+                    "code": 21,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\.eslintrc.cjs"
+                },
+                {
+                    "blank": 2,
+                    "code": 14,
+                    "comment": 9,
+                    "filename": "frontend\\admin\\.gitignore"
+                },
+                {
+                    "blank": 0,
+                    "code": 13,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\index.html"
+                },
+                {
+                    "blank": 79,
+                    "code": 5406,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\package-lock.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 31,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\package.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\postcss.config.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\public\\vite.svg"
+                },
+                {
+                    "blank": 3,
+                    "code": 5,
+                    "comment": 2,
+                    "filename": "frontend\\admin\\README.md"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\assets\\react.svg"
+                },
+                {
+                    "blank": 2,
+                    "code": 23,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\components\\AdminInfo.jsx"
+                },
+                {
+                    "blank": 13,
+                    "code": 122,
+                    "comment": 1,
+                    "filename": "frontend\\admin\\src\\components\\CourseDetailsPage.jsx"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\components\\CourseInfo.jsx"
+                },
+                {
+                    "blank": 33,
+                    "code": 110,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\components\\CourseListReg.jsx"
+                },
+                {
+                    "blank": 1,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\components\\ErrorPage.jsx"
+                },
+                {
+                    "blank": 11,
+                    "code": 69,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\components\\Feedback.jsx"
+                },
+                {
+                    "blank": 9,
+                    "code": 73,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\components\\Filters.jsx"
+                },
+                {
+                    "blank": 13,
+                    "code": 72,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\components\\Grading.jsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 18,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\components\\Header.jsx"
+                },
+                {
+                    "blank": 19,
+                    "code": 94,
+                    "comment": 6,
+                    "filename": "frontend\\admin\\src\\components\\Homepage.jsx"
+                },
+                {
+                    "blank": 30,
+                    "code": 121,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\components\\PropCourseList.jsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 11,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\components\\Redirect.jsx"
+                },
+                {
+                    "blank": 17,
+                    "code": 126,
+                    "comment": 2,
+                    "filename": "frontend\\admin\\src\\components\\Registration.jsx"
+                },
+                {
+                    "blank": 19,
+                    "code": 137,
+                    "comment": 1,
+                    "filename": "frontend\\admin\\src\\components\\SelCoursePopup.jsx"
+                },
+                {
+                    "blank": 15,
+                    "code": 177,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\components\\Selection.jsx"
+                },
+                {
+                    "blank": 8,
+                    "code": 60,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\components\\StudentsList.jsx"
+                },
+                {
+                    "blank": 15,
+                    "code": 131,
+                    "comment": 3,
+                    "filename": "frontend\\admin\\src\\components\\ViewFeedback.jsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\components\\Writtencfb.jsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\components\\Writtentfb.jsx"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\index.css"
+                },
+                {
+                    "blank": 3,
+                    "code": 13,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\main.jsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 41,
+                    "comment": 0,
+                    "filename": "frontend\\admin\\src\\routes.jsx"
+                },
+                {
+                    "blank": 1,
+                    "code": 8,
+                    "comment": 1,
+                    "filename": "frontend\\admin\\tailwind.config.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 8,
+                    "comment": 1,
+                    "filename": "frontend\\admin\\vite.config.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 4,
+                    "comment": 4,
+                    "filename": "frontend\\login\\.env"
+                },
+                {
+                    "blank": 0,
+                    "code": 21,
+                    "comment": 0,
+                    "filename": "frontend\\login\\.eslintrc.cjs"
+                },
+                {
+                    "blank": 2,
+                    "code": 14,
+                    "comment": 9,
+                    "filename": "frontend\\login\\.gitignore"
+                },
+                {
+                    "blank": 0,
+                    "code": 13,
+                    "comment": 0,
+                    "filename": "frontend\\login\\index.html"
+                },
+                {
+                    "blank": 79,
+                    "code": 5418,
+                    "comment": 0,
+                    "filename": "frontend\\login\\package-lock.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 32,
+                    "comment": 0,
+                    "filename": "frontend\\login\\package.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "frontend\\login\\postcss.config.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "frontend\\login\\public\\vite.svg"
+                },
+                {
+                    "blank": 3,
+                    "code": 5,
+                    "comment": 2,
+                    "filename": "frontend\\login\\README.md"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "frontend\\login\\src\\assets\\react.svg"
+                },
+                {
+                    "blank": 1,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": "frontend\\login\\src\\components\\ErrorPage.jsx"
+                },
+                {
+                    "blank": 30,
+                    "code": 82,
+                    "comment": 7,
+                    "filename": "frontend\\login\\src\\components\\Login.jsx"
+                },
+                {
+                    "blank": 5,
+                    "code": 13,
+                    "comment": 0,
+                    "filename": "frontend\\login\\src\\components\\Success.jsx"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 0,
+                    "filename": "frontend\\login\\src\\index.css"
+                },
+                {
+                    "blank": 3,
+                    "code": 11,
+                    "comment": 0,
+                    "filename": "frontend\\login\\src\\main.jsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 10,
+                    "comment": 0,
+                    "filename": "frontend\\login\\src\\routes.jsx"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "frontend\\login\\src\\test.jsx"
+                },
+                {
+                    "blank": 1,
+                    "code": 8,
+                    "comment": 1,
+                    "filename": "frontend\\login\\tailwind.config.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 8,
+                    "comment": 1,
+                    "filename": "frontend\\login\\vite.config.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 2,
+                    "filename": "frontend\\student\\.env"
+                },
+                {
+                    "blank": 0,
+                    "code": 21,
+                    "comment": 0,
+                    "filename": "frontend\\student\\.eslintrc.cjs"
+                },
+                {
+                    "blank": 2,
+                    "code": 14,
+                    "comment": 9,
+                    "filename": "frontend\\student\\.gitignore"
+                },
+                {
+                    "blank": 0,
+                    "code": 13,
+                    "comment": 0,
+                    "filename": "frontend\\student\\index.html"
+                },
+                {
+                    "blank": 79,
+                    "code": 5406,
+                    "comment": 0,
+                    "filename": "frontend\\student\\package-lock.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 31,
+                    "comment": 0,
+                    "filename": "frontend\\student\\package.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "frontend\\student\\postcss.config.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "frontend\\student\\public\\vite.svg"
+                },
+                {
+                    "blank": 3,
+                    "code": 5,
+                    "comment": 2,
+                    "filename": "frontend\\student\\README.md"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "frontend\\student\\src\\assets\\react.svg"
+                },
+                {
+                    "blank": 3,
+                    "code": 14,
+                    "comment": 0,
+                    "filename": "frontend\\student\\src\\components\\CourseDetails.jsx"
+                },
+                {
+                    "blank": 15,
+                    "code": 80,
+                    "comment": 0,
+                    "filename": "frontend\\student\\src\\components\\CourseFeedbackPage.jsx"
+                },
+                {
+                    "blank": 16,
+                    "code": 29,
+                    "comment": 3,
+                    "filename": "frontend\\student\\src\\components\\CourseInfo.jsx"
+                },
+                {
+                    "blank": 98,
+                    "code": 226,
+                    "comment": 0,
+                    "filename": "frontend\\student\\src\\components\\CourseReg.jsx"
+                },
+                {
+                    "blank": 31,
+                    "code": 62,
+                    "comment": 0,
+                    "filename": "frontend\\student\\src\\components\\ElectiveSelect.jsx"
+                },
+                {
+                    "blank": 1,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": "frontend\\student\\src\\components\\ErrorPage.jsx"
+                },
+                {
+                    "blank": 16,
+                    "code": 167,
+                    "comment": 1,
+                    "filename": "frontend\\student\\src\\components\\FeedbackForm.jsx"
+                },
+                {
+                    "blank": 12,
+                    "code": 70,
+                    "comment": 0,
+                    "filename": "frontend\\student\\src\\components\\Filters.jsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 18,
+                    "comment": 0,
+                    "filename": "frontend\\student\\src\\components\\Header.jsx"
+                },
+                {
+                    "blank": 18,
+                    "code": 61,
+                    "comment": 5,
+                    "filename": "frontend\\student\\src\\components\\Homepage.jsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 21,
+                    "comment": 0,
+                    "filename": "frontend\\student\\src\\components\\OpinionButtons.jsx"
+                },
+                {
+                    "blank": 4,
+                    "code": 32,
+                    "comment": 0,
+                    "filename": "frontend\\student\\src\\components\\Rating.jsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 11,
+                    "comment": 0,
+                    "filename": "frontend\\student\\src\\components\\Redirect.jsx"
+                },
+                {
+                    "blank": 15,
+                    "code": 77,
+                    "comment": 1,
+                    "filename": "frontend\\student\\src\\components\\RegisteredCourses.jsx"
+                },
+                {
+                    "blank": 6,
+                    "code": 44,
+                    "comment": 4,
+                    "filename": "frontend\\student\\src\\components\\SemRegisteredCourses.jsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 27,
+                    "comment": 0,
+                    "filename": "frontend\\student\\src\\components\\StudentInfo.jsx"
+                },
+                {
+                    "blank": 7,
+                    "code": 37,
+                    "comment": 9,
+                    "filename": "frontend\\student\\src\\components\\SubmissionButtons.jsx"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 0,
+                    "filename": "frontend\\student\\src\\index.css"
+                },
+                {
+                    "blank": 5,
+                    "code": 14,
+                    "comment": 0,
+                    "filename": "frontend\\student\\src\\main.jsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 33,
+                    "comment": 0,
+                    "filename": "frontend\\student\\src\\routes.jsx"
+                },
+                {
+                    "blank": 1,
+                    "code": 8,
+                    "comment": 1,
+                    "filename": "frontend\\student\\tailwind.config.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 8,
+                    "comment": 1,
+                    "filename": "frontend\\student\\vite.config.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 3,
+                    "filename": "frontend\\teacher\\.env"
+                },
+                {
+                    "blank": 0,
+                    "code": 21,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\.eslintrc.cjs"
+                },
+                {
+                    "blank": 2,
+                    "code": 14,
+                    "comment": 9,
+                    "filename": "frontend\\teacher\\.gitignore"
+                },
+                {
+                    "blank": 0,
+                    "code": 13,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\index.html"
+                },
+                {
+                    "blank": 79,
+                    "code": 5406,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\package-lock.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 31,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\package.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\postcss.config.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\public\\vite.svg"
+                },
+                {
+                    "blank": 3,
+                    "code": 5,
+                    "comment": 2,
+                    "filename": "frontend\\teacher\\README.md"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\src\\assets\\react.svg"
+                },
+                {
+                    "blank": 22,
+                    "code": 171,
+                    "comment": 7,
+                    "filename": "frontend\\teacher\\src\\components\\CourseDetailsPage.jsx"
+                },
+                {
+                    "blank": 87,
+                    "code": 184,
+                    "comment": 1,
+                    "filename": "frontend\\teacher\\src\\components\\CourseSelectionPage.jsx"
+                },
+                {
+                    "blank": 1,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\src\\components\\ErrorPage.jsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 20,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\src\\components\\GradeSubmissionButtons.jsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 18,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\src\\components\\Header.jsx"
+                },
+                {
+                    "blank": 14,
+                    "code": 50,
+                    "comment": 6,
+                    "filename": "frontend\\teacher\\src\\components\\Homepage.jsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\src\\components\\InstructorInfo.jsx"
+                },
+                {
+                    "blank": 7,
+                    "code": 37,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\src\\components\\OngoingTimelines.jsx"
+                },
+                {
+                    "blank": 20,
+                    "code": 90,
+                    "comment": 36,
+                    "filename": "frontend\\teacher\\src\\components\\PastCourseDetailsPage.jsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 11,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\src\\components\\Redirect.jsx"
+                },
+                {
+                    "blank": 15,
+                    "code": 51,
+                    "comment": 1,
+                    "filename": "frontend\\teacher\\src\\components\\SelectionFilters.jsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 34,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\src\\components\\StudentsList.jsx"
+                },
+                {
+                    "blank": 8,
+                    "code": 45,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\src\\components\\SubmissionButtons.jsx"
+                },
+                {
+                    "blank": 21,
+                    "code": 68,
+                    "comment": 72,
+                    "filename": "frontend\\teacher\\src\\components\\TaughtCoursesPage.jsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 31,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\src\\components\\TeachingCourses.jsx"
+                },
+                {
+                    "blank": 16,
+                    "code": 134,
+                    "comment": 3,
+                    "filename": "frontend\\teacher\\src\\components\\ViewFeedback.jsx"
+                },
+                {
+                    "blank": 3,
+                    "code": 39,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\src\\components\\ViewPastCourseDetails.jsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\src\\components\\Writtencfb.jsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\src\\components\\Writtentfb.jsx"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\src\\index.css"
+                },
+                {
+                    "blank": 3,
+                    "code": 13,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\src\\main.jsx"
+                },
+                {
+                    "blank": 2,
+                    "code": 39,
+                    "comment": 0,
+                    "filename": "frontend\\teacher\\src\\routes.jsx"
+                },
+                {
+                    "blank": 1,
+                    "code": 8,
+                    "comment": 1,
+                    "filename": "frontend\\teacher\\tailwind.config.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 8,
+                    "comment": 1,
+                    "filename": "frontend\\teacher\\vite.config.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 0,
+                    "filename": "README.md"
+                }
+            ]
         }
     ]
 }
