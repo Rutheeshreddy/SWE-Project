@@ -11,6 +11,7 @@ const app = express();
 const router = express.Router();
 
 
+// Authenticate.js
 function authenticateToken(req, res, next) {
   const bearer = req.headers['authorization'];
   const token = bearer && bearer.split(' ')[1];
@@ -35,11 +36,13 @@ function authenticateToken(req, res, next) {
 
 };
 
+
 router.get('/test',authenticateToken,(req,res)=>
 {
    res.json({ok:1});
 })
 
+// getTeacherDetails.js
 router.get('/verify',authenticateToken,async (req,res) => 
 {
   let res1, res2;
@@ -93,6 +96,7 @@ router.get('/verify',authenticateToken,async (req,res) =>
   }
 })
 
+// getTeacherDetails.js
 router.get('/get-timelines',authenticateToken,async (req,res) => 
 {
   let res1;
@@ -125,6 +129,7 @@ router.get('/get-timelines',authenticateToken,async (req,res) =>
    
 })
 
+// gradeSubmission.js
 router.post('/give-grade',authenticateToken,async (req,res) => 
 {
   let res1;
@@ -154,6 +159,7 @@ router.post('/give-grade',authenticateToken,async (req,res) =>
    
 })
 
+// getAllTeachingCourses
 router.get('/taught-courses/:instructor_id',authenticateToken,async (req,res) => 
 {
 
@@ -213,6 +219,7 @@ router.get('/taught-courses/:instructor_id',authenticateToken,async (req,res) =>
    
 })
 
+// getAvailableCourses
 router.post('/available-courses/:num',authenticateToken, async (req,res) => {
 
   var num_courses = 0;
@@ -288,6 +295,7 @@ router.post('/available-courses/:num',authenticateToken, async (req,res) => {
   }
 })
 
+// getSelectedCourseList
 router.get('/selected-courses',authenticateToken, async (req,res) => {
 
  
@@ -315,6 +323,7 @@ router.get('/selected-courses',authenticateToken, async (req,res) => {
   }
 })
 
+// getCourseDetails
 router.get('/view-feedback/:course_id',authenticateToken, async (req,res) => {
   var res2
   console.log(req.params.course_id)
@@ -376,6 +385,7 @@ catch(err) {
 
 })
 
+// getCourseDetails
 router.get('/present-course-details/:course_id/:num',authenticateToken, async (req,res) => {
 
   var num_students = 0;
@@ -442,6 +452,7 @@ router.get('/present-course-details/:course_id/:num',authenticateToken, async (r
   }
 })
 
+// courseSelection
 router.post('/register-courses',authenticateToken,async (req,res) => 
 {
   

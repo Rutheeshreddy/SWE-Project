@@ -1,6 +1,7 @@
 import authenticateToken from "./Authenticate.js";
 import express, { Router } from 'express';
 import client from '../config/database.js'
+import { calculateGpa,calculateRating } from "./calculateGpa.js";
 
 const router = express.Router();
 
@@ -85,6 +86,8 @@ router.post('/grading/stop',authenticateToken, async (req,res) => {
                 }
                 const resf = await client.query(queryf)
 
+                var avg_gpa = await calculateGpa(courses[i].course_id);
+                var rating = await calculateRating(courses[i].course_id);
                 const query = {
                     name: 'insert into past_courses',
                     text: 'insert into past_courses values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12);',

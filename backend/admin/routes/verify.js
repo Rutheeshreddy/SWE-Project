@@ -16,7 +16,9 @@ router.get('/verify',authenticateToken, async (req,res) =>
     var current_period = "";
     var prev_period = 0;
   
-    var {current_sem,current_year} = await getSem();
+    var semester = await getSem();
+    var current_sem = semester.sem;
+    var current_year = semester.year;
   
     try {
       const query = {
