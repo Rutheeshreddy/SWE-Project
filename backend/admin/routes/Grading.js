@@ -73,14 +73,24 @@ router.post('/grading/stop',authenticateToken, async (req,res) => {
                 }
             const res2 = await client.query(query2);
             const courses = res2.rows;
+            
             for (var i=0;i<courses.length;i++) 
             {
+                const sem = courses[i].semester;
+                const year = courses[i].year;
+                const queryf = {
+                    name: 'get-ratings',
+                    text: 'select avg(cr1) as avgcr1, avg(cr2) as avgcr2, avg(cr3) as avgcr3 from feedback where course_id = $1 and semester = $2 and year = $3', 
+                    values: [courses[i].course_id, sem, year]
+                }
+                const resf = await client.query(queryf)
+
                 const query = {
                     name: 'insert into past_courses',
                     text: 'insert into past_courses values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12);',
                     values: [courses[i].course_id,courses[i].semester,courses[i].year,
                         courses[i].name,courses[i].credits,courses[i].instructor_id,
-                        courses[i].prerequisites,6.5,1.8,3,2.5,courses[i].max_capacity]
+                        courses[i].prerequisites,6.5,resf.rows[0].avgcr1,resf.rows[0].avgcr2,resf.rows[0].avgcr3,courses[i].max_capacity]
                     }
                     const res1 = await client.query(query);
             }
@@ -90,18 +100,20 @@ router.post('/grading/stop',authenticateToken, async (req,res) => {
                 text: 'select * from student_courses_present ;'
                 }
             const res3 = await client.query(query3);
-            const students = res2.rows;
+            const students = res3.rows;
             for (var i=0;i<students.length;i++) 
             {
                 const query = {
                     name: 'insert into past_students',
-                    text: 'insert into student_courses_present values ($1,$2,$3,$4,$5,$6,$7,$8);',
+                    text: 'insert into student_courses_past values ($1,$2,$3,$4,$5,$6,$7,$8);',
                     values: [students[i].course_id,students[i].semester,students[i].year,
                         students[i].name,students[i].credits,students[i].elective,
                         students[i].student_id,students[i].grade]
                     }
                     const res1 = await client.query(query);
             }
+
+
             const query4 = {
                 name: 'delete-present-courses',
                 text: 'delete from present_courses ;'
