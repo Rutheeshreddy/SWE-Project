@@ -58,7 +58,7 @@ function PropCourseList(props) {
 }
 
   const handleRemoveCourse = (courseId) => {
-    var answer = window.confirm('Are you sure');
+    var answer = window.confirm('Are you sure?');
     if(answer)
     {
       var token = sessionStorage.getItem("token");

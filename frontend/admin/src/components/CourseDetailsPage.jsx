@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import GradeSubmissionButtons from "./GradeSubmissionButtons";
 import StudentsList from "./StudentsList";
 import ViewFeedback from "./ViewFeedback";
 import axios from "axios";
@@ -10,31 +9,23 @@ const CourseDetailsPage = () => {
     const [totPageNum,setTotPageNum] = useState(0);
     const [pageNum,setPageNum] = useState(1);
     const [temp,setTemp] = useState(1);
-    const [isGradeOn, setIsGradeOn] = useState(false);
     const [isFeedbackDone, setIsFeedbackDone] = useState(false);
     const [isFeedbackVisible, setIsFeedbackVisible] = useState(false);
-    const [isManualEntry, setIsManualEntry] = useState(false);
     const location = useLocation();
     const course = location.state;
     const {coursecode} = useParams();
-
-    const validGrades = ["A+", "A", "A-", "B", "B-", "C", "C-", "D", "F"];
 
     useEffect(() => {
         setTemp(pageNum);
         // console.log(pageNum,coursecode);
         var token = sessionStorage.getItem("token");
-        axios.get(import.meta.env.VITE_TEACHER+"present-course-details/" + coursecode 
+        axios.get(import.meta.env.VITE_ADMIN+"present-course-details/" + coursecode 
                                                     + "/" + pageNum ,{
             headers: {
               'Content-Type': "application/json",
               'Authorization': `Bearer ${token}`,
           }
            }).then( (res) => {
-
-            if (res.data.tokenStatus == 0) {
-                window.location.href = import.meta.env.VITE_LOGIN
-            }
     
             if(res.data.status == -2)
             {
@@ -56,7 +47,7 @@ const CourseDetailsPage = () => {
     
       useEffect(() => {
         var token = sessionStorage.getItem('token');
-        axios.get(import.meta.env.VITE_TEACHER + 'get-timelines',{
+        axios.get(import.meta.env.VITE_ADMIN + 'get-timelines',{
             headers: {
             'Content-Type': "application/json",
             'Authorization': `Bearer ${token}`,
@@ -64,12 +55,7 @@ const CourseDetailsPage = () => {
         })
             .then((res) => {
 
-                if (res.data.tokenStatus === 0) {
-                    window.location.href = import.meta.env.VITE_LOGIN
-                }
-
                 if(res.data.status == 1) {
-                    setIsGradeOn(res.data.grade == 1);
                     if(res.data.prev_period == 3) setIsFeedbackDone(true);
                     else setIsFeedbackDone(false);
                 }
@@ -77,8 +63,6 @@ const CourseDetailsPage = () => {
             .catch((err) => {
                 console.log(err);
             });
-        // setIsGradeOn(true);
-        // setIsFeedbackDone(true);
       }, [])
 
   const handleprev = ()=> {
@@ -102,53 +86,6 @@ const CourseDetailsPage = () => {
     }
   };
 
-    const handleManualEntryClick = () => {
-        setIsManualEntry(true);
-    };
-
-    const handleFileUpload = () => {
-        // Handle file upload logic here
-    };
-
-    const handleGradeChange = (id, value) => {
-        setStudents(students.map(student => student.id === id ? {...student, grade: value} : student));
-    };
-
-    const handleGradeKeyDown = (studentId, e) => {
-        if (e.key === 'Enter') {
-            const student = students.find(student => student.id === studentId);
-            const enteredGrade = student.grade;
-            if (!validGrades.includes(enteredGrade)) {
-                // Display an error message or handle invalid grade
-                alert("Invalid grade entered");
-                return;
-            }
-            //axios request
-            //to send course id, student id and his grade
-            var token = sessionStorage.getItem('token');
-            axios.post(import.meta.env.VITE_TEACHER + 'give-grade',{
-                course_id: course.courseCode,
-                student_id: studentId,
-                grade: enteredGrade
-            },{
-                headers: {
-                'Content-Type': "application/json",
-                'Authorization': `Bearer ${token}`,
-            }
-            }).then((res) => {
-                    if(res.data.status == 1) {
-
-                    }
-                    else {
-                        
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        }
-    }
-
     return (
         <div className="bg-white shadow-lg rounded-lg p-6 m-4">
             <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Course Details</h1>
@@ -157,7 +94,7 @@ const CourseDetailsPage = () => {
                 <Detail label="Course Name" value={course?.courseName} />
                 <Detail label="Slot" value={course?.slot} />
             </div>
-            <StudentsList students={students} isManualEntry={isManualEntry} onGradeChange={handleGradeChange} onGradeKeyDown={handleGradeKeyDown} />
+            <StudentsList students={students} courseCode={course.courseCode} />
             <div className="flex gap-2 justify-center font-semibold mb-6">
                 <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handleprev()}>prev</button></div>
                 <div>
@@ -172,7 +109,6 @@ const CourseDetailsPage = () => {
                 <div>{totPageNum}</div>
                 <div><button className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm" onClick={()=>handlenext()}>next</button></div>
             </div>
-            {isGradeOn && <GradeSubmissionButtons onManualEntryClick={handleManualEntryClick} onFileUpload={handleFileUpload} />}
             {isFeedbackDone && (
                 <button onClick={() => setIsFeedbackVisible(true)} className="bg-green-500 text-white px-4 py-2 rounded-md text-sm">View Feedback</button>
             )}

@@ -26,7 +26,6 @@ const Homepage = () =>
             if (res.data.tokenStatus === 0) {
                 window.location.href = import.meta.env.VITE_LOGIN
             }
-            console.log("Ok, verify is working")
 
             if(res.data.status === 1){
 
