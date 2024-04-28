@@ -54,7 +54,7 @@ const RegisteredCourses = () => {
 
     return (
         <div className="max-w-4xl mx-auto px-4">
-            <h1 className="text-3xl font-semibold mb-6 text-center">Registered Courses</h1>
+            <h1 className="text-3xl font-semibold mb-6 text-center">Past Registered Courses</h1>
             {semCourseArr.map((semeach) => (
                 <div key={`${semeach.sem}-${semeach.year}`} className="bg-white rounded-lg shadow-md mb-8">
                     <h1 className="text-xl font-bold mb-4 py-2 px-4 border-b-2 border-green-500 bg-gray-200">{`Semester: ${semeach.sem}, Year: ${semeach.year}`}</h1>

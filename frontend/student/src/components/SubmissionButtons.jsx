@@ -1,25 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const SubmissionButtons = () => {
     const [isRegistrationOn, setIsRegistrationOn] = useState(false);
     const [isFeedbackOn, setIsFeedbackOn] = useState(false);
 
-    useEffect(() => {
+    useEffect(() => { 
 
-        // axios.get()
-         //     .then(response => {
-         //         data = response.data
-         //         setIsRegistrationOn(data.registration);
-         //         setIsFeedbackOn(response.feedback);
-         //     })
-         //     .catch(error => {
-         //         console.error("Error fetching status:", error);
-         //     });
+        var token = sessionStorage.getItem('token');
+        axios.get(import.meta.env.VITE_STUDENT + 'get-timelines',{
+            headers: {
+            'Content-Type': "application/json",
+            'Authorization': `Bearer ${token}`,
+        }
+        })
+            .then((res) => {
 
-        setIsRegistrationOn(true);
-        setIsFeedbackOn(true);
-    }, []);
+                if (res.data.tokenStatus === 0) {
+                    window.location.href = import.meta.env.VITE_LOGIN
+                }
+
+                if(res.data.status == 1) {
+                    setIsRegistrationOn(res.data.registration == 1);
+                    setIsFeedbackOn(res.data.feedback == 1);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, [])
 
     return (
         <div className="flex flex-row items-center">

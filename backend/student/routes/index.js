@@ -238,6 +238,33 @@ router.get('/pending-feedback/',authenticateToken,async (req,res)=>
 
 })
 
+router.get('/get-timelines/',authenticateToken,async (req,res)=>
+{
+  
+  try {
+      const query = {
+      name: 'get-timelines-student',
+      text: 'select course_reg, course_feedback from timeline',
+      values: []
+      }
+      const res1 = await client.query(query);
+
+      // console.log(res1.rows)
+
+      res.json({
+        status:1,
+        registration:res1.rows[0].course_reg,
+        feedback:res1.rows[0].course_feedback
+      })
+  }
+  catch(err) {
+      console.log(err.stack);
+      res.json({
+        status:0,
+      })
+  }
+
+})
 
 
 export default router;
