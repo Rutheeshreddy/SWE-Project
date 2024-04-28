@@ -15,16 +15,12 @@ const ViewFeedback = ({ courseCode, onClose }) => {
 
     useEffect(() => {
         const token = sessionStorage.getItem("token");
-        axios.get(import.meta.env.VITE_TEACHER+"view-feedback/" + courseCode, {
+        axios.get(import.meta.env.VITE_ADMIN+"view-feedback/" + courseCode, {
             headers: {
                 'Content-Type': "application/json",
                 'Authorization': `Bearer ${token}`,
             }
         }).then(res => {
-            if (res.data.tokenStatus === 0) {
-                window.location.href = import.meta.env.VITE_LOGIN
-            }
-            
             if(res.data.status === 1) {
                 const myArray = res.data.feedback.avgs.map(obj => Object.values(obj).map(Number)).flat();
                 const index1 = 4; // End of the first segment and start of the second

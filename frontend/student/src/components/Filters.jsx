@@ -23,6 +23,10 @@ function Filters(props){
           }
       }).then( (res) =>{
 
+        if (res.data.tokenStatus === 0) {
+          window.location.href = import.meta.env.VITE_LOGIN
+        }
+        
         props.settotpagenum(res.data.totPages)
         props.updatecourselist (res.data.courses)
       }).catch((err) => {

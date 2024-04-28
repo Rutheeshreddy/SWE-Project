@@ -13,6 +13,10 @@ const AdminInfo = (props) => {
                     <h3 className="text-lg font-medium mb-1">Semester</h3>
                     <p className="text-md">{props.info.sem}</p>
                 </div>
+                <div>
+                    <h3 className="text-lg font-medium mb-1">Period</h3>
+                    <p className="text-md">{props.period}</p>
+                </div>
             </div>
         </div>
     );

@@ -1,26 +1,27 @@
 import React, { useState } from "react";
 import Rating from "./Rating";
 import OpinionButtons from "./OpinionButtons";
+import axios from "axios";
 
 const FeedbackForm = ({ course, onClose, removeFromCourseArr }) => {
     const [selectedOptions, setSelectedOptions] = useState({
-        question1: "",
-        question2: "",
-        question3: "",
-        question4: "",
-        question5: "",
-        question6: "",
-        question7: "",
-        question8: ""
+        cq1: "",
+        cq2: "",
+        cq3: "",
+        cq4: "",
+        iq1: "",
+        iq2: "",
+        iq3: "",
+        iq4: ""
     });
 
     const [ratingStatus, setRatingStatus] = useState({
-        "Course Rating 1": false,
-        "Course Rating 2": false,
-        "Course Rating 3": false,
-        "Instructor Rating 1": false,
-        "Instructor Rating 2": false,
-        "Instructor Rating 3": false
+        "cr1": false,
+        "cr2": false,
+        "cr3": false,
+        "ir1": false,
+        "ir2": false,
+        "ir3": false
     });
 
     const [courseRemarks, setCourseRemarks] = useState("");
@@ -56,17 +57,33 @@ const FeedbackForm = ({ course, onClose, removeFromCourseArr }) => {
             return;
         }
 
-        // axios.post("your_backend_api_endpoint_here", { feedback: selectedOptions, course })
-          //     .then(() => {
-          //         removeFromCourseArr(course);
-          //         onClose();
-          //     })
-          //     .catch((error) => {
-          //         console.error("Error submitting feedback:", error);
-          //     });
+        const feedback = [selectedOptions, ratingStatus, courseRemarks, instructorRemarks]
 
-        removeFromCourseArr(course);
+        var token = sessionStorage.getItem("token");
+        axios.post(import.meta.env.VITE_STUDENT+"give-feedback/",
+        {
+          feedback: feedback,
+          course_id : course.courseCode,
+          instructor_id : course.courseInstructorId
+        },{
+          headers: {
+            'Content-Type': "application/json",
+            'Authorization': `Bearer ${token}`,
+          }
+        }).then( (res) =>{
+
+            if (res.data.tokenStatus === 0) {
+                window.location.href = import.meta.env.VITE_LOGIN
+            }    
+        
+        }).catch((err) => {
+    
+          console.log(err);
+          setErrMsg("There is some problem with the server or your internet, try again after some time")
+        })
         onClose();
+        // window.location.reload();
+        removeFromCourseArr(course);
     };
 
     return (
@@ -85,26 +102,26 @@ const FeedbackForm = ({ course, onClose, removeFromCourseArr }) => {
                 <div className="space-y-4 mb-6">
                     <div className="grid grid-cols-2 gap-4">
                         <p>Question 1</p>
-                        <OpinionButtons question="question1" onChange={(value) => handleOptionChange("question1", value)} />
+                        <OpinionButtons question="cq1" onChange={(value) => handleOptionChange("cq1", value)} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <p>Question 2</p>
-                        <OpinionButtons question="question2" onChange={(value) => handleOptionChange("question2", value)} />
+                        <OpinionButtons question="cq2" onChange={(value) => handleOptionChange("cq2", value)} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <p>Question 3</p>
-                        <OpinionButtons question="question3" onChange={(value) => handleOptionChange("question3", value)} />
+                        <OpinionButtons question="cq3" onChange={(value) => handleOptionChange("cq3", value)} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <p>Question 4</p>
-                        <OpinionButtons question="question4" onChange={(value) => handleOptionChange("question4", value)} />
+                        <OpinionButtons question="cq4" onChange={(value) => handleOptionChange("cq4", value)} />
                     </div>
                 </div>
                 <div className="space-y-4 mb-6">
                     <h4 className="text-lg font-semibold mb-2">Rating</h4>
-                    <Rating category="Course Rating 1" onChange={handleRatingChange} />
-                    <Rating category="Course Rating 2" onChange={handleRatingChange} />
-                    <Rating category="Course Rating 3" onChange={handleRatingChange} />
+                    <Rating category="cr1" onChange={handleRatingChange} />
+                    <Rating category="cr2" onChange={handleRatingChange} />
+                    <Rating category="cr3" onChange={handleRatingChange} />
                 </div>
                 <div className="space-y-4">
                     <h4 className="text-lg font-semibold mb-2">Remarks for Course</h4>
@@ -123,26 +140,26 @@ const FeedbackForm = ({ course, onClose, removeFromCourseArr }) => {
                 <div className="space-y-4 mb-6">
                     <div className="grid grid-cols-2 gap-4">
                         <p>Question 1</p>
-                        <OpinionButtons question="question5" onChange={(value) => handleOptionChange("question5", value)} />
+                        <OpinionButtons question="iq1" onChange={(value) => handleOptionChange("iq1", value)} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <p>Question 2</p>
-                        <OpinionButtons question="question6" onChange={(value) => handleOptionChange("question6", value)} />
+                        <OpinionButtons question="iq2" onChange={(value) => handleOptionChange("iq2", value)} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <p>Question 3</p>
-                        <OpinionButtons question="question7" onChange={(value) => handleOptionChange("question7", value)} />
+                        <OpinionButtons question="iq3" onChange={(value) => handleOptionChange("iq3", value)} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <p>Question 4</p>
-                        <OpinionButtons question="question8" onChange={(value) => handleOptionChange("question8", value)} />
+                        <OpinionButtons question="iq4" onChange={(value) => handleOptionChange("iq4", value)} />
                     </div>
                 </div>
                 <div className="space-y-4 mb-6">
                     <h4 className="text-lg font-semibold mb-2">Rating</h4>
-                    <Rating category="Instructor Rating 1" onChange={handleRatingChange} />
-                    <Rating category="Instructor Rating 2" onChange={handleRatingChange} />
-                    <Rating category="Instructor Rating 3" onChange={handleRatingChange} />
+                    <Rating category="ir1" onChange={handleRatingChange} />
+                    <Rating category="ir2" onChange={handleRatingChange} />
+                    <Rating category="ir3" onChange={handleRatingChange} />
                 </div>
                 <div className="space-y-4">
                     <h4 className="text-lg font-semibold mb-2">Remarks for Instructor</h4>

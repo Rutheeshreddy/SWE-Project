@@ -58,7 +58,7 @@ function PropCourseList(props) {
 }
 
   const handleRemoveCourse = (courseId) => {
-    var answer = window.confirm('Are you sure');
+    var answer = window.confirm('Are you sure?');
     if(answer)
     {
       var token = sessionStorage.getItem("token");
@@ -70,6 +70,9 @@ function PropCourseList(props) {
             'Authorization': `Bearer ${token}`,
         }
          }).then( (res) => {
+            if (res.data.tokenStatus === 0) {
+              window.location.href = import.meta.env.VITE_LOGIN
+            }
             props.setReload((props.reload + 1) % 2) ;
          }).catch((err) => {
           
@@ -93,7 +96,7 @@ function PropCourseList(props) {
 
             <div className="bg-blue-50 p-5">
 
-              <div className="grid grid-cols-5 justify-between font-semibold items-center mb-2">
+              <div className="grid grid-cols-4 justify-between font-semibold items-center mb-2">
 
                 <div>Course ID</div>
                 <div>Course Name</div>

@@ -73,7 +73,7 @@ const handleStart = ()=>
       }
       else if (res.data.message == -2)
       {
-        alert('Course-selection period can not be started because course-registration is active');
+        alert('Course-selection can not be started');
       }
      }).catch((err) => {
       
@@ -91,6 +91,9 @@ const handleStop = ()=>
         'Authorization': `Bearer ${token}`,
     }
      }).then( (res) => {
+      if (res.data.tokenStatus === 0) {
+        window.location.href = import.meta.env.VITE_LOGIN
+      }
       if(res.data.message == 1)
       {
           alert('Course-selection stopped');

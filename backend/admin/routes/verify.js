@@ -1,6 +1,7 @@
 import authenticateToken from "./Authenticate.js";
 import express from 'express';
 import client from '../config/database.js'
+import {getSem} from "./getTeacherName.js";
 
 const router = express.Router();
 
@@ -12,23 +13,10 @@ router.get('/test',authenticateToken,(req,res)=>
 router.get('/verify',authenticateToken, async (req,res) => 
 {
 
-    var current_sem = "";
-    var current_year = 0;
     var current_period = "";
     var prev_period = 0;
   
-    try {
-      const query = {
-        name: 'get-sem-details',
-        text: 'SELECT * FROM current_sem ;'
-      }
-      const res1 = await client.query(query);
-      current_sem = res1.rows[0].semester;
-      current_year = res1.rows[0].year;
-    }
-    catch(err) {
-      console.log(err.stack);
-    }
+    var {current_sem,current_year} = await getSem();
   
     try {
       const query = {

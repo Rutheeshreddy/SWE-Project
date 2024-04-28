@@ -2,44 +2,70 @@ import { useState } from "react";
 import axios from "axios";
 
 const handleStart = ()=>
-{      
-    let token = sessionStorage.getItem("token") 
-       axios.get(import.meta.env.VITE_ADMIN+'grading/start',{
+{
+    var token = sessionStorage.getItem('token');
+    axios.post(import.meta.env.VITE_ADMIN+"grading/start",{},{
         headers: {
-            'Content-Type': "application/json",
-            'Authorization': `Bearer ${token}`,
+          'Content-Type': "application/json",
+          'Authorization': `Bearer ${token}`,
+      }
+       }).then( (res) => {
+        
+        if (res.data.tokenStatus === 0) {
+          window.location.href = import.meta.env.VITE_LOGIN
         }
-    }).then((res)=>{
-          if(res.data.status == 0) alert("Already started grading period")
-          else alert("Succesfully started grading period")     
-    }).catch((err)=>
-    {
+
+        if(res.data.message == 1)
+        {
+            alert('Course-Grading started');
+        }
+        else if (res.data.message == -1)
+        {
+            alert('Course-Grading period is already active');
+        }
+        else if (res.data.message == -2)
+        {
+          alert('Course-Grading can not be started');
+        }
+       }).catch((err) => {
+        
         console.log(err);
-        console.log("There is some problem with the server or your internet, try again after some time")
-    })
+        setErrMsg("There is some problem with the server or your internet, try again after some time")
+        })
 
 }
 
 const handleStop = ()=>
 {
-    let token = sessionStorage.getItem("token") 
-       axios.get(import.meta.env.VITE_ADMIN+'grading/stop',{
-        headers: {
-            'Content-Type': "application/json",
-            'Authorization': `Bearer ${token}`,
-        }
-    }).then((res)=>{
-          if(res.data.status == 0) alert("Already stopped grading period")
-          else alert("Succesfully stopped grading period")     
-    }).catch((err)=>
-    {
-        console.log(err);
-        console.log("There is some problem with the server or your internet, try again after some time")
-    })
+    var token = sessionStorage.getItem('token');
+  axios.post(import.meta.env.VITE_ADMIN+"grading/stop",{},{
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${token}`,
+    }
+     }).then( (res) => {
+
+      if (res.data.tokenStatus === 0) {
+        window.location.href = import.meta.env.VITE_LOGIN
+      }
+      
+      if(res.data.message == 1)
+      {
+          alert('Course-Grading stopped');
+      }
+      else if (res.data.message == -1)
+      {
+        alert('course-Grading did not start');
+      }
+     }).catch((err) => {
+      
+      console.log(err);
+      setErrMsg("There is some problem with the server or your internet, try again after some time")
+      })
     
 }
 
-const Grading = ()=>
+const Grading = () =>
 {
 
    return (

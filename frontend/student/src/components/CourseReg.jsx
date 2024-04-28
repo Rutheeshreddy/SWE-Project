@@ -64,6 +64,10 @@ function Courseregpage() {
       }
     }).then( (res) =>{
 
+      if (res.data.tokenStatus === 0) {
+        window.location.href = import.meta.env.VITE_LOGIN
+      }
+
       setTotPageNum(res.data.totPages)
       setAvalCourses(res.data.courses)
 
@@ -85,6 +89,12 @@ function Courseregpage() {
         'Authorization': `Bearer ${token}`,
       }
     }).then( (res) =>{
+
+      console.log(res.data.courses)
+
+      if (res.data.tokenStatus === 0) {
+        window.location.href = import.meta.env.VITE_LOGIN
+      }
 
       if(res.data.status == 1) setRegCourses(res.data.courses)
 
@@ -167,6 +177,10 @@ function Courseregpage() {
         'Authorization': `Bearer ${token}`,
       }
     }).then( (res) =>{
+
+      if (res.data.tokenStatus === 0) {
+        window.location.href = import.meta.env.VITE_LOGIN
+      }
 
       if(res.data.status !== 1){
 
@@ -276,7 +290,7 @@ function Courseregpage() {
                   <div onClick={() => handleCourseIdClick(course.course_id)} className="cursor-pointer">{course.course_id}</div>
 
                   <div>{course.name}</div>
-                  <div>{course.instructor}</div>
+                  <div>{course.instructor_name}</div>
                   <div>{course.slot}</div>
                   <div>{course.credits}</div>
                   <div>{course.elective}</div>

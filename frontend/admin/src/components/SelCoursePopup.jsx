@@ -13,17 +13,20 @@ const SelCoursePopup = (props) => {
             headers: {
               'Content-Type': "application/json",
               'Authorization': `Bearer ${token}`,
-          }
+          } 
     }
     ).then((res)=>
     {
-             setStart(res.data.period)
-             if(res.data.period)
-             {
-                setSlot(res.data.slot)
-                setTeacherList(res.data.teachers)
-                setTeacher(res.data.selected_teacher)
-             }
+        if (res.data.tokenStatus === 0) {
+            window.location.href = import.meta.env.VITE_LOGIN
+        }
+        setStart(res.data.period)
+        if(res.data.period)
+        {
+        setSlot(res.data.slot)
+        setTeacherList(res.data.teachers)
+        setTeacher(res.data.selected_teacher)
+        }
     }).catch((err) => {
           
         console.log(err);
@@ -37,6 +40,7 @@ const SelCoursePopup = (props) => {
     const [credits,setCredits] = useState(props.course.credits)
     const [prereq,setPrereq] = useState(props.course.prerequisites)
     const [slot,setSlot] = useState("")
+    const [maxCapacity,setMaxCapacity] = useState(100)
     const [teacherList,setTeacherList] = useState([])
     const [teacher,setTeacher] = useState({})
 
@@ -53,20 +57,21 @@ const SelCoursePopup = (props) => {
     }
     const handleCancel = () => {
         props.setCoursemod(false)
+        window.location.reload()
     }
     const handleSubmit = (e) => {
         e.preventDefault()
           
         var token = sessionStorage.getItem('token');
         axios.post(import.meta.env.VITE_ADMIN+"update-course", {
-            course_id_prev : props.course.course_id,
             course_id : courseId,
             name : courseName,
             credits : credits,
             prereq : prereq,
             teacher_id : teacher.id,
             teacher_name : teacher.name,
-            slot : slot
+            slot : slot,
+            max_capacity : maxCapacity
           },    {
             headers: {
               'Content-Type': "application/json",
@@ -74,6 +79,9 @@ const SelCoursePopup = (props) => {
           }
         }).then((res)=>
         {
+            if (res.data.tokenStatus === 0) {
+                window.location.href = import.meta.env.VITE_LOGIN
+            }
             console.log(res.data);
 
         }).catch((err) => {
@@ -90,7 +98,7 @@ const SelCoursePopup = (props) => {
         <div>
         <form  className="feedback-form p-4 bg-white rounded-lg shadow-md">
                     <div>Course Code</div> 
-                    <input  type="text"  autoComplete="off"  onChange={(e) => setCourseId(e.target.value)}  value={courseId}
+                    <input  type="text"  autoComplete="off"  readOnly  value={courseId}
                     required className="w-full border rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
                     />
                     <div>Course Name</div> 
@@ -131,6 +139,10 @@ const SelCoursePopup = (props) => {
                     <input   type="text"   autoComplete="off"   onChange={(e) => setSlot(e.target.value)} value={slot}
                        className="w-full border rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
                     />
+        <div>Max Capacity</div> 
+            <input   type="text"   autoComplete="off"   onChange={(e) => setMaxCapacity(e.target.value)} value={maxCapacity}
+                className="w-full border rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
+            />
         </>
        )}
 
