@@ -61,7 +61,6 @@ create table  student_courses_past(
 	elective varchar(20),
 	student_id varchar(30),
 	grade varchar(5) ,
-	feedback varchar(200) ,
 	primary key (course_id,semester,year,student_id),
 	foreign key (student_id) references student on delete cascade,
 	foreign key (course_id,semester,year) references past_courses on delete cascade
