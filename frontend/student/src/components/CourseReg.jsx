@@ -213,7 +213,7 @@ function Courseregpage() {
 
               <Filters filters = {filters} updatefilters = {updatefilters} Courselist = {avalCourses} updatecourselist = {setAvalCourses} settotpagenum = {setTotPageNum}/>
 
-              <div className="grid grid-cols-7 justify-between font-semibold items-center mb-1">
+              <div className="grid grid-cols-8 justify-between font-semibold items-center mb-1">
 
                 <div>Course ID</div>
                 <div>Course Name</div>
@@ -221,13 +221,14 @@ function Courseregpage() {
                 <div>Slot</div>
                 <div>Credits</div>
                 <div>Current Students</div>
+                <div>Max Capacity</div>
                 <div>Add</div>
 
               </div>
 
               {avalCourses.map((course) => (
 
-                <div key={course.course_id} className="grid grid-cols-7 justify-between items-center mb-2">
+                <div key={course.course_id} className="grid grid-cols-8 justify-between items-center mb-2">
                   <div onClick={() => handleCourseIdClick(course.course_id)} className="cursor-pointer">{course.course_id}</div>
 
                   <div>{course.name}</div>
@@ -235,7 +236,7 @@ function Courseregpage() {
                   <div>{course.slot}</div>
                   <div>{course.credits}</div>
                   <div>{course.count}</div>
-
+                  <div>{course.max_capacity}</div>
                   <div><button className="bg-green-500 text-white px-2 py-1 rounded-md text-sm" onClick={() => handleAddCourse(course.course_id)}>+</button></div>
                 </div>
               ))}
@@ -272,7 +273,7 @@ function Courseregpage() {
 
             <div className="bg-blue-50 p-4">
 
-              <div className="grid grid-cols-8 justify-between items-center font-semibold mb-2">
+              <div className="grid grid-cols-7 justify-between items-center font-semibold mb-2">
 
                 <div>Course ID</div>
                 <div>Course Name</div>
@@ -280,12 +281,11 @@ function Courseregpage() {
                 <div>Slot</div>
                 <div>Credits</div>
                 <div>Elective</div>
-                <div>Current Students</div>
                 <div>Remove</div>
 
               </div>
               {regCourses.map((course) => (
-                <div key={course.course_id} className="grid grid-cols-8 justify-between items-center mb-2">
+                <div key={course.course_id} className="grid grid-cols-7 justify-between items-center mb-2">
 
                   <div onClick={() => handleCourseIdClick(course.course_id)} className="cursor-pointer">{course.course_id}</div>
 
@@ -294,7 +294,6 @@ function Courseregpage() {
                   <div>{course.slot}</div>
                   <div>{course.credits}</div>
                   <div>{course.elective}</div>
-                  <div>{course.count}</div>
 
                   <div><button className="bg-red-500 text-white px-2 py-1 rounded-md text-sm" onClick={() => handleRemoveCourse(course.course_id)}>-</button></div>
                 </div>
