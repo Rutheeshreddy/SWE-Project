@@ -87,13 +87,13 @@ router.post('/grading/stop',authenticateToken, async (req,res) => {
                 const resf = await client.query(queryf)
 
                 var avg_gpa = await calculateGpa(courses[i].course_id);
-                var rating = await calculateRating(courses[i].course_id);
+                // var rating = await calculateRating(courses[i].course_id);
                 const query = {
                     name: 'insert into past_courses',
                     text: 'insert into past_courses values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12);',
                     values: [courses[i].course_id,courses[i].semester,courses[i].year,
                         courses[i].name,courses[i].credits,courses[i].instructor_id,
-                        courses[i].prerequisites,6.5,resf.rows[0].avgcr1,resf.rows[0].avgcr2,resf.rows[0].avgcr3,courses[i].max_capacity]
+                        courses[i].prerequisites,avg_gpa,resf.rows[0].avgcr1,resf.rows[0].avgcr2,resf.rows[0].avgcr3,courses[i].max_capacity]
                     }
                     const res1 = await client.query(query);
             }
